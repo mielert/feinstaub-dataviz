@@ -335,7 +335,7 @@ svg{
       </div>
       <div id="controlBar2Footer">
         <!--<h2>Hilfe</h2>-->
-        <iframe src="/feinstaub/help/?context=chart"></iframe>
+        <iframe src="../help/?context=chart"></iframe>
       </div>
     </div>
 		<span id="copyright">Version <?php echo $version; ?> | Daten: <span id="timestamp"></span></span>
@@ -510,7 +510,7 @@ var bisectDate = d3.bisector(function(d) { return d.timestamp; }).left;
 
 function append_lubw(){
   // statDEBW013pm10 aka Gnesener Straße
-  d3.tsv("../data_lubw.tsv", function(error, data2) {
+  d3.tsv("<?php echo $data_url; ?>/data_lubw.tsv", function(error, data2) {
     if (error) throw error;
   
     data2.forEach(function(d2) {
