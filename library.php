@@ -1,8 +1,19 @@
 <?php
 $result = include_once("config.php");
 if(!$result){echo "<h1>missing config.php</h1><pre>".sample_config_file()."</pre>"; exit;}
+if(!test_sql()){echo "<h1>can't connect to database</h1>Please check config.php"; exit;}
 include_once("point-in-polygon.php");
 
+
+/**
+ *
+ */
+function test_sql(){
+	$mysqli = db_connect();
+    $result = $mysqli->query($sql);
+    $mysqli->close();
+	return true;
+}
 /**
  *
  */
