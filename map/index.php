@@ -189,7 +189,7 @@ include_once("../library.php");
 
 
 // Get Stuttgart Sensors
-var jsonSensors = <?php echo file_get_contents($root."stuttgart_sensors_v2.json");?>;
+var jsonSensors = <?php echo file_get_contents($data_root."stuttgart_sensors_v2.json");?>;
 
 
       var vectorSource = new ol.source.Vector({
@@ -210,10 +210,10 @@ var jsonSensors = <?php echo file_get_contents($root."stuttgart_sensors_v2.json"
       });	  
 
 	// Get Stuttgart Geodata
-	var jsonDistricts = <?php echo file_get_contents($root."stuttgart_districts_v2.json");?>;
+	var jsonDistricts = <?php echo file_get_contents($data_root."stuttgart_districts_v2.json");?>;
 
-	var districtsTimestamp = <?php echo filemtime($root."stuttgart_districts_v2.json"); ?>;
-	var districtsDateTime = "<?php echo date("d.m.Y, H:i",filemtime($root."stuttgart_districts_v2.json")); ?>";
+	var districtsTimestamp = <?php echo filemtime($data_root."stuttgart_districts_v2.json"); ?>;
+	var districtsDateTime = "<?php echo date("d.m.Y, H:i",filemtime($data_root."stuttgart_districts_v2.json")); ?>";
 	
 	var vectorSourceStuttgart = new ol.source.Vector({
 	  features: (
