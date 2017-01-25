@@ -1,6 +1,6 @@
 <?php
 $result = include_once("config.php");
-if(!$result){echo "missing config.php"; exit;}
+if(!$result){echo "<h1>missing config.php</h1><pre>".sample_config_file()."</pre>"; exit;}
 include_once("point-in-polygon.php");
 
 /**
