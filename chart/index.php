@@ -1,5 +1,5 @@
 <?php
-$version = str_replace(array("chart_",".php"),"",basename(__FILE__));
+$version = "2.8.0";
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,12 +14,12 @@ $version = str_replace(array("chart_",".php"),"",basename(__FILE__));
     <meta http-equiv="pragma" content="no-cache" />
 		<meta property="og:title" content="Feinstaub in Stuttgart">
 		<meta property="og:description" content="Hier finden Sie die OpenData-Feinstaubmessungen von OK Lab Stuttgart zusammengefasst und als Diagramm aufbereitet.">
-		<meta property="og:image" content="https://fritzmielert.de/feinstaub/chart/chart.png">
-		<meta property="og:url" content="https://fritzmielert.de/feinstaub/chart/">
-    <script src="/feinstaub/js/d3.v4.min.js" type="text/javascript"></script>
-    <script src="/feinstaub/js/jquery.min.js" type="text/javascript"></script>
-    <script src="/feinstaub/library.js" type="text/javascript"></script>
-		<link rel="stylesheet" href="/feinstaub/styles.css" type="text/css" media="all">
+		<meta property="og:image" content="<?php echo $url; ?>/chart/chart.png">
+		<meta property="og:url" content="<?php echo $url; ?>/chart/">
+    <script src="../js/d3.v4.min.js" type="text/javascript"></script>
+    <script src="../js/jquery.min.js" type="text/javascript"></script>
+    <script src="../library.js" type="text/javascript"></script>
+		<link rel="stylesheet" href="../styles.css" type="text/css" media="all">
 
 
     <!--
