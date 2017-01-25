@@ -493,7 +493,7 @@ function append_lubw(){
 }
 
 function append_data(){
-d3.tsv("../chronological_districts_v2_simple.tsv", function(error, data) {
+d3.tsv("<?php echo $data_url; ?>chronological_districts_v2_simple.tsv", function(error, data) {
   if (error) throw error;
 
   data.forEach(function(d) {
