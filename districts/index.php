@@ -3,7 +3,7 @@ $version = str_replace(array("districts_",".php"),"",basename(__FILE__));
 
 include_once("../library.php");
 
-$tsvData = file_get_contents($data_root."chronological_districts.tsv");
+$tsvData = file_get_contents($data_root."chronological_districts_v2_simple.tsv");
 $tsvData = explode("\n",$tsvData);
 $firstRow = explode("	",$tsvData[0]);
 $districts = array();
