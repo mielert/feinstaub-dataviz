@@ -1,5 +1,5 @@
 <?php
-$version = str_replace(array("districts_",".php"),"",basename(__FILE__));
+$version = "1.5.2";
 
 include_once("../library.php");
 
