@@ -10,8 +10,8 @@ include_once("point-in-polygon.php");
  */
 function test_sql(){
 	$mysqli = db_connect();
-    $result = $mysqli->query($sql);
-    $mysqli->close();
+	$result = $mysqli->query($sql);
+	$mysqli->close();
 	return true;
 }
 /**
