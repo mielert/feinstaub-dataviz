@@ -1,5 +1,5 @@
 <?php
-$version = str_replace(array("map_",".php"),"",basename(__FILE__));
+$version = "2.7.0";
 
 include_once("../library.php");
 ?>
@@ -15,15 +15,15 @@ include_once("../library.php");
 		<meta http-equiv="pragma" content="no-cache" />
 		<meta property="og:title" content="Feinstaub in Stuttgart">
 		<meta property="og:description" content="Hier finden Sie die OpenData-Feinstaubmessungen von OK Lab Stuttgart als Karte aufbereitet.">
-		<meta property="og:image" content="https://fritzmielert.de/feinstaub/map/map.png">
-		<meta property="og:url" content="https://fritzmielert.de/feinstaub/map/">
+		<meta property="og:image" content="<?php echo $url; ?>/map/map.png">
+		<meta property="og:url" content="<?php echo $url; ?>/map/">
 		<!--<script src="/feinstaub/js/d3.v4.min.js" type="text/javascript"></script>-->
-		<script src="/feinstaub/js/jquery.min.js" type="text/javascript"></script>
-		<script src="/feinstaub/js/jquery-ui.min.js" type="text/javascript"></script>
-		<script src="/feinstaub/js/ol.js" type="text/javascript"></script>
- 		<script src="/feinstaub/library.js" type="text/javascript"></script>
-		<link rel="stylesheet" href="/feinstaub/js/ol.css" type="text/css" media="all">
-		<link rel="stylesheet" href="/feinstaub/styles.css" type="text/css" media="all">
+		<script src="../js/jquery.min.js" type="text/javascript"></script>
+		<script src="../js/jquery-ui.min.js" type="text/javascript"></script>
+		<script src="../js/ol.js" type="text/javascript"></script>
+ 		<script src="../library.js" type="text/javascript"></script>
+		<link rel="stylesheet" href="../js/ol.css" type="text/css" media="all">
+		<link rel="stylesheet" href="../styles.css" type="text/css" media="all">
 		<!--
 		Change Log
 		
