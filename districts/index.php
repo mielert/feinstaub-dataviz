@@ -23,17 +23,17 @@ foreach($firstRow as $dataset){
     <meta http-equiv="cache-control" content="no-cache" />
     <meta http-equiv="expires" content="0" />
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-    <meta http-equiv="pragma" content="no-cache" />
-		<meta property="og:title" content="Feinstaub in Stuttgart">
-		<meta property="og:description" content="Hier finden Sie die OpenData-Feinstaubmessungen von OK Lab Stuttgart nach Stadtteilen geordnet und als Diagramm aufbereitet.">
-		<meta property="og:image" content="https://fritzmielert.de/feinstaub/districts/districts.png">
-		<meta property="og:url" content="https://fritzmielert.de/feinstaub/districts/">
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta property="og:title" content="Feinstaub in Stuttgart">
+	<meta property="og:description" content="Hier finden Sie die OpenData-Feinstaubmessungen von OK Lab Stuttgart nach Stadtteilen geordnet und als Diagramm aufbereitet.">
+	<meta property="og:image" content="<?php echo $url; ?>/districts/districts.png">
+	<meta property="og:url" content="<?php echo $url; ?>/districts/">
     <script src="../js/d3.v4.min.js" type="text/javascript"></script>
     <script src="../js/jquery.min.js" type="text/javascript"></script>
-		<script src="../js/ol.js" type="text/javascript"></script>
+	<script src="../js/ol.js" type="text/javascript"></script>
     <script src="../library.js" type="text/javascript"></script>
-		<link rel="stylesheet" href="../js/ol.css" type="text/css" media="all">
-		<link rel="stylesheet" href="../styles.css" type="text/css" media="all">
+	<link rel="stylesheet" href="../js/ol.css" type="text/css" media="all">
+	<link rel="stylesheet" href="../styles.css" type="text/css" media="all">
 
     <!--
 	ToDo
