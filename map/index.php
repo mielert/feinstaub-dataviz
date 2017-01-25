@@ -168,7 +168,7 @@ include_once("../library.php");
 					</form>
 				</div>
 				<div id="controlBar2Footer">
-					<iframe src="/feinstaub/help/?context=map"></iframe>
+					<iframe src="../help/?context=map"></iframe>
 				</div>
 			</div>
 			<div id="mapinfo2" class="shadow"></div>
