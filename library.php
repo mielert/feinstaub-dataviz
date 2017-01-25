@@ -36,10 +36,10 @@ function sample_config_file(){
 	$result = htmlentities('
 <?php
 // paths
-$root = "/var/www/vhosts/feinstaub-stuttgart.info/httpdocs/dataviz/";
+$root = "/var/www/vhosts/your-url.com/httpdocs/your-dir/";
 $data_dir = "data/";
 $data_root = $root.$data_dir;
-$url = "https://feinstaub-stuttgart.info/dataviz/";
+$url = "https://your-url.com/your-dir/";
 $data_url = $url.$data_dir;
 
 // time zone
