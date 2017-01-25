@@ -35,8 +35,12 @@ function test_sql(){
 function sample_config_file(){
 	$result = htmlentities('
 <?php
-// site root
-$root = "/var/www/vhosts/";
+// paths
+$root = "/var/www/vhosts/feinstaub-stuttgart.info/httpdocs/dataviz/";
+$data_dir = "data/";
+$data_root = $root.$data_dir;
+$url = "https://feinstaub-stuttgart.info/dataviz/";
+$data_url = $url.$data_dir;
 
 // time zone
 date_default_timezone_set("Europe/Berlin");
