@@ -2,9 +2,24 @@
 $result = include_once("config.php");
 if(!$result){echo "<h1>missing config.php</h1><pre>".sample_config_file()."</pre>"; exit;}
 if(!test_sql()){echo "<h1>can't connect to database</h1>Please check config.php"; exit;}
+test_directories();
 include_once("point-in-polygon.php");
 
-
+/**
+ *
+ */
+function test_directories(){
+	global $data_root;
+	create_directory($data_root);
+}
+/**
+ *
+ */
+function create_directory($dir){
+	if (!file_exists($dir)) {
+		mkdir($dir, 0755, true);
+	}
+}
 /**
  *
  */
