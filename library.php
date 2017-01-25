@@ -7,7 +7,7 @@ include_once("point-in-polygon.php");
  *
  */
 function sample_config_file(){
-	$result = '
+	$result = htmlentities('
 <?php
 // site root
 $root = "/var/www/vhosts/";
@@ -22,7 +22,7 @@ $mysql_db = "db_name";
 $mysql_host = "localhost";
 
 ?>
-';
+');
 	return $result;
 }
 /**
