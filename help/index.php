@@ -7,10 +7,10 @@
         <meta http-equiv="expires" content="0" />
         <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
         <meta http-equiv="pragma" content="no-cache" />
-		<script src="/feinstaub/js/jquery.min.js" type="text/javascript"></script>
-		<script src="/feinstaub/js/jquery-ui.min.js" type="text/javascript"></script>
-		<link rel="stylesheet" href="/feinstaub/js/jquery-ui.min.css" type="text/css" media="all">
-		<link rel="stylesheet" href="/feinstaub/styles.css" type="text/css" media="all">
+		<script src="../js/jquery.min.js" type="text/javascript"></script>
+		<script src="../js/jquery-ui.min.js" type="text/javascript"></script>
+		<link rel="stylesheet" href="../js/jquery-ui.min.css" type="text/css" media="all">
+		<link rel="stylesheet" href="../styles.css" type="text/css" media="all">
 		<script>
 		$( function() {
 		  $( "#accordion" ).accordion({
