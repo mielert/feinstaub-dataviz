@@ -1,5 +1,6 @@
 <?php
 $version = "2.8.0";
+include_once("../library.php");
 ?>
 <!DOCTYPE html>
 <html>
