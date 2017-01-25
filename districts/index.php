@@ -335,7 +335,7 @@ div.tooltip {
       </div>
       <div id="controlBar2Footer">
         <!--<h2>Hilfe</h2>-->
-        <iframe src="/feinstaub/help/?context=districts"></iframe>
+        <iframe src="../help/?context=districts"></iframe>
       </div>
     </div>
 		<span id="copyright">Version <?php echo $version; ?> | Daten: <span id="timestamp"></span></span>
