@@ -15,6 +15,7 @@ $result = debug_query($sql);
 if(count($result)>0){
   include_once($result[0]->script);
   $sql = "UPDATE `cron_jobs` SET `last_execution` = NOW() WHERE `id` = ".$result[0]->id;
+  $result = debug_query($sql);
 }
 
 
