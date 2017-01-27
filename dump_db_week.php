@@ -3,6 +3,31 @@
 include("library.php");
 $simple_file = $data_root."city_week.tsv";
 
+$sql = "SELECT MAX(`timestamp`) AS timestamp FROM `cities_mean` WHERE `city_id` = 1";
+$result = debug_query($sql);
+if(count($result) > 0)
+  $start_timestamp = $result[0]->timestamp;
+else{
+  $sql = "SELECT MIN(`timestamp`) AS timestamp 
+          LEFT JOIN `x_coordinates_districts` 
+            ON `x_coordinates_districts`.`lon` = `sensors_hourly_mean`.`lon` 
+            AND `x_coordinates_districts`.`lat` = `sensors_hourly_mean`.`lat`
+          LEFT JOIN `districts` ON `districts`.`id` = `x_coordinates_districts`.`district_id`
+          FROM `sensors_hourly_mean` 
+          WHERE `districts`.`city_id` = 1";
+  $result = debug_query($sql);
+  $start_timestamp = $result[0]->timestamp;
+}
+$sql = "SELECT MAX(`timestamp`) AS timestamp 
+        LEFT JOIN `x_coordinates_districts` 
+          ON `x_coordinates_districts`.`lon` = `sensors_hourly_mean`.`lon` 
+          AND `x_coordinates_districts`.`lat` = `sensors_hourly_mean`.`lat`
+        LEFT JOIN `districts` ON `districts`.`id` = `x_coordinates_districts`.`district_id`
+        FROM `sensors_hourly_mean` 
+        WHERE `districts`.`city_id` = 1";
+$result = debug_query($sql);
+$stop_timestamp = $result[0]->timestamp;
+
   $timestamp = "2017-01-26 16:00:00";
   $sql = "SELECT *
 FROM `sensors_hourly_mean`  
