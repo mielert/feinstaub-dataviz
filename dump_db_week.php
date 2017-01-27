@@ -18,17 +18,19 @@ else{
   $result = debug_query($sql);
   $start_timestamp = $result[0]->timestamp;
 }
-$sql = "SELECT MAX(`timestamp`) AS timestamp 
+$sql = "SELECT DISTINCT `timestamp`
         FROM `sensors_hourly_mean` 
         LEFT JOIN `x_coordinates_districts` 
           ON `x_coordinates_districts`.`lon` = `sensors_hourly_mean`.`lon` 
           AND `x_coordinates_districts`.`lat` = `sensors_hourly_mean`.`lat`
         LEFT JOIN `districts` ON `districts`.`id` = `x_coordinates_districts`.`district_id`
-        WHERE `districts`.`city_id` = 1";
-$result = debug_query($sql);
-$stop_timestamp = $result[0]->timestamp;
+        WHERE `districts`.`city_id` = 1
+        ORDER BY `timestamp`";
+$results = debug_query($sql);
+$stop_timestamp = $result[count($result)-1]->timestamp;
 
-  $timestamp = "2017-01-26 16:00:00";
+foreach($results as $result){
+  $timestamp = $result->timestamp;
   $sql = "SELECT *
 FROM `sensors_hourly_mean`  
 LEFT JOIN `x_coordinates_districts` ON `x_coordinates_districts`.`lon` = `sensors_hourly_mean`.`lon` AND `x_coordinates_districts`.`lat` = `sensors_hourly_mean`.`lat`
@@ -39,6 +41,8 @@ ORDER BY `sensors_hourly_mean`.`sensor_id` ASC";
   $result = debug_query($sql);
   $data = get_min_max_mid($result,$timestamp);
   print_r($data);
+  break;
+}
 /**
  *
  */
