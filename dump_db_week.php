@@ -5,7 +5,7 @@ $simple_file = $data_root."city_week.tsv";
 
 $sql = "SELECT MAX(`timestamp`) AS timestamp FROM `cities_mean` WHERE `city_id` = 1";
 $result = debug_query($sql);
-if(count($result) > 0)
+if(count($result) > 0 && $result[0]->timestamp > "1000-01-01 00:00:00")
   $start_timestamp = $result[0]->timestamp;
 else{
   $sql = "SELECT MIN(`timestamp`) AS timestamp 
