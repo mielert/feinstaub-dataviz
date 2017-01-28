@@ -1,163 +1,91 @@
 <html>
 	<head>
-		<script src="js/jquery.min.js" type="text/javascript"></script>
+		<script src="/feinstaub/js/jquery.min.js" type="text/javascript"></script>
 	</head>
 	<body>
-		<pre>
 <?php
 /**
- * chronological data of districts
- * database driven
- * http://fritzmielert.de/feinstaub/chronological_data_of_districts_db.php?starttime=1483052400
+ * crawler
  */
+
 include_once("library.php");
 
-echo "1.9.2016 ".strtotime("2016-09-01 00:00:00")."<br/>";
- 
-if(isset($_GET["starttime"])){
-	$starttime = date("Y-m-d H:00:00", intval($_GET["starttime"]));
+//SELECT MAX(`timestamp`) FROM `sensors_hourly_mean` WHERE 1
+$res_max_timestamp = db_select("SELECT MAX(`timestamp`) AS timestamp FROM `sensors_hourly_mean`");
+//print_r($res_max_timestamp);
+if($res_max_timestamp[0]->timestamp > 1){
+	$startdate = strtotime($res_max_timestamp[0]->timestamp)+60*60;
 }
-else{
-	$sql = "SELECT MAX(timestamp) AS timestamp FROM districts_mean";
+// start: 31.8.2016
+else $startdate = strtotime("2016-12-27 00:00:00");
+//$startdate = strtotime("2017-01-11 00:00:00");
+// end: 17.12.2016
+//$stopdate = strtotime("2016-12-17 23:59:59");
+
+$sensorsearchdate = $startdate;
+do {
+	$sql = "SELECT DISTINCT `sensor_id`,`lon`,`lat`
+			FROM `sensors`
+			WHERE `lon` <> 0
+			AND `lat` <> 0
+			AND `timestamp` > '".date('Y-m-d H:i:s', $sensorsearchdate-60*60)."'
+			AND `timestamp` <='".date('Y-m-d H:i:s', $sensorsearchdate)."'";
 	$results = db_select($sql);
-	$starttime = $results[0]->timestamp;
-	//$starttime = "2016-09-01 00:00:00";
-}
-echo $starttime."<br/>";
-
-$sql = "SELECT DISTINCT `sensors_hourly_mean`.`lon`,
-						`sensors_hourly_mean`.`lat`,
-						`district_id`
-		FROM `sensors_hourly_mean`
-		LEFT JOIN `x_coordinates_districts` ON `sensors_hourly_mean`.`lon` = `x_coordinates_districts`.`lon` AND `sensors_hourly_mean`.`lat` = `x_coordinates_districts`.`lat`
-		WHERE `timestamp` > ('$starttime' - INTERVAL 1 DAY)
-		AND `timestamp` <= \"$starttime\"";
-
-//echo $sql."<br/>";
-
-$results = db_select($sql);
-
+	
+	echo date('Y-m-d H:i:s', $sensorsearchdate).": ".count($results)." Sensoren<br/>";
+	$sensorsearchdate+=60*60;
+	break;
+} while (count($results) == 0);
 //print_r($results);
+$startdate = $sensorsearchdate-=60*60;
+
 
 foreach($results as $result){
-	if(!$result->district_id){
-		$district = point_in_city($result->lon,$result->lat,"Stuttgart");
-		if($district){
-			$sql = "SELECT `id` FROM `districts` WHERE `name` = '$district'";
-			echo $sql;
-			$res_district_id = db_select($sql);
-			print_r($res_district_id);
-			$res_district_id = $res_district_id[0];
-			$district_id = $res_district_id->id;
-		}
-		else $district_id = -1;
-		echo "district_id: $district_id";
-		$sql = "INSERT INTO `x_coordinates_districts` (`district_id`, `lon`, `lat`)
-				VALUES (".$district_id.",".$result->lon.",".$result->lat.")";
-		echo $sql;
+	// hourly
+	$sql1 = "SELECT avg(P1) AS P1, avg(P2) AS P2
+			FROM sensors
+			WHERE `sensor_id` = ".$result->sensor_id."
+			AND `lon` = ".$result->lon."
+			AND `lat` = ".$result->lat."
+			AND `timestamp` > '".date('Y-m-d H:i:s', $startdate-60*60)."'
+			AND `timestamp` <='".date('Y-m-d H:i:s', $startdate)."'";
+	//print_r($sql);
+	$results2 = db_select($sql1);
+	//print_r($results2);
+	if($results2[0]->P1 != ""){
+		$sql = "INSERT INTO `sensors_hourly_mean` (`id`, `sensor_id`, `lon`, `lat`, `timestamp`, `P1`, `P2`)
+				VALUES (NULL,".$result->sensor_id.",".$result->lon.",".$result->lat.",'".date('Y-m-d H:i:s', $startdate)."',".$results2[0]->P1.",".$results2[0]->P2.")
+				ON DUPLICATE KEY UPDATE `P1` = VALUES(`P1`), `P2` = VALUES(`P2`); ";
+		echo "$sql<br/>";
 		db_insert($sql);
 	}
+
+	// daily
+	/*
+	$sql = "SELECT `sensor_id`,`lon`,`lat`, avg(P1)
+			FROM sensors
+			WHERE `sensor_id` = ".$result->sensor_id."
+			AND `lon` = ".$result->lon."
+			AND `lat` = ".$result->lat."
+			AND `timestamp` > '".date('Y-m-d H:i:s', $startdate-24*60*60)."'
+			AND `timestamp` <='".date('Y-m-d H:i:s', $startdate)."'";
+	print_r($sql);
+	$results2 = db_select($sql);
+	print_r($results2);
+	*/
+	//break;
 }
 
-// prepare hourly mean
-$sql = "SELECT 	`sensors_hourly_mean`.`lon`,
-				`sensors_hourly_mean`.`lat`,
-				`district_id`,
-				avg(P1) AS P1h,
-				avg(P2) AS P2h
-		FROM `sensors_hourly_mean`
-		LEFT JOIN `x_coordinates_districts` ON `sensors_hourly_mean`.`lon` = `x_coordinates_districts`.`lon` AND `sensors_hourly_mean`.`lat` = `x_coordinates_districts`.`lat`
-		WHERE `timestamp` > ('$starttime' - INTERVAL 1 HOUR)
-		AND `timestamp` <= \"$starttime\"
-		AND `district_id` > 0
-		GROUP BY lon,lat";
-
-//echo $sql."<br/>";
-
-$results = db_select($sql);
-
-//print_r($results);
-
-$toMakeMedian = array();
-foreach($results as $result){
-	if($result->district_id > 0){
-		if(!isset($toMakeMedian[$result->district_id])) $toMakeMedian[$result->district_id] = array("P1h"=>array(),"P2h"=>array(),"P1d"=>array(),"P2d"=>array());
-		array_push($toMakeMedian[$result->district_id]["P1h"], $result->P1h);
-		array_push($toMakeMedian[$result->district_id]["P2h"], $result->P2h);
-	}
-}
-
-// prepare 24 h mean
-$sql = "SELECT 	`sensors_hourly_mean`.`lon`,
-				`sensors_hourly_mean`.`lat`,
-				`district_id`,
-				avg(P1) AS P1d,
-				avg(P2) AS P2d
-		FROM `sensors_hourly_mean`
-		LEFT JOIN `x_coordinates_districts` ON `sensors_hourly_mean`.`lon` = `x_coordinates_districts`.`lon` AND `sensors_hourly_mean`.`lat` = `x_coordinates_districts`.`lat`
-		WHERE `timestamp` > ('$starttime' - INTERVAL 1 DAY)
-		AND `timestamp` <= \"$starttime\"
-		AND `district_id` > 0
-		GROUP BY lon,lat";
-
-//echo $sql."<br/>";
-
-$results = db_select($sql);
-
-//print_r($results);
-
-foreach($results as $result){
-	if($result->district_id > 0){
-		if(!isset($toMakeMedian[$result->district_id])) $toMakeMedian[$result->district_id] = array("P1h"=>array(),"P2h"=>array(),"P1d"=>array(),"P2d"=>array());
-		array_push($toMakeMedian[$result->district_id]["P1d"], $result->P1d);
-		array_push($toMakeMedian[$result->district_id]["P2d"], $result->P2d);
-	}
-}
-if(count($toMakeMedian)>0){
-	$rawSql = array();
-	foreach($toMakeMedian as $key=>&$item){
-		echo "District $key P1h: ".print_r($item["P1h"],true)." -> ".array_median($item["P1h"])."<br/>";
-		$item["P1h"] = array_median($item["P1h"]);
-		$item["P2h"] = array_median($item["P2h"]);
-		$item["P1d"] = array_median($item["P1d"]);
-		$item["P2d"] = array_median($item["P2d"]);
-		array_push($rawSql,"(NULL,$key,\"$starttime\",".$item["P1h"].",".$item["P2h"].",".$item["P1d"].",".$item["P2d"].")");
-	}
-	//array_median($array)
-	//print_r($toMakeMedian);
-	
-	foreach($toMakeMedian as $key=>$item){
-		
-	}
-	//print_r($rawSql);
-	$sql = "INSERT INTO `districts_mean` (`id`,`district_id`,`timestamp`,`P1h`,`P2h`,`P1d`,`P2d`)
-VALUES 
-".join(",\n",$rawSql)." ON DUPLICATE KEY UPDATE `P1d` = Values(`P1d`), `P2d` = Values(`P2d`), `P1h` = Values(`P1h`), `P2h` = Values(`P2h`)";
-	echo $sql;
-	db_insert($sql);
-}
-//exit;
-echo "</pre>";
-
-$sql = "SELECT MAX(`timestamp`) AS timestamp FROM `sensors_hourly_mean`";
+$sql = "SELECT MAX(`timestamp`) AS timestamp FROM `sensors`";
 $results = db_select($sql);
 $stop = $results[0]->timestamp;
 
-if($starttime < $stop){
-	// cron error
-	if(!isset($_GET["starttime"]))
-		echo file_get_contents('http://fritzmielert.de/feinstaub/chronological_data_of_districts_db.php?starttime='.strtotime($starttime." + 1 hours"));
-	
-	echo "$starttime < $stop";
-	echo '		<script>
-			$(document).ready(function(){
-				window.location.href = "chronological_data_of_districts_db.php?starttime='.strtotime($starttime." + 1 hours").'";
-			});
-			</script>';
-}
-else {
-	echo "$starttime >= $stop";
-}
+if($startdate < strtotime($stop)-60*60)
+echo '		<script>
+		$(document).ready(function(){
+			location.reload();
+		});
+		</script>';
 
 ?>
 	</body>
