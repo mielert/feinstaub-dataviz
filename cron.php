@@ -14,7 +14,7 @@ $sql = "SELECT *
 	FROM `cron_jobs` 
 	WHERE (NOW() > DATE_ADD(`last_execution`, INTERVAL `interval` SECOND) 
 	OR `last_execution` IS NULL)
-	AND activ = 1
+	AND activated = 1
 	LIMIT 1";
 $to_run = debug_query($sql);
 if(count($to_run)>0){
