@@ -10,7 +10,12 @@ markersMapped.php
 chronological_data_of_districts.php
 */
 
-$sql = "SELECT * FROM `cron_jobs` WHERE NOW() > DATE_ADD(`last_execution`, INTERVAL `interval` SECOND) OR `last_execution` IS NULL LIMIT 1";
+$sql = "SELECT * 
+	FROM `cron_jobs` 
+	WHERE (NOW() > DATE_ADD(`last_execution`, INTERVAL `interval` SECOND) 
+	OR `last_execution` IS NULL)
+	AND activ = 1
+	LIMIT 1";
 $to_run = debug_query($sql);
 if(count($to_run)>0){
 	$result = include_once($to_run[0]->script);
