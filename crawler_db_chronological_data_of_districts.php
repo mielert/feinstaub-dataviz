@@ -147,12 +147,12 @@ $stop = $results[0]->timestamp;
 if($starttime < $stop){
 	// cron error
 	if(!isset($_GET["starttime"]))
-		echo file_get_contents('http://fritzmielert.de/feinstaub/chronological_data_of_districts_db.php?starttime='.strtotime($starttime." + 1 hours"));
+		echo file_get_contents($url."crawler_db_chronological_data_of_districts.php?starttime=".strtotime($starttime." + 1 hours"));
 	
 	echo "$starttime < $stop";
 	echo '		<script>
 			$(document).ready(function(){
-				window.location.href = "chronological_data_of_districts_db.php?starttime='.strtotime($starttime." + 1 hours").'";
+				window.location.href = "crawler_db_chronological_data_of_districts.php?starttime='.strtotime($starttime." + 1 hours").'";
 			});
 			</script>';
 }
