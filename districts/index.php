@@ -435,7 +435,7 @@ var div = d3.select("body").append("div")
 
 function append_lubw(){
   // statDEBW013pm10 aka Gnesener Straße
-  d3.tsv("<?php echo $data_url; ?>data_lubw.tsv", function(error, data2) {
+  d3.tsv("/<?php echo $data_dir; ?>data_lubw.tsv", function(error, data2) {
     if (error) throw error;
   
     data2.forEach(function(d2) {
@@ -493,7 +493,7 @@ function append_lubw(){
 }
 
 function append_data(){
-d3.tsv("<?php echo $data_url; ?>chronological_districts_v2_simple.tsv", function(error, data) {
+d3.tsv("/<?php echo $data_dir; ?>chronological_districts_v2_simple.tsv", function(error, data) {
   if (error) throw error;
 
   data.forEach(function(d) {
