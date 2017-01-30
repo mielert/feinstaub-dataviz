@@ -36,7 +36,7 @@ $sql = "SELECT DISTINCT `sensors_hourly_mean`.`lon`,
 
 //echo $sql."<br/>";
 
-$results = debug_query($sql);
+$results = db_select($sql);
 
 //print_r($results);
 
@@ -75,7 +75,7 @@ $sql = "SELECT 	`sensors_hourly_mean`.`lon`,
 
 //echo $sql."<br/>";
 
-$results = db_select($sql);
+$results = debug_query($sql);
 
 //print_r($results);
 
