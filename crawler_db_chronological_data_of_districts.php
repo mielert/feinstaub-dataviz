@@ -26,6 +26,8 @@ else{
 }
 echo $starttime."<br/>";
 
+echo "looking for sensors without district<br/>";
+
 $sql = "SELECT DISTINCT `sensors_hourly_mean`.`lon`,
 						`sensors_hourly_mean`.`lat`,
 						`district_id`
@@ -36,7 +38,7 @@ $sql = "SELECT DISTINCT `sensors_hourly_mean`.`lon`,
 
 //echo $sql."<br/>";
 
-$results = db_select($sql);
+$results = debug_query($sql);
 
 //print_r($results);
 
@@ -59,6 +61,8 @@ foreach($results as $result){
 		db_insert($sql);
 	}
 }
+
+echo "looking for sensor data missing in districts<br/>";
 
 // prepare hourly mean
 $sql = "SELECT 	`sensors_hourly_mean`.`lon`,
