@@ -2,7 +2,7 @@
 include_once("library.php");
 
 // read geodata
-include_once($root."map/stuttgart_with_data_1.2.0.php");
+include_once($data_root."stuttgart_with_data.php");
 
 /**
  *
