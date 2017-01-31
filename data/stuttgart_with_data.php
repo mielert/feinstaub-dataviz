@@ -11,7 +11,7 @@ if (basename(__FILE__) == basename($_SERVER['SCRIPT_FILENAME'])) {
 include_once("stuttgart.php");
 
 // Read most recent values
-$file = $root."dump.json";
+$file = "dump.json";
 $lastdata = json_decode(file_get_contents($file),true);
 
 $pointLocation = new pointLocation();
