@@ -144,8 +144,8 @@ function simplify_polygon($coordinates){
  * @return array Coordinates of all districts of a city
  */
 function get_city($city){
-	global $data_dir;
-	$cityphp = $data_dir.strtolower($city).".php";
+	global $data_root;
+	$cityphp = $data_root.strtolower($city).".php";
 	//echo $cityphp;
 	require_once($cityphp);
 	return get_city_geodata();
