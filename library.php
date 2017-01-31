@@ -145,7 +145,7 @@ function simplify_polygon($coordinates){
  */
 function get_city($city){
 	global $root;
-	$cityphp = $root."map/".strtolower($city).".php";
+	$cityphp = $root."data/".strtolower($city).".php";
 	//echo $cityphp;
 	require_once($cityphp);
 	return get_city_geodata();
