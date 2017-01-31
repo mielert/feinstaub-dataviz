@@ -25,7 +25,7 @@ function create_directory($dir){
  */
 function test_sql(){
 	$mysqli = db_connect();
-	$result = $mysqli->query($sql);
+	$result = $mysqli->query();
 	$mysqli->close();
 	return true;
 }
