@@ -1,7 +1,7 @@
 <?php
 $result = include_once("config.php");
 if(!$result){echo "<h1>missing config.php</h1><pre>".sample_config_file()."</pre>"; exit;}
-if(!test_sql()){echo "<h1>can't connect to database</h1>Please check config.php"; exit;}
+//if(!test_sql()){echo "<h1>can't connect to database</h1>Please check config.php"; exit;}
 test_directories();
 include_once("classes/point-in-polygon.php");
 
