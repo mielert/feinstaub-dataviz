@@ -549,7 +549,7 @@ var view = graph.append("rect")
 			data2map(mousemove(d3.mouse(this)));
 			}
 		);
-	  
+data2map(10);  
 
 /**
  *
@@ -973,7 +973,7 @@ d3.select(window).on('resize', resize);
         view: view
       });
 			
-data2map(10);
+
 
 		</script>
 </body>
