@@ -549,7 +549,9 @@ var view = graph.append("rect")
 			data2map(mousemove(d3.mouse(this)));
 			}
 		);
-data2map([0,100]);  
+//data2map([0,100]);
+//alert(d3.max(data, function(d) { return d.timestamp; }));
+$("#mapTimeInfo").html("P10: 24h-Mittel am "+hoverTimeFormat(d3.max(data, function(d) { return d.timestamp; })));
 
 /**
  *
