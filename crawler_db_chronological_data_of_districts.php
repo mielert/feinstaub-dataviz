@@ -81,7 +81,7 @@ $sql = "SELECT 	`sensors_hourly_mean`.`lon`,
 
 $results = debug_query($sql);
 
-//print_r($results);
+print_r($results);
 
 $toMakeMedian = array();
 foreach($results as $result){
@@ -91,6 +91,8 @@ foreach($results as $result){
 		array_push($toMakeMedian[$result->district_id]["P2h"], $result->P2h);
 	}
 }
+
+print_r($toMakeMedian);
 
 // prepare 24 h mean
 $sql = "SELECT 	`sensors_hourly_mean`.`lon`,
@@ -107,7 +109,7 @@ $sql = "SELECT 	`sensors_hourly_mean`.`lon`,
 
 //echo $sql."<br/>";
 
-$results = db_select($sql);
+$results = debug_query($sql);
 
 //print_r($results);
 
