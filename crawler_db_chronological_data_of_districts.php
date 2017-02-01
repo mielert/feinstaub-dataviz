@@ -150,13 +150,13 @@ $stop = $results[0]->timestamp;
 
 if($starttime < $stop){
 	// cron error
-	if(!isset($_GET["starttime"]))
-		echo file_get_contents($project_url."crawler_db_chronological_data_of_districts.php?starttime=".strtotime($starttime." + 1 hours"));
-	
 	echo "$starttime < $stop";
-	echo '		<script>
+	if(!isset($_GET["nocron"]))
+		echo file_get_contents($project_url."crawler_db_chronological_data_of_districts.php?starttime=".strtotime($starttime." + 1 hours"));
+	else
+		echo '		<script>
 			$(document).ready(function(){
-				window.location.href = "crawler_db_chronological_data_of_districts.php?starttime='.strtotime($starttime." + 1 hours").'";
+				window.location.href = "crawler_db_chronological_data_of_districts.php?starttime='.strtotime($starttime." + 1 hours").'&nocron=1";
 			});
 			</script>';
 }
