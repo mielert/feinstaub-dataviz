@@ -152,7 +152,7 @@ if($starttime < $stop){
 	// cron error
 	echo "$starttime < $stop";
 	if(!isset($_GET["nocron"]))
-		echo file_get_contents($project_url."crawler_db_chronological_data_of_districts.php?starttime=".strtotime($starttime." + 1 hours"));
+		echo file_get_contents($project_url."crawler_db_chronological_data_of_districts.php?starttime=".strtotime($starttime." + 1 hours").'&nocron=1');
 	else
 		echo '		<script>
 			$(document).ready(function(){
