@@ -6,7 +6,7 @@
 if (basename(__FILE__) == basename($_SERVER['SCRIPT_FILENAME'])) {
    echo "Please include this file & you'll get \$coordinates_stuttgart<br/>";
 }
-include_once("../library.php");
+//include_once("../library.php");
 
 include_once("stuttgart.php");
 
