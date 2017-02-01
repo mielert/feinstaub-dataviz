@@ -555,6 +555,7 @@ data2map([0,100]);
  *
  */
 function data2map(d){
+	alert(d);
 	var out = "";
 <?php
 $counter = 0;
