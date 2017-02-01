@@ -14,6 +14,7 @@
 include_once("library.php");
 
 echo "1.9.2016 ".strtotime("2016-09-01 00:00:00")."<br/>";
+echo "2017-01-29 04:00:00 ".strtotime("2017-01-29 04:00:00")."<br/>";
  
 if(isset($_GET["starttime"])){
 	$starttime = date("Y-m-d H:00:00", intval($_GET["starttime"]));
@@ -155,12 +156,12 @@ if($starttime < $stop){
 	echo "$starttime < $stop";
 	if(!isset($_GET["nocron"]))
 		echo file_get_contents($project_url."crawler_db_chronological_data_of_districts.php?starttime=".strtotime($starttime." + 1 hours").'&nocron=1');
-	else
+	/*else
 		echo '		<script>
 			$(document).ready(function(){
 				window.location.href = "crawler_db_chronological_data_of_districts.php?starttime='.strtotime($starttime." + 1 hours").'&nocron=1";
 			});
-			</script>';
+			</script>';*/
 }
 else {
 	echo "$starttime >= $stop";
