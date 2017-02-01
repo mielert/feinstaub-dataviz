@@ -129,6 +129,11 @@ if(count($toMakeMedian)>0){
 		$item["P2h"] = array_median($item["P2h"]);
 		$item["P1d"] = array_median($item["P1d"]);
 		$item["P2d"] = array_median($item["P2d"]);
+		if(!is_int($item["P1h"])) $item["P1h"] = -1;
+		if(!is_int($item["P2h"])) $item["P2h"] = -1;
+		if(!is_int($item["P1d"])) $item["P1d"] = -1;
+		if(!is_int($item["P2d"])) $item["P2d"] = -1;
+		
 		array_push($rawSql,"(NULL,$key,\"$starttime\",".$item["P1h"].",".$item["P2h"].",".$item["P1d"].",".$item["P2d"].")");
 	}
 	//array_median($array)
