@@ -129,6 +129,7 @@ if(count($toMakeMedian)>0){
 		$item["P2h"] = array_median($item["P2h"]);
 		$item["P1d"] = array_median($item["P1d"]);
 		$item["P2d"] = array_median($item["P2d"]);
+		echo 'item["P1h"] '.gettype($item["P1h"]);
 		if(!is_float($item["P1h"])) $item["P1h"] = -1;
 		if(!is_float($item["P2h"])) $item["P2h"] = -1;
 		if(!is_float($item["P1d"])) $item["P1d"] = -1;
