@@ -851,6 +851,7 @@ d3.select(window).on('resize', resize);
               //$("#worstLocations_overlay iframe").css("left","-1000px");
               //$("#worstLocations_overlay iframe").delay( 10 ).css("left","");
               //window.setTimeout(toggleList, 800);
+		data2map(10);
           });
           
           // read get variables
