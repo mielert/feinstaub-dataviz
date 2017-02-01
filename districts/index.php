@@ -549,7 +549,7 @@ var view = graph.append("rect")
 			data2map(mousemove(d3.mouse(this)));
 			}
 		);
-data2map(10);  
+data2map([0,100]);  
 
 /**
  *
