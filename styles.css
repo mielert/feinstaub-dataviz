@@ -42,7 +42,7 @@ a, a:visited, a:active, .ui-widget-content a{
 	-webkit-box-shadow: 0px 0px 10px 0 rgba(0,0,0,0.3);
 	box-shadow: 0px 0px 10px 0 rgba(0,0,0,0.3);
 }
-#controlBar2{
+.Bar2{
 	background-color: #fff;
 	width: 400px;
 	max-width: 90%;
@@ -50,13 +50,13 @@ a, a:visited, a:active, .ui-widget-content a{
 	position: absolute;
 	display: none;
 }
-#controlBar2 iframe{
+.Bar2 iframe{
 	width: 100%;
 	height: 100%;
 	border: none;
 	overflow-y: scroll;
 }
-#controlBar2Header{
+.Bar2Header{
 	padding: 10px;
 	color: #fff;
 }
@@ -64,17 +64,23 @@ a, a:visited, a:active, .ui-widget-content a{
 	color: #fff;
 }
 #controlBar2Button{
+	top: 80px;
+	left: -38px;
+}
+#infoBar2Button{
+	bottom: 80px;
+	left: -10px;
+}
+.bar2Button{
 	-moz-transform: rotate(-90deg);
 	-webkit-transform: rotate(-90deg);
 	-o-transform: rotate(-90deg);
 	-ms-transform: rotate(-90deg);
 	transform: rotate(-90deg);
 	position: fixed;
-	left: -38px;
-	top: 80px;
 	cursor: pointer;
 }
-#controlBar2ButtonText{
+.bar2ButtonText{
 	padding: 5px 10px 7px 10px;
 }
 .bgcolor_white{
