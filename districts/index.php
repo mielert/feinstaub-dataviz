@@ -198,7 +198,7 @@ $counter++;
 .domain {
   display: none; 
 }
-#graph{
+#graph,#graph2{
 	font-size: 0.7em;
 }
 
@@ -266,10 +266,15 @@ $counter++;
   bottom: 0px;
 }
 
-svg{
+svg#graph{
   position: absolute;
   top: 0px;
   left: 0px;
+}
+svg#graph2{
+  position: absolute;
+  top: 0px;
+  right: 0px;
 }
 #chart,#graph{
   background-color: #fff;
@@ -312,11 +317,13 @@ div.tooltip {
   <body>
     <div id="chart">
 		<svg id="graph"></svg>
+		<svg id="graph2"></svg>
 		<div id="mapdiv"><div id="mapTimeInfo">Aktuelles 24h-Mittel P10</div></div>
 	</div>
-	<div id="controlBar2Button" class="shadow bgcolor"><div id="controlBar2ButtonText">Einstellungen</div></div>
-    <div id="controlBar2" class="shadow">
-      <div id="controlBar2Header" class="bgcolor">
+	<div id="controlBar2Button" class="bar2Button shadow bgcolor"><div class="bar2ButtonText">Einstellungen</div></div>
+	<div id="infoBar2Button" class="bar2Button shadow bgcolor"><div class="bar2ButtonText">Info</div></div>
+    <div id="controlBar2" class="Bar2 shadow">
+      <div class="Bar2Header bgcolor">
         <h1>Feinstaub in Stuttgart</h1>
         <!--<h2>Einstellungen</h2>-->
 			<p>Dargestellt wird das fließende 24-Stunden-Mittel der Feinstaub-P10-Werte der einzelnen Stuttgarter Stadtbezirke (Grundlage: Sensoren vom OK Lab Stuttgart) und, zum Vergleich, das fließende 24-Stunden-Mittel zweier Meßstellen des LUBW.</p>
@@ -331,20 +338,78 @@ div.tooltip {
 							<option value="GreenRedPink">Grün-Rot-Pink</option>
 						  </select>
 						</label>
-		<!--<p id="debugger"></p>-->
       </div>
-      <div id="controlBar2Footer">
+      <div class="Bar2Footer">
         <!--<h2>Hilfe</h2>-->
         <iframe src="../help/?context=districts"></iframe>
       </div>
     </div>
+    <div id="infoBar2" class="Bar2 shadow">
+      <div class="Bar2Header bgcolor">
+        <h1>Feinstaub in Stuttgart</h1>
+        <!--<h2>Einstellungen</h2>-->
+			<p>Dargestellt wird das fließende 24-Stunden-Mittel der Feinstaub-P10-Werte der einzelnen Stuttgarter Stadtbezirke (Grundlage: Sensoren vom OK Lab Stuttgart) und, zum Vergleich, das fließende 24-Stunden-Mittel zweier Meßstellen des LUBW.</p>
+			<p>Das Diagramm reagiert auf Mausbewegungen – was natürlich für Smartphones keine Lösung darstellt.</p>
+      </div>
+      <div class="Bar2Footer">
+        <!--<h2>Hilfe</h2>-->
+        <iframe src="../help/?context=districts"></iframe>
+      </div>
+	</div>
 		<span id="copyright">Version <?php echo $version; ?> | Daten: <span id="timestamp"></span></span>
   </div>
 <script>
+/**
+ * Step 1: Load the map
+ */
+var view = new ol.View({
+	  projection: 'EPSG:3857',
+	  maxZoom: 10,
+	  center: ol.proj.fromLonLat([9.193, 48.786]),
+	  zoom: 10
+});
+// Get Stuttgart Geodata
+var jsonDistricts = "";
+$.get( "../data/stuttgart_districts.json", function( data ) {
+	console.log("stuttgart_districts.json loaded");
+	jsonDistricts = data;
+
+	districts = (new ol.format.GeoJSON())
+		.readFeatures(
+						  jsonDistricts,
+						  {
+							  featureProjection: 'EPSG:3857'
+						  }
+					  );
+
+	var vectorSourceStuttgart = new ol.source.Vector({
+	  features: districts
+	});
+
+	vectorDistricts = new ol.layer.Vector({
+	  source: vectorSourceStuttgart,
+	  style: styleFunctionAQIP10floating,
+	  opacity: 1
+	});
+  
+	map = new ol.Map({
+	  layers: [
+		vectorDistricts
+	  ],
+	  target: 'mapdiv',
+	  controls: [],
+	  interactions: [],
+	  view: view
+	});
+});
+
+/**
+ * Step 2: Init stuff for the line chart 
+ */
 
 var margin = 80,
-    margin_left = 60,
-    margin_right = 40,
+    margin_left = 70,
+    margin_right = 200, //40
     inner_margin_right = 100,
     margin_top = 40,
     margin_bottom = 40,
@@ -406,6 +471,13 @@ var graph = d3.select("#graph")
   .append("g")
     .attr("transform", "translate(" + margin_left + "," + margin_top + ")");
 
+var graph2 = d3.select("#graph2")
+    .attr("width", 200 )
+    .attr("height", height + margin_top + margin_bottom)
+  .append("g")
+    .attr("transform", "translate(0," + margin_top + ")");
+
+  
 <?php
 foreach($districts as $dataset){
 ?>
@@ -433,10 +505,14 @@ var div = d3.select("body").append("div")
     .attr("class", "tooltip")				
     .style("opacity", 0);
 
+/**
+ * Load governmental data
+ */
 function append_lubw(){
   // statDEBW013pm10 aka Gnesener Straße
   d3.tsv("/<?php echo $data_dir; ?>data_lubw.tsv", function(error, data2) {
     if (error) throw error;
+	console.log("data_lubw.tsv loaded");
   
     data2.forEach(function(d2) {
       d2.timestamp = parseDate(d2.timestamp);
@@ -492,9 +568,13 @@ function append_lubw(){
   });
 }
 
+/**
+ * Load citizen science data
+ */
 function append_data(){
 d3.tsv("/<?php echo $data_dir; ?>chronological_districts_v2_simple.tsv", function(error, data) {
   if (error) throw error;
+  console.log("chronological_districts_v2_simple.tsv loaded");
 
   data.forEach(function(d) {
     d.timestamp = parseDate(d.timestamp);
@@ -510,7 +590,9 @@ d.P1floating_<?php echo $dataset; ?> = +d.P1floating_<?php echo $dataset; ?>;
   yScale.domain([0, d3.max(data, function(d) { return Math.max(d.P1floating_<?php echo join(",d.P1floating_",$districts); ?>); })]);
   //y.domain([d3.min(data, function(d) { return 0; }), d3.max(data, function(d) { return 250; })]);
 
-// official data
+/**
+ * Step 4: Load governmental data
+ */
 append_lubw();
 
   graph.append("line")
@@ -543,21 +625,31 @@ var view = graph.append("rect")
       .attr("class", "overlay")
       .attr("width", width)
       .attr("height", height)
-      //.on("mouseover", function() { focus.style("display", null); })
-      //.on("mouseout", function() { focus.style("display", "none"); })
-      .on("mousemove", function(d) {
-			data2map(mousemove(d3.mouse(this)));
-			}
-		);
-//data2map([0,100]);
-alert(d3.max(data, function(d) { return d.timestamp; }));
-$("#mapTimeInfo").html("P10: 24h-Mittel am "+hoverTimeFormat(d3.max(data, function(d) { return d.timestamp; })));
+      .on("mousemove", function(d) {data2map(mousemove(d3.mouse(this)));});
 
 /**
- *
+ * set map to most recent data
+ * very ugly way...
+ */
+data.forEach(function(d) {
+    $("#mapTimeInfo").html("P10: 24h-Mittel am "+hoverTimeFormat(d.timestamp));
+<?php
+$counter = 0;
+foreach($districts as $dataset){ ?>
+	districts[<?php echo $counter; ?>].set("P1floating",d.P1floating_<?php echo $dataset; ?>);
+<?php
+$counter++;
+} ?>
+  });
+map.render();
+console.log("map to most recent data");
+
+
+/**
+ * update map
  */
 function data2map(d){
-	alert(d);
+	//alert(d);
 	var out = "";
 <?php
 $counter = 0;
@@ -617,11 +709,11 @@ var infoy = 0;
 $counter = 0;
 $step = 12;
 foreach($districts as $dataset){ ?>
-  graph.append("line")
+  graph2.append("line")
     .attr("class", "P1 legend_line <?php echo $dataset; ?>")
-    .attr("x1", width-infox)
+    .attr("x1", infox)
     .attr("y1", infoy+<?php echo ($counter*$step);?>)
-    .attr("x2", width-infox+20)
+    .attr("x2", infox+20)
     .attr("y2", infoy+<?php echo ($counter*$step);?>)
       .on("mouseover", function(d) {		
             $(".P1").addClass("fadeout");
@@ -635,11 +727,11 @@ foreach($districts as $dataset){ ?>
             $("#<?php echo $dataset; ?>_text").removeClass("texthover");
         });
     
-  graph.append("text")
+  graph2.append("text")
       .text("<?php echo urldecode(str_replace(["Stuttgart","_"]," ",$dataset)); ?>")
       .attr("class", "legend_text")
 	  .attr("id", "<?php echo $dataset; ?>_text")
-      .attr("x",width-infox+30)
+      .attr("x",infox+30)
       .attr("y",infoy+3+<?php echo ($counter*$step);?>)
 			      .on("mouseover", function(d) {		
             $(".P1").addClass("fadeout");
@@ -655,11 +747,11 @@ foreach($districts as $dataset){ ?>
 $counter++;
 } ?>
 
-  graph.append("line")
+  graph2.append("line")
     .attr("class", "P1 legend_line statDEBW118pm10")
-    .attr("x1", width-infox)
+    .attr("x1", infox)
     .attr("y1", infoy+<?php echo ($counter*$step);?>)
-    .attr("x2", width-infox+20)
+    .attr("x2", infox+20)
     .attr("y2", infoy+<?php echo ($counter*$step);?>)
       .on("mouseover", function(d) {		
             $(".P1").addClass("fadeout");
@@ -673,11 +765,11 @@ $counter++;
             $("#statDEBW118pm10_text").removeClass("texthover");
         });
     
-  graph.append("text")
+  graph2.append("text")
       .text("LUBW Neckartor")
       .attr("class", "legend_text")
 	  .attr("id", "statDEBW118pm10_text")
-      .attr("x",width-infox+30)
+      .attr("x",infox+30)
       .attr("y",infoy+3+<?php echo ($counter*$step);?>)
 			      .on("mouseover", function(d) {		
             $(".P1").addClass("fadeout");
@@ -690,11 +782,11 @@ $counter++;
             $("#statDEBW118pm10_text").removeClass("texthover");
         });
 
-  graph.append("line")
+  graph2.append("line")
     .attr("class", "P1 legend_line statDEBW013pm10")
-    .attr("x1", width-infox)
+    .attr("x1", infox)
     .attr("y1", infoy+<?php echo (($counter+1)*$step);?>)
-    .attr("x2", width-infox+20)
+    .attr("x2", infox+20)
     .attr("y2", infoy+<?php echo (($counter+1)*$step);?>)
       .on("mouseover", function(d) {		
             $(".P1").addClass("fadeout");
@@ -708,11 +800,11 @@ $counter++;
             $("#statDEBW013pm10_text").removeClass("texthover");
         });
     
-  graph.append("text")
+  graph2.append("text")
       .text("LUBW Bad Cannstatt")
       .attr("class", "legend_text")
 	  .attr("id", "statDEBW013pm10_text")
-      .attr("x",width-infox+30)
+      .attr("x",infox+30)
       .attr("y",infoy+3+<?php echo (($counter+1)*$step);?>)
 			      .on("mouseover", function(d) {		
             $(".P1").addClass("fadeout");
@@ -819,8 +911,6 @@ if(d3.max(data, function(d) { return d.P1floating_<?php echo $dataset; ?>; }) <=
       .attr("width", width)
       .attr("height", height);
       
-    //alert("window.innerHeight: "+window.innerHeight+" height: "+height+" window.innerHeight-height/2-55: "+(window.innerHeight-height/2-55));
-    //alert("window.innerHeight: "+window.innerHeight+" height: "+height+" window.innerHeight-height/2-55: "+ window.innerHeight-height/2-55);
     graph.select('#text3')
       .attr("y", (window.innerHeight-height/2-55));
     graph.select('#text4')
@@ -843,9 +933,11 @@ if(d3.max(data, function(d) { return d.P1floating_<?php echo $dataset; ?>; }) <=
       
   }
 
+/**
+ * Step 3: Load citizen science data
+ */
 append_data();
 d3.select(window).on('resize', resize); 
-// d3.select("#chart").on('resize', resize); 
 
 
 </script>
@@ -930,54 +1022,5 @@ d3.select(window).on('resize', resize);
           }
 				
         </script>
-		<script>
-	var view = new ol.View({
-		  projection: 'EPSG:3857',
-		  maxZoom: 10,
-		  center: ol.proj.fromLonLat([9.193, 48.786]),
-		  zoom: 10
-	});
-	// Get Stuttgart Geodata
-	var jsonDistricts = <?php echo file_get_contents($data_root."stuttgart_districts_v2.json");?>;
-
-	var districts = (new ol.format.GeoJSON())
-	.readFeatures(
-					  jsonDistricts,
-					  {
-						  featureProjection: 'EPSG:3857'
-					  }
-				  );
-	
-	var districtsTimestamp = <?php echo filemtime($data_root."stuttgart_districts_v2.json"); ?>;
-	var districtsDateTime = "<?php echo date("d.m.Y, H:i",filemtime($data_root."stuttgart_districts_v2.json")); ?>";
-	
-	var vectorSourceStuttgart = new ol.source.Vector({
-	  features: districts
-	});
-
-      var vectorDistricts = new ol.layer.Vector({
-        source: vectorSourceStuttgart,
-        style: styleFunctionAQIP10floating,
-		opacity: 1
-      });
-	  
-	  //geoguniheidelbergMapLayer.setSaturation(0);
-
-      var map = new ol.Map({
-		layers: [
-		  vectorDistricts
-        ],
-        target: 'mapdiv',
-        controls: [],
-		interactions: [],
-		/*.extend([
-          new ol.control.FullScreen()
-        ])*/
-        view: view
-      });
-			
-
-
-		</script>
 </body>
 </html>
