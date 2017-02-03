@@ -15,7 +15,8 @@
 		$( function() {
 		  $( "#accordion" ).accordion({
 			collapsible: true,
-			heightStyle: "content"
+			heightStyle: "content",
+			active: 1
 		  });
 		} );
 		</script>
@@ -41,14 +42,20 @@
 				<p>Abschnitt fehlt noch.</p>
 <?php } ?>
 <?php if($_GET["context"]=="districts") { ?>
-				<p>Die Kurven zeigen P10-Feinstaubmessungen aus den Stuttgarter Stadtbezirken, die im Rahmen eines Projekts vom OK Lab Stuttgart vorgenommen wurden.</p>
-				<p>Jede Kurve zeigt an jeder Stelle die über die vergangenen 24 Stunden geglättete Werte aus dem entsprechenden Bezirk. Dafür wird der Median zwischen den aktiven Sensoren und anschließend das arithmetische Mittel gebildet.</p>
+				<p>Die Kurven zeigen PM10-Feinstaubmessungen aus den Stuttgarter Stadtbezirken, die im Rahmen eines Projekts vom OK Lab Stuttgart vorgenommen wurden.</p>
+				<p>Jede Kurve zeigt an jeder Stelle die über die vergangenen 24 Stunden geglättete Werte aus dem entsprechenden Bezirk. Dafür wird jeweils der Median zwischen den aktiven Sensoren und anschließend das arithmetische Mittel über 24 Stunden gebildet.</p>
+				<p>Die eingeblendete Karte zeigt die Feinstaubbelastung in den jeweiligen Stadtbezirken zu einem bestimmten Zeitpunkt.</p>
+				<p>Das Diagramm reagiert auf Mausbewegungen, kann vergrößert und verschoben werden.</p>
 <?php } ?>
+			</div>
+			<h3>Was bedeuten PM10 und PM2.5?</h3>
+			<div>
+				<p>PM10 und PM2.5 sind Einteilungen für die Größe von Feinstaubpartikeln. Dabei gibt es keine Trennschärfe. Bei PM10 werden "Partikel mit einem aerodynamischen Durchmesser von weniger als 1 µm ... vollständig einbezogen, bei größeren Partikeln wird ein gewisser Prozentsatz gewertet, der mit zunehmender Partikelgröße abnimmt und bei ca. 15 µm schließlich 0 % erreicht." (Wikipedia). PM2.5 bezieht sich auf lungengängige Partikel, d.h. Feinstaubteilchen können in die Lungenbläschen eindringen und gelangen somit in den Blutkreislauf. Seine "Definition ist analog zu PM10, allerdings ist die Gewichtungsfunktion wesentlich steiler (100 % Gewichtung < 0,5 µm; 0 % Gewichtung > 3,5 µm; 50 % Gewichtung bei ca. 2,5 µm)." (Wikipedia)</p>
 			</div>
 			<h3>Sind die Messwerte mit denen der Landesanstalt vergleichbar?</h3>
 			<div>
-				<p>Ja, die über 24 Stunden gemittelten P10-Werte sind mit denen der Landesanstalt vergleichbar.</p>
-				<p>Zu beachten ist unbedingt, dass die Sensoren des Projekts weder geeicht noch irgendwie kalibriert sind. Insbesondre Ausschläge in der Streuung sind mit extremer Vorsicht zu genießen.</p>
+				<p>Ja, die über 24 Stunden gemittelten PM10-Werte sind mit denen der Landesanstalt vergleichbar.</p>
+				<p>Zu beachten ist unbedingt, dass die Sensoren des Projekts weder geeicht noch irgendwie kalibriert sind. Insbesondre starke Ausschläge einzelner Sensoren sind mit extremer Vorsicht zu genießen. Auch scheint die Luftfeuchtigkeit einen Einfluss zu haben (siehe <a href="https://feinstaub-stuttgart.info/2017/01/fehlerquellen-beim-messen-von-feinstaub/" target="_blank">Fehlerquellen beim Messen von Feinstaub</a>.</p>
 			</div>
 			<h3>Was bedeuten die Werte für mich?</h3>
 			<div>
