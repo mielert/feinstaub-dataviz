@@ -9,7 +9,7 @@ $( document ).ready(function() {
 		if(controlVisible){
 			controlVisible = false;
 			if(isMobile){
-				$("#controlBar2Button").css({left: -36}).show();
+				$("#controlBar2Button").css({left: -38}).show();
 				$("#infoBar2Button").css({left: -12}).show();
 			}
 			else{
@@ -27,7 +27,7 @@ $( document ).ready(function() {
 			controlVisible = true;
 			infoVisible = false;
 			if(isMobile){
-				$("#controlBar2Button").css({left: $("#controlBar2").width()-36}).show();
+				$("#controlBar2Button").css({left: $("#controlBar2").width()-38}).show();
 				$("#infoBar2Button").css({left: $("#controlBar2").width()-12}).show();
 			}
 			else{
@@ -36,8 +36,10 @@ $( document ).ready(function() {
 			}
 			$("#controlBar2Button").removeClass("bgcolor");
 			$("#controlBar2Button").addClass("bgcolor_white");
+			$("#infoBar2Button").removeClass("bgcolor_white");
+			$("#infoBar2Button").addClass("bgcolor");
 			$("#controlBar2").show();
-			//$("#chart").css({left: 400, width: window.innerWidth-400});
+			$("#infoBar2").hide();
 			resize();
 			resize_Bar2();
 		}
@@ -46,17 +48,16 @@ $( document ).ready(function() {
 		if(infoVisible){
 			infoVisible = false;
 			if(isMobile){
-				$("#controlBar2Button").css({left: -36}).show();
+				$("#controlBar2Button").css({left: -38}).show();
 				$("#infoBar2Button").css({left: -12}).show();
 			}
 			else{
-				$("#controlBar2Button").css({left: -36}).show();
+				$("#controlBar2Button").css({left: -38}).show();
 				$("#infoBar2Button").css({left: -12}).show();
 			}
 			$("#infoBar2Button").addClass("bgcolor");
 			$("#infoBar2Button").removeClass("bgcolor_white");
 			$("#infoBar2").hide();
-			//$("#chart").css({left: 0, width: "100%"});
 			resize();
 			resize_Bar2();
 		}
@@ -73,7 +74,10 @@ $( document ).ready(function() {
 			}
 			$("#infoBar2Button").removeClass("bgcolor");
 			$("#infoBar2Button").addClass("bgcolor_white");
+			$("#controlBar2Button").removeClass("bgcolor_white");
+			$("#controlBar2Button").addClass("bgcolor");
 			$("#infoBar2").show();
+			$("#controlBar2").hide();
 			//$("#chart").css({left: 400, width: window.innerWidth-400});
 			resize();
 			resize_Bar2();
@@ -84,12 +88,15 @@ $( window ).resize(function() {
 	resize_Bar2();
 });
 function resize_Bar2(){
-	var new_control_height = window.innerHeight - $(".Bar2Header").height()-20;
+	var new_info_height = window.innerHeight - $("#infoBar2 .Bar2Header").height()-20;
+	var new_control_height = window.innerHeight - $("#controlBar2 .Bar2Header").height()-20;
 	//alert(window.innerHeight);
 	//alert($("#controlBar2Header").height());
 	//alert(new_height);
+	if(new_info_height > 100)
+		$("#infoBar2 .Bar2Footer").height(new_info_height);
 	if(new_control_height > 100)
-		$(".Bar2Footer").height(new_control_height);
+		$("#controlBar2 .Bar2Footer").height(new_control_height);
 }
 /**
  * @param feature Object
@@ -102,11 +109,11 @@ function styleFunctionGlobal(feature,attribute,style,deadSensorColor = "0,0,0",m
 	var color;
 	if(feature.getGeometry().getType() == "Point"){
 		if(attribute=="P1"||attribute=="P1floating"){
-			if(style=="AQI") color=colorMappingAQIP10(feature.get(attribute),deadSensorColor);
+			if(style=="AQI") color=colorMappingAQIPM10(feature.get(attribute),deadSensorColor);
 			else color=colorMappingGreenRedPink(feature.get(attribute),deadSensorColor);
 		}
 		else if(attribute=="P2"||attribute=="P2floating"){
-			if(style=="AQI") color=colorMappingAQIP25(feature.get(attribute),deadSensorColor);
+			if(style=="AQI") color=colorMappingAQIPM25(feature.get(attribute),deadSensorColor);
 			else color=colorMappingGreenRedPink(feature.get(attribute),deadSensorColor);
 		}
 		return 	new ol.style.Style({
@@ -121,32 +128,32 @@ function styleFunctionGlobal(feature,attribute,style,deadSensorColor = "0,0,0",m
 	}
 	if(feature.getGeometry().getType() == "Polygon"){
 		if(attribute=="P1"||attribute=="P1floating"){
-			if(style=="AQI") color=colorMappingAQIP10(feature.get(attribute),missingValueColor);
+			if(style=="AQI") color=colorMappingAQIPM10(feature.get(attribute),missingValueColor);
 			else color=colorMappingGreenRedPink(feature.get(attribute),missingValueColor);
 		}
 		else if(attribute=="P2"||attribute=="P2floating"){
-			if(style=="AQI") color=colorMappingAQIP25(feature.get(attribute),missingValueColor);
+			if(style=="AQI") color=colorMappingAQIPM25(feature.get(attribute),missingValueColor);
 			else color=colorMappingGreenRedPink(feature.get(attribute),missingValueColor);
 		}
 		return 	new ol.style.Style({
 					stroke: new ol.style.Stroke({
 							color: 'rgba(0, 0, 0, 1)',
-							width: 1
+							width: ((feature.get("fadeout")==1)?0.5:1.2)
 					}),
 					fill: new ol.style.Fill({
-							color: 'rgba('+color+',1)'
+							color: 'rgba('+color+','+((feature.get("fadeout")==1)?0.2:1)+')'
 					})
 				});
 	}
 }
 /**
- * Dust P10
+ * Dust PM10
  * https://en.wikipedia.org/wiki/Air_quality_index#Computing_the_AQI
  * @param {float} Value to map
  * @param {string} Color ("123,55,212") if value is undefined or 0
  * @returns {string} Color ("123,55,212")
  */
-var colorMappingAQIP10 = function(value,undefinedColor) {
+var colorMappingAQIPM10 = function(value,undefinedColor) {
 	// https://en.wikipedia.org/wiki/Air_quality_index#Computing_the_AQI
 	var color;
 	if(value === undefined || value <= 0){
@@ -173,7 +180,7 @@ var colorMappingAQIP10 = function(value,undefinedColor) {
  * @param {string} Color ("123,55,212") if value is undefined or 0
  * @returns {string} Color ("123,55,212")
  */
-var colorMappingAQIP25 = function(value,undefinedColor) {
+var colorMappingAQIPM25 = function(value,undefinedColor) {
 	var color;
 	if(value === undefined || value <= 0){
 		if(typeof undefinedColor === 'string' || undefinedColor instanceof String)
@@ -226,27 +233,27 @@ var colorMappingGreenRedPink = function(value,undefinedColor) {
 };
 
 	
-var styleFunctionAQIP10 = function(feature) {
+var styleFunctionAQIPM10 = function(feature) {
 	return styleFunctionGlobal(feature,"P1","AQI","0,0,0","255,255,255");
 };
-var styleFunctionAQIP10floating = function(feature) {
+var styleFunctionAQIPM10floating = function(feature) {
 	return styleFunctionGlobal(feature,"P1floating","AQI","0,0,0","255,255,255");
 };
-var styleFunctionAQIP25 = function(feature) {
+var styleFunctionAQIPM25 = function(feature) {
 	return styleFunctionGlobal(feature,"P2","AQI","0,0,0","255,255,255");
 };
-var styleFunctionAQIP25floating = function(feature) {
+var styleFunctionAQIPM25floating = function(feature) {
 	return styleFunctionGlobal(feature,"P2floating","AQI","0,0,0","255,255,255");
 };
-var styleFunctionGreenRedPinkP10 = function(feature) {
+var styleFunctionGreenRedPinkPM10 = function(feature) {
 	return styleFunctionGlobal(feature,"P1","GreenRedPink","0,0,0","255,255,255");
 };
-var styleFunctionGreenRedPinkP10floating = function(feature) {
+var styleFunctionGreenRedPinkPM10floating = function(feature) {
 	return styleFunctionGlobal(feature,"P1floating","GreenRedPink","0,0,0","255,255,255");
 };
-var styleFunctionGreenRedPinkP25 = function(feature) {
+var styleFunctionGreenRedPinkPM25 = function(feature) {
 	return styleFunctionGlobal(feature,"P2","GreenRedPink","0,0,0","255,255,255");
 };
-var styleFunctionGreenRedPinkP25floating = function(feature) {
+var styleFunctionGreenRedPinkPM25floating = function(feature) {
 	return styleFunctionGlobal(feature,"P2floating","GreenRedPink","0,0,0","255,255,255");
 };
