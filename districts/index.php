@@ -19,11 +19,8 @@ foreach($firstRow as $dataset){
     <!--<meta http-equiv="refresh" content="300; URL=<?php if(!isset($basename)) echo basename(__FILE__); else echo $basename; ?>?help=hide"/>-->
     <meta charset="utf-8"/>
     <title>Feinstaub in Stuttgart</title>
-    <meta http-equiv="cache-control" content="max-age=0" />
-    <meta http-equiv="cache-control" content="no-cache" />
-    <meta http-equiv="expires" content="0" />
-    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-	<meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="max-age=86400" />
+	<meta http-equiv="cache-control" content="public" />
 	<meta property="og:title" content="Feinstaub in Stuttgart">
 	<meta property="og:description" content="Hier finden Sie die OpenData-Feinstaubmessungen von OK Lab Stuttgart nach Stadtteilen geordnet und als Diagramm aufbereitet.">
 	<meta property="og:image" content="<?php echo $url; ?>/districts/districts.png">
@@ -899,7 +896,9 @@ if(d3.max(data, function(d) { return d.P1floating_<?php echo $dataset; ?>; }) <=
   resize();
 });
 }
-
+/**
+ *
+ */
   function resize() {
 		if(window.innerWidth > 800){
 			if(!controlVisible && !infoVisible){
@@ -985,90 +984,8 @@ if(d3.max(data, function(d) { return d.P1floating_<?php echo $dataset; ?>; }) <=
  * Step 3: Load citizen science data
  */
 append_data();
+
 d3.select(window).on('resize', resize); 
-
-
 </script>
-        <script>
-          $( document ).ready(function() {
-              //$("#worstLocations_overlay iframe").css("left","-1000px");
-              //$("#worstLocations_overlay iframe").delay( 10 ).css("left","");
-              //window.setTimeout(toggleList, 800);
-		
-          });
-          
-          // read get variables
-          var $_GET = {};
-          document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
-              function decode(s) {
-                  return decodeURIComponent(s.split("+").join(" "));
-              }
-              $_GET[decode(arguments[1])] = decode(arguments[2]);
-          });
-                      
-          if ($_GET["help"]=="hide") {
-              toggleHelp();
-          }
-          $( "#html_overlay" ).click(function() {
-              toggleHelp();
-          });
-          $( "#toggleHelp" ).click(function() {
-              toggleHelp();
-          });
-          $( "#toggleAreas" ).click(function() {
-              toggleAreas();
-          });
-          $( "#toggle231" ).click(function() {
-              toggle231();
-          });
-          $( "#toggle217" ).click(function() {
-              toggle217();
-          });
-          $( "#toggle50" ).click(function() {
-              toggle50();
-          });
-          $( "#toggleList" ).click(function() {
-              toggleList();
-          });
-          $( "#toggleLUBW" ).click(function() {
-              toggleLUBW();
-          });
-          $( "#worstLocations_overlay" ).click(function() {
-              toggleList();
-          });
-          function toggle50(){
-              $( ".s50" ).toggle();
-              $( "#toggle50 .display" ).toggle();
-          }
-          function toggle231(){
-              $( ".s231" ).toggle();
-              $( "#toggle231 .display" ).toggle();
-          }
-          function toggle217(){
-              $( ".s217" ).toggle();
-              $( "#toggle217 .display" ).toggle();
-          }
-          function toggleList(){
-              $( "#toggleList .display" ).toggle();
-              if($("#worstLocations_overlay").css("z-index") == "-10000")
-                $("#worstLocations_overlay").css("z-index", "");
-              else
-                $("#worstLocations_overlay").css("z-index", "-10000");
-          }
-          function toggleLUBW(){
-              $( ".statDEBW013pm10" ).toggle();
-              $( ".statDEBW118pm10" ).toggle();
-              $( "#toggleLUBW .display" ).toggle();
-          }
-          function toggleHelp(){
-              $( "#html_overlay" ).toggle();
-              $( "#toggleHelp .display" ).toggle();
-          }
-          function toggleAreas(){
-              $( ".area" ).toggle();
-              $( "#toggleAreas .display" ).toggle();
-          }
-				
-        </script>
 </body>
 </html>
