@@ -100,7 +100,7 @@ a, a:visited, a:active, .ui-widget-content a{
 	font-size: 10px;
 	background-color: rgba(255,255,255,0.7);
 	padding: 2px;
-	width: 180px;
+	text-align: right;
 }
 @media (max-device-width: 1000px) {
 	body, select, button {
