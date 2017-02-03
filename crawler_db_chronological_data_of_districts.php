@@ -162,12 +162,12 @@ if($starttime < $stop){
 	echo "$starttime < $stop";
 	if(!isset($_GET["nocron"]))
 		echo file_get_contents($project_url."crawler_db_chronological_data_of_districts.php?starttime=".strtotime($starttime." + 1 hours").'&nocron=1');
-	else
+	/*else
 		echo '		<script>
 			$(document).ready(function(){
 				window.location.href = "crawler_db_chronological_data_of_districts.php?starttime='.strtotime($starttime." + 1 hours").'&nocron=1";
 			});
-			</script>';
+			</script>';*/
 }
 else {
 	echo "$starttime >= $stop";
