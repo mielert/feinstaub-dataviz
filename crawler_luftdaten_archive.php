@@ -1,5 +1,5 @@
 <?php
-$startdate = strtotime(date("Y-m-d 00:00:00")." -5 days");
+$startdate = strtotime(date("Y-m-d 00:00:00")." -3 days");
 // start: 31.8.2016
 // $startdate = strtotime("2016-12-10 00:00:00");
 $stopdate = strtotime(date("Y-m-d 23:59:59")." -1 days");
