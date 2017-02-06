@@ -326,36 +326,26 @@ div.tooltip {
     <div id="controlBar2" class="Bar2 shadow">
       <div class="Bar2Header bgcolor">
         <h1>Feinstaub in Stuttgart</h1>
-        <!--<h2>Einstellungen</h2>-->
-			<p>Dargestellt wird das fließende 24-Stunden-Mittel der Feinstaub-PM10-Werte der einzelnen Stuttgarter Stadtbezirke (Grundlage: Sensoren vom OK Lab Stuttgart) und, zum Vergleich, das fließende 24-Stunden-Mittel zweier Meßstellen des LUBW.</p>
-			<p>Das Diagramm reagiert auf Mausbewegungen – was natürlich für Smartphones keine Lösung darstellt.</p>
-			<!--<pre><?php print_r($districts); ?></pre>-->
-        <!--<button id="toggleAreas" class="toggle">Streuung <span class="display" style="display: none;">aus</span><span class="display">ein</span>blenden</button>
-        <button id="toggleLUBW" class="toggle">LUBW-Daten <span class="display" style="display: none;">ein</span><span class="display">aus</span>blenden</button>-->
-						<label>
-						  Farbtabelle
-						  <select id="color-mode" class="form-control">
-							<option value="AQI" selected="selected">Air Quality Index</option>
-							<option value="GreenRedPink">Grün-Rot-Pink</option>
-						  </select>
-						</label>
+		<p>Dargestellt wird das fließende 24-Stunden-Mittel der Feinstaub-PM10-Werte der einzelnen Stuttgarter Stadtbezirke (Grundlage: Sensoren vom OK Lab Stuttgart) und, zum Vergleich, das fließende 24-Stunden-Mittel zweier Meßstellen des LUBW.</p>
+		<p>Das Diagramm reagiert auf Mausbewegungen – was natürlich für Smartphones keine Lösung darstellt.</p>
+		<label>
+		  Farbtabelle
+		  <select id="color-mode" class="form-control">
+			<option value="AQI" selected="selected">Air Quality Index</option>
+			<option value="GreenRedPink">Grün-Rot-Pink</option>
+		  </select>
+		</label>
       </div>
-      <!--<div class="Bar2Footer">
-        <iframe src="../help/?context=districts"></iframe>
-      </div>-->
     </div>
     <div id="infoBar2" class="Bar2 shadow">
       <div class="Bar2Header bgcolor">
         <h1 style="margin-bottom: 0;">Feinstaub in Stuttgart</h1>
-			<!--<p>Dargestellt wird das fließende 24-Stunden-Mittel der Feinstaub-PM10-Werte der einzelnen Stuttgarter Stadtbezirke (Grundlage: Sensoren vom OK Lab Stuttgart) und, zum Vergleich, das fließende 24-Stunden-Mittel zweier Meßstellen des LUBW.</p>
-			<p>Das Diagramm reagiert auf Mausbewegungen – was natürlich für Smartphones keine Lösung darstellt.</p>-->
       </div>
       <div class="Bar2Footer">
-        <!--<h2>Hilfe</h2>-->
         <iframe src="../help/?context=districts"></iframe>
       </div>
 	</div>
-		<span id="copyright">Version <?php echo $version; ?> | Daten: <span id="timestamp"></span></span>
+	<span id="copyright">Version <?php echo $version; ?> | Daten: <span id="timestamp"></span></span>
   </div>
 <script>
 /**
