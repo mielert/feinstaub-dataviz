@@ -39,7 +39,8 @@
 				Interpretation: Für die Partikelgröße PM10 wurden im Median in Stuttgart durch das Projekt 65,5 Mikrogramm pro Kubikmeter Luft gemessen. Dies wurde aus 135 Werten ermittelt, die im Mittel am 15. November 2016 um 7:17 Uhr erhoben wurden und sich von 35,7 µg/m³ beim Sensor 211 bis 97,6 µg/m³ beim Sensor 231 erstreckten. <!--Der Sensor 211 befindet sich am nord-westlichen Rand von Leonberg, der Sensor 231 in Bad Cannstatt.--></p>
 <?php } ?>
 <?php if($_GET["context"]=="map") { ?>
-				<p>Abschnitt fehlt noch.</p>
+				<p>Die Karte zeigt beim Laden die aktuelle Belastung in Stuttgart mit PM10-Feinstaubpartikeln. Die Flächen sind die 23 Stuttgarter Stadtbezirke, die Kreise stellen die momentan aktiven Sensoren dar. In den einzelnen Bezirken wird der Median aus den Sensorwerten des jeweiligen Bezirks gebildet. Eingefärbt sind die Bezirke und Sensoren nach dem Air Quality Index.</p>
+				<p>Über die Einstellungen können Karte und Sensoren anhand einer anderen Farbskala eingefärbt und die Datengrundlage geändert werden.</p>
 <?php } ?>
 <?php if($_GET["context"]=="districts") { ?>
 				<p>Die Kurven zeigen PM10-Feinstaubmessungen aus den Stuttgarter Stadtbezirken, die im Rahmen eines Projekts vom OK Lab Stuttgart vorgenommen wurden.</p>
