@@ -73,7 +73,7 @@
 			</div>
 			<h3>Darf ich die Visualisierungen auf anderen Websites benutzen?</h3>
 			<div>
-				<p>Ja, kein Problem. Die Diagramme (<a href="https://fritzmielert.de/feinstaub/chart" target="_blank">https://fritzmielert.de/feinstaub/chart</a> & <a href="https://fritzmielert.de/feinstaub/districts" target="_blank">https://fritzmielert.de/feinstaub/districts</a>) und die Karte (<a href="https://fritzmielert.de/feinstaub/map" target="_blank">https://fritzmielert.de/feinstaub/map</a>) dürfen auf Websites eingebettet werden. Ich bitte um Nachricht, wenn dies auf Websites passieren soll, von denen größere Zugriffszahlen zu erwarten sind.</p>
+				<p>Ja, kein Problem. Die Diagramme (<a href="https://fritzmielert.de/feinstaub/chart" target="_blank">https://fritzmielert.de/feinstaub/chart</a> & <a href="https://feinstaub-stuttgart.info/dataviz/districts" target="_blank">https://feinstaub-stuttgart.info/dataviz/districts</a>) und die Karte (<a href="https://feinstaub-stuttgart.info/dataviz/map" target="_blank">https://feinstaub-stuttgart.info/dataviz/map</a>) dürfen auf Websites eingebettet werden. Ich bitte um Nachricht, wenn dies auf Websites passieren soll, von denen größere Zugriffszahlen zu erwarten sind.</p>
 			</div>
 			<h3>Datenherkunft, -schutz & Impressum</h3>
 			<div>
@@ -83,20 +83,5 @@
 				<p>Die Visualisierungen sind Creative Commons - Namensnennung (CC-BY) lizensiert.</p>
 			</div>
 		</div>
-        <!--<div>
-            <h2>Feinstaub in Stuttgart</h2>
-            <h2>Was sehe ich hier?</h2>
-            <h2>Sind die Messwerte mit denen der Landesanstalt vergleichbar?</h2>
-            <h2>Warum sind die Graphen einzelner Sensoren so zerhackt?</h2>
-            <p>Ich sammle deren Daten noch nicht allzu lange. Für die Vergangenheit greife ich auf die Daten von Zeitpunkten zurück, an denen diese Sensoren das Maximum lieferten. Dazwischen gibt's leider Lücken.</p>
-            <p>Auch für vollständigere Graphen der Landesanstalt fehlen mir Daten. So liegen mir die Messwerte für die Station Neckartor erst seit dem 21.11.2016 vor und klammern jeweils Werte zwischen 21 Uhr und 6 Uhr aus.</p>
-            <h2>Was bedeuten die Werte für mich?</h2>
-            <p>Die Werte sind schwer zu beurteilen. Wir brauchen alle noch Erfahrung mit ihrer Interpretation.</p>
-            <h2>Was zeigt die Rangliste genau?</h2>
-            <p>Die Rangliste zeigt, welcher Sensor während der vergangenen sieben Tage wie häufig den Spitzenwert lieferte.</p>
-            <p>Sensor 50, der absolute Spitzenreiter, sitzt in Wangen in direkter Nachbarschaft zur dortigen Baustelle von Stuttgart 21. Wahrscheinlich kommen die hohen Werte hiervon.</p>
-            <p>Sensor 217 hockt im Wohngebiet der Friedenskiche (oberhalb des Neckartors).</p>
-            <p>Sensor 231 ist in einer ruhigen Wohngegend in Cannstatt montiert. Wie er es auf Platz 3 schafft, ist ein Rätsel. Da aber Platz vier ebenfalls von einem Sensor aus Cannstatt belegt wird, scheint es nicht unbedingt an einem fehlerhaften Sensor zu liegen.</p>
-        </div>-->
     </body>
 </html>
