@@ -130,10 +130,11 @@ include_once("../library.php");
 	<body>
 		<div style="width:100%;height:100%;">
 			<div id="mapdiv"></div>
-			<div id="controlBar2Button" class="shadow bgcolor"><div id="controlBar2ButtonText">Einstellungen</div></div>
-			<div id="controlBar2" class="shadow">
-				<div id="controlBar2Header" class="bgcolor">
-					<h1>Feinstaub in Stuttgart</h1>
+	<div id="controlBar2Button" class="bar2Button shadow bgcolor"><div class="bar2ButtonText">Einstellungen</div></div>
+	<div id="infoBar2Button" class="bar2Button shadow bgcolor"><div class="bar2ButtonText">Info</div></div>
+    <div id="controlBar2" class="Bar2 shadow">
+      <div class="Bar2Header bgcolor">
+        <h1>Feinstaub in Stuttgart</h1>
 					<form>
 						<label>
 						  Stadtbezirke
@@ -166,11 +167,17 @@ include_once("../library.php");
 						  </select>
 						</label>
 					</form>
-				</div>
-				<div id="controlBar2Footer">
-					<iframe src="../help/?context=map"></iframe>
-				</div>
-			</div>
+      </div>
+    </div>
+    <div id="infoBar2" class="Bar2 shadow">
+      <div class="Bar2Header bgcolor">
+        <h1 style="margin-bottom: 0;">Feinstaub in Stuttgart</h1>
+      </div>
+      <div class="Bar2Footer">
+        <iframe src="../help/?context=map"></iframe>
+      </div>
+	</div>
+
 			<div id="mapinfo2" class="shadow"></div>
 			<span id="copyright">Version <?php echo $version; ?> | Daten: <span id="timestamp"></span></span>
 		</div>
@@ -206,7 +213,7 @@ var jsonSensors = <?php echo file_get_contents($data_root."stuttgart_sensors_v2.
 
       var vectorSensors = new ol.layer.Vector({
         source: vectorSource,
-        style: styleFunctionAQIP10
+        style: styleFunctionAQIPM10
       });	  
 
 	// Get Stuttgart Geodata
@@ -229,7 +236,7 @@ var jsonSensors = <?php echo file_get_contents($data_root."stuttgart_sensors_v2.
 
       var vectorDistricts = new ol.layer.Vector({
         source: vectorSourceStuttgart,
-        style: styleFunctionAQIP10,
+        style: styleFunctionAQIPM10,
 		opacity: 0.5
       });
 	  
