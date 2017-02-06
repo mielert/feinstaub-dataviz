@@ -424,7 +424,7 @@ data_to_db($data);
 // cleanup
 $data = cleanup_data($data);
 // save for other actions
-file_put_contents($dump_file,json_encode($data));
+//file_put_contents($dump_file,json_encode($data));
 
 //echo count($data)." Datens&auml;tze<br/>";
 // update geolocation
