@@ -1,5 +1,5 @@
 <?php
-include("library.php");
+include_once("library.php");
 
 $data_file = $data_root."data.json";
 $simple_file = $data_root."data.tsv";
