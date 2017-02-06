@@ -2,7 +2,7 @@
 $startdate = strtotime(date("Y-m-d 00:00:00")." -5 days");
 // start: 31.8.2016
 // $startdate = strtotime("2016-12-10 00:00:00");
-$stopdate = strtotime(date("Y-m-d 23:59:59")." -2 days");
+$stopdate = strtotime(date("Y-m-d 23:59:59")." -1 days");
 // end: 17.12.2016
 // $stopdate = strtotime("2016-12-30 23:59:59");
 
