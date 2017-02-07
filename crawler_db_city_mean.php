@@ -46,11 +46,21 @@ $sql = "SELECT *
           AND `sensor_data`.`timestamp` <= DATE_ADD('".substr($starttime,0,13).":00:00',INTERVAL 1 HOUR)";
 $result = db_select($sql);
 
+// calculate city data
 $statistics = get_min_max_mid($result);
 $result = db_select("SELECT DATE_ADD('".substr($starttime,0,13).":00:00',INTERVAL 1 HOUR) AS timestamp");
 $statistics["timestamp"] = $result[0]->timestamp;
 echo "<pre>".print_r($statistics,true)."</pre>";
-
+$sql = "INSERT INTO `city_mean` (`id`, `city_id`, `timestamp`, `P1h`, `P2h`, `P1d`, `P2d`, `P1h_min`, `P1h_max`, `P2h_min`, `P2h_max`, `P1h_50_min`, `P1h_50_max`, `P2h_50_min`, `P2h_50_max`, `P1min_sensor_id`, `P1max_sensor_id`, `P2min_sensor_id`, `P2max_sensor_id`)
+        VALUES (NULL, '$city_id', '".$statistics["timestamp"]."', '".$dataset["P1"]["mid"]."', '".$dataset["P2"]["mid"]."', 0, 0, '".$dataset["P1"]["min"]."', '".$dataset["P1"]["max"]."', '".$dataset["P2"]["min"]."', '".$dataset["P2"]["max"]."', '".$dataset["P1"]["max_main"]."', '".$dataset["P1"]["min_main"]."', '".$dataset["P2"]["max_main"]."', '".$dataset["P2"]["min_main"]."', '".$dataset["P1"]["min_sensor_id"]."', '".$dataset["P1"]["max_sensor_id"]."', '".$dataset["P2"]["min_sensor_id"]."', '".$dataset["P2"]["max_sensor_id"]."')";
+echo $sql;
+// add 24h floating
+$sql = "SELECT MID(P1h) AS P1d, MID(P2h) AS P2d
+        FROM `city_mean` 
+        WHERE `city_id` = $city_id)
+        AND `timestamp` >  '".substr($starttime,0,13).":00:00'
+        AND `timestamp` <= DATE_ADD('".substr($starttime,0,13).":00:00',INTERVAL 1 DAY)";
+$result = debug_query($sql);
   
   
 /**
@@ -119,30 +129,5 @@ function get_min_max_mid($data){
     $statistics["P2"]["min_main"] = $mainSectorP2["min"];
     return $statistics;
 }
-/**
- *
- */
-function generate_24h_floating_values($cronological_data){
-    $timestampMin = $cronological_data[0]["timestamp"];
-    $timestampStartFloating = 0;
-    $timestampMax = 0;
-    for($i=0;$i<count($cronological_data);$i++){
-        if(!isset($cronological_data[$i]["P1"]["24floating"]) || !isset($cronological_data[$i]["P2"]["24floating"])){
-            $values24hP10 = array();
-            $values24hP25 = array();
-            for($j=$i;$j>=0;$j--){
-                if($cronological_data[$j]["timestamp"] < $cronological_data[$i]["timestamp"] - 60*60*24){
-                    echo date("Ymd H:i:s",$cronological_data[$j]["timestamp"])." - ".date("Ymd H:i:s",$cronological_data[$i]["timestamp"])."<br/>";
-                    $cronological_data[$i]["P1"]["24floating"] = array_arithmetic_mean($values24hP10);
-                    $cronological_data[$i]["P2"]["24floating"] = array_arithmetic_mean($values24hP25);
-                    echo "P10:". $cronological_data[$i]["P1"]["24floating"]."; P2.5: ".$cronological_data[$i]["P2"]["24floating"]."<br/>";
-                    break;
-                }
-                array_push($values24hP10,$cronological_data[$j]["P1"]["mid"]);
-                array_push($values24hP25,$cronological_data[$j]["P2"]["mid"]);
-            }
-        }
-    }
-    return $cronological_data;
-}
+
 ?>
