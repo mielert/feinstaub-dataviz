@@ -41,7 +41,16 @@ if(!$starttime){
   echo "no start time because of empty table sensor_data at city_id = $city_id";
   exit;
 }
-else echo "start time of city_id = $city_id = $starttime";
+else {
+  echo "start time of city_id = $city_id = $starttime";
+  $sql = "SELECT DATE_ADD(MAX(timestamp), INTERVAL -1 HOUR) FROM `sensor_data`)";
+  $result = debug_query($sql);
+  $endtime = $result[0]->timestamp;
+  if($starttime > $endtime) {
+    echo "nothing to do";
+    exit;
+  }
+}
 // get sensor data
 $sql = "SELECT * 
           FROM `sensor_data` 
