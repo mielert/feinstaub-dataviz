@@ -2,7 +2,7 @@
 include_once("library.php");
 
 $city_id = 1;
-$filename_cronological_simple = $data_root."chronological_city_$city_id.tsv";
+$filename_cronological = $data_root."chronological_city_$city_id.tsv";
 
 $districts = db_select("SELECT * FROM `districts`");
 
@@ -17,37 +17,23 @@ function cleanup_string($string){
  *
  */
 function header_complete($districts){
-	$data = "timestamp";
-	foreach($districts as $dataset){
-		$data.="	P1h_".cleanup_string($dataset->name)."	P1floating_".cleanup_string($dataset->name)."	P2h_".cleanup_string($dataset->name)."	P2floating_".cleanup_string($dataset->name);
-	}
-	return $data;
-}
-/**
- *
- */
-function header_simple($districts){
-	$data = "timestamp";
-	foreach($districts as $dataset){
-		$data.="	P1floating_".cleanup_string($dataset->name);
-	}
+	$data = "timestamp	num_sensors	num_values	P1high	P1low	P1mid	P1highmain	P1lowmain	P1highSensorId	P1lowSensorId	P1floating	P2high	P2low	P2mid	P2highmain	P2lowmain	P2highSensorId	P2lowSensorId	P2floating";
 	return $data;
 }
 
-$data_complete = "";
-$data_simple = "";
+$data = "";
 
-if(!file_exists($filename_cronological_complete)){
-	$data_complete = header_complete($districts);
+if(!file_exists($filename_cronological)){
+	$data_complete = header_complete();
 	// get min dataset from db
-	$sql = "SELECT * FROM `districts_mean` ORDER BY `districts_mean`.`timestamp` ASC LIMIT 1";
+	$sql = "SELECT * FROM `cities_mean` ORDER BY `cities_mean`.`timestamp` WHERE `city_id` = $city_id ASC LIMIT 1";
 	$start = db_select($sql);
 	$start = strtotime($start[0]->timestamp);
 }
 else{
 	// get max dataset
 	// cast as min dataset
-	$file = escapeshellarg($filename_cronological_complete); // for the security concious (should be everyone!)
+	$file = escapeshellarg($filename_cronological); // for the security concious (should be everyone!)
 	$line = `tail -n 1 $file`;
 	echo $line."\n";
 	$line = explode("	",$line);
@@ -59,13 +45,7 @@ else{
 	echo $start."\n";
 }
 
-if(!file_exists($filename_cronological_simple))
-	$data_simple = header_simple($districts);
-else{
-
-}
-
-$sql = "SELECT * FROM `districts_mean` ORDER BY `districts_mean`.`timestamp` DESC LIMIT 1";
+$sql = "SELECT * FROM `cities_mean` ORDER BY `cities_mean`.`timestamp` WHERE `city_id` = $city_id DESC LIMIT 1";
 $stop = db_select($sql);
 $stop = $stop[0]->timestamp;
 $stop = strtotime($stop);
@@ -75,36 +55,20 @@ $timestamp = $start;
 $max = 100;
 $j = 0;
 while($timestamp <= $stop){
-	$data_complete.="\n".date("YmdHis",$timestamp);
-	$data_simple.="\n".date("YmdHis",$timestamp);
+	$data.="\n".date("YmdHis",$timestamp);
 	
-	$sql = "SELECT * FROM `districts_mean` WHERE `timestamp` = '".date("Y-m-d H:i:s",$timestamp)."' ORDER BY `district_id`";
-	$results = db_select($sql);
-	$values = array();
-	foreach($results as $result){
-		$values[$result->district_id] = array("P1h"=>$result->P1h,"P1d"=>$result->P1d,"P2h"=>$result->P2h,"P2d"=>$result->P2d);
-	}
-	for($i=1;$i<=23;$i++){
-		if(isset($values[$i])){
-			$data_complete.= "	".$values[$i]["P1h"]."	".$values[$i]["P1d"]."	".$values[$i]["P2h"]."	".$values[$i]["P2d"];
-			$data_simple.= "	".$values[$i]["P1d"];
-		}
-		else{
-			$data_complete.= "	-1	-1	-1	-1";
-			$data_simple.= "	-1";
-		}
-	}
+	$sql = "SELECT * FROM `cities_mean` WHERE `timestamp` = '".date("Y-m-d H:i:s",$timestamp)."' AND `city_id` = $city_id";
+	$results = debug_query($sql);
+
 	
 	$timestamp = strtotime(date("Y-m-d H:i:s",$timestamp)." + 1 hours");
 	$j++;
 	if($j>$max) break;
 }
 
-echo $data_simple;
+echo $data;
 	
-file_put_contents($filename_cronological_complete, $data_complete, FILE_APPEND | LOCK_EX);
-//file_put_contents($filename_cronological_complete, $data_complete);
-file_put_contents($filename_cronological_simple, $data_simple, FILE_APPEND | LOCK_EX);
+//file_put_contents($filename_cronological, $data, FILE_APPEND | LOCK_EX);
 
 
 
