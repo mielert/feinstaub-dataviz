@@ -47,10 +47,8 @@ $sql = "SELECT *
 $result = db_select($sql);
 
 $statistics = get_min_max_mid($result);
-
-
-
-$statistics["timestamp"] = 
+$result = db_select("SELECT DATE_ADD('".substr($starttime,0,13).":00:00',INTERVAL 1 HOUR) AS timestamp");
+$statistics["timestamp"] = $result[0]->timestamp;
 echo "<pre>".print_r($statistics,true)."</pre>";
 
   
