@@ -58,8 +58,8 @@ debug_query($sql);
 $sql = "SELECT MID(P1h) AS P1d, MID(P2h) AS P2d
         FROM `cities_mean` 
         WHERE `city_id` = $city_id)
-        AND `timestamp` >  '".substr($starttime,0,13).":00:00'
-        AND `timestamp` <= DATE_ADD('".substr($starttime,0,13).":00:00',INTERVAL 1 DAY)";
+        AND `timestamp` >  DATE_ADD(DATE_ADD('".substr($starttime,0,13).":00:00',INTERVAL -1 DAY),INTERVAL 1 HOUR)
+        AND `timestamp` <= DATE_ADD('".substr($starttime,0,13).":00:00',INTERVAL 1 HOUR)";
 $result = debug_query($sql);
   
   
