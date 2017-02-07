@@ -32,6 +32,6 @@ if(!$starttime){
   exit;
 }
 // get district data
-$sql = "SELECT * FROM `districts_mean` WHERE `district_id` IN (SELECT `id` FROM `districts` WHERE `city_id` = $city_id) AND `timestamp` = '$starttime'";
+$sql = "SELECT * FROM `districts_mean` WHERE `district_id` IN (SELECT `id` FROM `districts` WHERE `city_id` = $city_id) AND `timestamp` = '".substr($starttime,0,13).":00:00'";
 debug_query($sql);
 ?>
