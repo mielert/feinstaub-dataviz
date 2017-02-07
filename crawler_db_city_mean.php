@@ -32,6 +32,17 @@ if(!$starttime){
   exit;
 }
 // get district data
-$sql = "SELECT * FROM `districts_mean` WHERE `district_id` IN (SELECT `id` FROM `districts` WHERE `city_id` = $city_id) AND `timestamp` = '".substr($starttime,0,13).":00:00'";
+$sql = "SELECT MIN(`timestamp`) AS timestamp 
+          FROM `sensor_data` 
+          WHERE `lon` IN (SELECT `lon` 
+                          FROM `districts`
+                          LEFT JOIN `x_coordinates_districts` ON `x_coordinates_districts`.`district_id` = `districts`.`id`
+                          WHERE `districts`.`city_id` = $city_id)
+          AND `lat` IN (SELECT `lat` 
+                          FROM `districts`
+                          LEFT JOIN `x_coordinates_districts` ON `x_coordinates_districts`.`district_id` = `districts`.`id`
+                          WHERE `districts`.`city_id` = $city_id)
+          AND `sensor_data`.`timestamp` >  '".substr($starttime,0,13).":00:00'
+          AND `sensor_data`.`timestamp` <= DATE_ADD('".substr($starttime,0,13).":00:00',INTERVAL 1 HOUR)";
 debug_query($sql);
 ?>
