@@ -29,7 +29,9 @@ echo $starttime."<br/>";
 
 echo "looking for sensors without district<br/>";
 
-$sql = "SELECT DISTINCT `sensors_hourly_mean`.`lon`,
+$sql = "
+SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));
+SELECT DISTINCT `sensors_hourly_mean`.`lon`,
 						`sensors_hourly_mean`.`lat`,
 						`district_id`
 		FROM `sensors_hourly_mean`
