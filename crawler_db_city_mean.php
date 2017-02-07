@@ -28,9 +28,10 @@ else{
   $starttime = $result[0]->timestamp;
 }
 if(!$starttime){
-  echo "no start time because of empty table districts_mean at city_id = $city_id";
+  echo "no start time because of empty table sensor_data at city_id = $city_id";
   exit;
 }
+else echo "start time of city_id = $city_id = $starttime";
 // get sensor data
 $sql = "SELECT * 
           FROM `sensor_data` 
