@@ -62,7 +62,7 @@ $sql = "SELECT AVG(P1h) AS P1d, AVG(P2h) AS P2d
         AND `timestamp` <= DATE_ADD('".substr($starttime,0,13).":00:00',INTERVAL 1 HOUR)";
 $result = debug_query($sql);
 $sql = "UPDATE `cities_mean` SET `P1d` = ".$result[0]->P1d.", `P2d` = ".$result[0]->P2d." WHERE `city_id` = $city_id AND `timestamp` <= DATE_ADD('".substr($starttime,0,13).":00:00',INTERVAL 1 HOUR)";
-echo $sql;
+debug_query($sql);
 /**
  *
  */
