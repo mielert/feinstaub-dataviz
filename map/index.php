@@ -160,10 +160,10 @@ include_once("../library.php");
 						</label><br/>
 						  Datenbasis für Bezirke
 						  <select id="data-source" class="form-control">
-							<option value="P10floating">P10 – 24h-Mittelwert</option>
-							<option value="P10" selected="selected">P10 – aktuelles Stundenmittel</option>
-							<option value="P25floating">P2.5 – 24h-Mittelwert</option>
-							<option value="P25">P2.5 – aktuelles Stundenmittel</option>
+							<option value="PM10floating">PM10 – 24h-Mittelwert</option>
+							<option value="PM10" selected="selected">PM10 – aktuelles Stundenmittel</option>
+							<option value="PM25floating">PM2.5 – 24h-Mittelwert</option>
+							<option value="PM25">PM2.5 – aktuelles Stundenmittel</option>
 						  </select>
 						</label>
 					</form>
@@ -334,10 +334,10 @@ function interaction_hover(e){
 						districts_crossed.push(feature.get("name"));
 						district = "<strong>"+feature.get("name")+"</strong><br/>";
 						if(feature.get("Num_Sensors")>0){
-							district+="Median P10: "+Math.round(feature.get("P1"))+" µg/m³<br/>";
-							district+="24h-Mittel P10: "+Math.round(feature.get("P1floating"))+" µg/m³<br/>";
-							district+="Median P2.5: "+Math.round(feature.get("P2"))+" µg/m³<br/>";
-							district+="24h-Mittel P2.5: "+Math.round(feature.get("P2floating"))+" µg/m³<br/>";
+							district+="Median PM10: "+Math.round(feature.get("P1"))+" µg/m³<br/>";
+							district+="24h-Mittel PM10: "+Math.round(feature.get("P1floating"))+" µg/m³<br/>";
+							district+="Median PM2.5: "+Math.round(feature.get("P2"))+" µg/m³<br/>";
+							district+="24h-Mittel PM2.5: "+Math.round(feature.get("P2floating"))+" µg/m³<br/>";
 							district+="("+feature.get("Num_Sensors")+" Sensor[en]: "+feature.get("Sensor_IDs")+")";
 						}
 						else{
