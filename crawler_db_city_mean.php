@@ -51,12 +51,12 @@ $statistics = get_min_max_mid($result);
 $result = db_select("SELECT DATE_ADD('".substr($starttime,0,13).":00:00',INTERVAL 1 HOUR) AS timestamp");
 $statistics["timestamp"] = $result[0]->timestamp;
 echo "<pre>".print_r($statistics,true)."</pre>";
-$sql = "INSERT INTO `city_mean` (`id`, `city_id`, `timestamp`, `P1h`, `P2h`, `P1d`, `P2d`, `P1h_min`, `P1h_max`, `P2h_min`, `P2h_max`, `P1h_50_min`, `P1h_50_max`, `P2h_50_min`, `P2h_50_max`, `P1min_sensor_id`, `P1max_sensor_id`, `P2min_sensor_id`, `P2max_sensor_id`)
-        VALUES (NULL, '$city_id', '".$statistics["timestamp"]."', '".$statistics["P1"]["mid"]."', '".$statistics["P2"]["mid"]."', 0, 0, '".$statistics["P1"]["min"]."', '".$statistics["P1"]["max"]."', '".$statistics["P2"]["min"]."', '".$statistics["P2"]["max"]."', '".$statistics["P1"]["max_main"]."', '".$statistics["P1"]["min_main"]."', '".$statistics["P2"]["max_main"]."', '".$statistics["P2"]["min_main"]."', '".$statistics["P1"]["min_sensor_id"]."', '".$statistics["P1"]["max_sensor_id"]."', '".$statistics["P2"]["min_sensor_id"]."', '".$statistics["P2"]["max_sensor_id"]."')";
+$sql = "INSERT INTO `cities_mean` (`id`, `city_id`, `timestamp`, `P1h`, `P2h`, `P1d`, `P2d`, `P1h_min`, `P1h_max`, `P2h_min`, `P2h_max`, `P1h_50_min`, `P1h_50_max`, `P2h_50_min`, `P2h_50_max`, `P1min_sensor_id`, `P1max_sensor_id`, `P2min_sensor_id`, `P2max_sensor_id`, `num_sensors`, `num_values`)
+        VALUES (NULL, '$city_id', '".$statistics["timestamp"]."', '".$statistics["P1"]["mid"]."', '".$statistics["P2"]["mid"]."', 0, 0, '".$statistics["P1"]["min"]."', '".$statistics["P1"]["max"]."', '".$statistics["P2"]["min"]."', '".$statistics["P2"]["max"]."', '".$statistics["P1"]["max_main"]."', '".$statistics["P1"]["min_main"]."', '".$statistics["P2"]["max_main"]."', '".$statistics["P2"]["min_main"]."', '".$statistics["P1"]["min_sensor_id"]."', '".$statistics["P1"]["max_sensor_id"]."', '".$statistics["P2"]["min_sensor_id"]."', '".$statistics["P2"]["max_sensor_id"]."', ".$statistics["P2"]["num_sensors"].", ".$statistics["P2"]["num_values"].")";
 echo $sql;
 // add 24h floating
 $sql = "SELECT MID(P1h) AS P1d, MID(P2h) AS P2d
-        FROM `city_mean` 
+        FROM `cities_mean` 
         WHERE `city_id` = $city_id)
         AND `timestamp` >  '".substr($starttime,0,13).":00:00'
         AND `timestamp` <= DATE_ADD('".substr($starttime,0,13).":00:00',INTERVAL 1 DAY)";
