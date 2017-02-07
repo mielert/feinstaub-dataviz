@@ -43,7 +43,7 @@ if(!$starttime){
 }
 else {
   echo "start time of city_id = $city_id = $starttime";
-  $sql = "SELECT DATE_ADD(MAX(timestamp), INTERVAL -1 HOUR) FROM `sensor_data`)";
+  $sql = "SELECT DATE_ADD(MAX(timestamp), INTERVAL -1 HOUR) FROM `sensor_data`";
   $result = debug_query($sql);
   $endtime = $result[0]->timestamp;
   if($starttime > $endtime) {
