@@ -565,7 +565,7 @@ d3.tsv("<?php echo $data_url; ?>/chronological_city_1.tsv", function(error, data
 	$("#timestamp").html(versionTimeFormat(d3.max(data, function(d) { return d.timestamp; })));
   xScale.domain(d3.extent(data, function(d) { return d.timestamp; }));
   //y.domain([d3.min(data, function(d) { return d.P2low; }), d3.max(data, function(d) { return d.P1high; })]);
-  yScale.domain([0, d3.max(data, function(d) { return d.P1high; })]);
+  yScale.domain([0, d3.max(data, function(d) { return d.P1mid; })*1.5]);
   //y.domain([d3.min(data, function(d) { return 0; }), d3.max(data, function(d) { return 250; })]);
 
 // official data
