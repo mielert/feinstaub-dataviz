@@ -47,7 +47,8 @@ else {
   $result = debug_query($sql);
   $endtime = $result[0]->timestamp;
   if($starttime > $endtime) {
-    echo "nothing to do";
+    echo "$starttime > $endtime ";
+    echo "nothing to do ";
     exit;
   }
 }
