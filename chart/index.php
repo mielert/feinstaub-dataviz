@@ -29,18 +29,18 @@ include_once("../library.php");
     add zoom
     P10/P2.5 Switch
     Hover for LUBW
-		- reduce size (786KB)
-		
-		2.8.0
-		mobile friendly
-		
-		2.7.0
-		corporate design
-		resizable
-		
-		2.6.0
-		non-public version
-		ranking removed
+	- reduce size (786KB)
+
+	2.8.0
+	mobile friendly
+
+	2.7.0
+	corporate design
+	resizable
+
+	2.6.0
+	non-public version
+	ranking removed
 
     2.5.0
     improved geofilter
@@ -559,19 +559,13 @@ d3.tsv("<?php echo $data_url; ?>/chronological_city_1.tsv", function(error, data
     d.P2lowSensorId = +d.P2lowSensorId;
     d.P1floating = +d.P1floating;
     d.P2floating = +d.P2floating;
-    d.P1_231 = +d.P1_231;
-    d.P2_231 = +d.P2_231;
-    d.P1_217 = +d.P1_217;
-    d.P2_217 = +d.P2_217;
-    d.P1_50 = +d.P1_50;
-    d.P2_50 = +d.P2_50;
   });
   // var parseDate = d3.timeParse("%Y%m%d%H%M%S");
 
 	$("#timestamp").html(versionTimeFormat(d3.max(data, function(d) { return d.timestamp; })));
   xScale.domain(d3.extent(data, function(d) { return d.timestamp; }));
   //y.domain([d3.min(data, function(d) { return d.P2low; }), d3.max(data, function(d) { return d.P1high; })]);
-  yScale.domain([0, d3.max(data, function(d) { return d.P1mid; })*1.5]);
+  yScale.domain([0, d3.max(data, function(d) { return d.P1high; })]);
   //y.domain([d3.min(data, function(d) { return 0; }), d3.max(data, function(d) { return 250; })]);
 
 // official data
