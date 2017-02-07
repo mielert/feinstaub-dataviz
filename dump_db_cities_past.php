@@ -70,9 +70,9 @@ while($timestamp <= $stop){
 
 echo $data;
 
-file_put_contents($filename_cronological, $data, FILE_APPEND | LOCK_EX);
+$result = file_put_contents($filename_cronological, $data, FILE_APPEND | LOCK_EX);
 
-
+print_r($result);
 
 
 ?>
