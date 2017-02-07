@@ -402,7 +402,7 @@ function data_to_db($data){
 
 		}
 		$sql = join(",",$sql);
-		$sql = "INSERT INTO `sensors` (`id`, `sensor_id`, `lon`, `lat`, `timestamp`, `P1`, `P2`) VALUES ".$sql." ON DUPLICATE KEY UPDATE `P1` = Values(`P1`), `P2` = Values(`P2`)";
+		$sql = "INSERT INTO `sensor_data` (`id`, `sensor_id`, `lon`, `lat`, `timestamp`, `P1`, `P2`) VALUES ".$sql." ON DUPLICATE KEY UPDATE `P1` = Values(`P1`), `P2` = Values(`P2`)";
         // aus cvs2db:
         // $sql = "INSERT INTO `sensors` (`id`, `sensor_id`, `lon`, `lat`, `timestamp`, `P1`, `P2`) VALUES ".$sql." ON DUPLICATE KEY UPDATE";
         //mail("fritz.mielert@gmx.de","SQL Sensor Data",$sql);
