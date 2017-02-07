@@ -535,7 +535,7 @@ function append_lubw(){
 }
 
 function append_data(){
-d3.tsv("<?php echo $data_url; ?>/data.tsv", function(error, data) {
+d3.tsv("<?php echo $data_url; ?>/chronological_city_1.tsv", function(error, data) {
   if (error) throw error;
 
   data.forEach(function(d) {
