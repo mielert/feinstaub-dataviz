@@ -46,7 +46,13 @@ $sql = "SELECT *
           AND `sensor_data`.`timestamp` <= DATE_ADD('".substr($starttime,0,13).":00:00',INTERVAL 1 HOUR)";
 $result = db_select($sql);
 
-print_r(get_min_max_mid($result));
+$statistics = get_min_max_mid($result);
+
+
+
+$statistics["timestamp"] = 
+echo "<pre>".print_r($statistics,true)."</pre>";
+
   
   
 /**
@@ -55,7 +61,7 @@ print_r(get_min_max_mid($result));
 function get_min_max_mid($data){
     //echo "get_min_max_mid";
     $statistics = array("timestamp"=>0,
-                        "num_sensors"=>0,
+                        "num_sensors"=>array(),
                         "num_values"=>0,
                         "P1"=>array("min"=>1000000,
                                     "max"=>0,
@@ -78,29 +84,33 @@ function get_min_max_mid($data){
     $p2 = array();
     $timestamps = array();
     foreach($data as $dataset){
-        array_push($timestamps,$dataset->timestamp);
-        echo "<pre>".print_r($dataset,true)."</pre>";
-        if($dataset->P1 < $statistics["P1"]["min"]) {
-          $statistics["P1"]["min"] = floatval($dataset->P1);
-          $statistics["P1"]["min_sensor_id"] = intval($dataset->sensor_id);
-        }
-        if($dataset->P1 > $statistics["P1"]["max"]) {
-          $statistics["P1"]["max"] = floatval($dataset->P1);
-          $statistics["P1"]["max_sensor_id"] = intval($dataset->sensor_id);
-        }
-        array_push($p1,floatval($dataset->P1));
-        if($dataset->P2 < $statistics["P2"]["min"]) {
-          $statistics["P2"]["min"] = floatval($dataset->P2);
-          $statistics["P2"]["min_sensor_id"] = intval($dataset->sensor_id);
-        }
-        if($dataset->P2 > $statistics["P2"]["max"]) {
-          $statistics["P2"]["max"] = floatval($dataset->P2);
-          $statistics["P2"]["max_sensor_id"] = intval($dataset->sensor_id);
-        }
-        array_push($p2,floatval($dataset->P2));
+      array_push($timestamps,$dataset->timestamp);
+      echo "<pre>".print_r($dataset,true)."</pre>";
+      if($dataset->P1 < $statistics["P1"]["min"]) {
+        $statistics["P1"]["min"] = floatval($dataset->P1);
+        $statistics["P1"]["min_sensor_id"] = intval($dataset->sensor_id);
+      }
+      if($dataset->P1 > $statistics["P1"]["max"]) {
+        $statistics["P1"]["max"] = floatval($dataset->P1);
+        $statistics["P1"]["max_sensor_id"] = intval($dataset->sensor_id);
+      }
+      array_push($p1,floatval($dataset->P1));
+      if($dataset->P2 < $statistics["P2"]["min"]) {
+        $statistics["P2"]["min"] = floatval($dataset->P2);
+        $statistics["P2"]["min_sensor_id"] = intval($dataset->sensor_id);
+      }
+      if($dataset->P2 > $statistics["P2"]["max"]) {
+        $statistics["P2"]["max"] = floatval($dataset->P2);
+        $statistics["P2"]["max_sensor_id"] = intval($dataset->sensor_id);
+      }
+      array_push($p2,floatval($dataset->P2));
+      if(!in_array($dataset->sensor_id, $statistics["num_sensors"]){
+        array_push($statistics["num_sensors"],$dataset->sensor_id);
+      }
     }
     $statistics["timestamp"] = array_median($timestamps);
     $statistics["num_values"] = count($data);
+    $statistics["num_sensors"] = count($statistics["num_sensors"]);
     $statistics["P1"]["mid"] = array_median($p1);
     $statistics["P2"]["mid"] = array_median($p2);
     $mainSectorP1 = array_main_sector($p1);
