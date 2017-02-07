@@ -24,7 +24,7 @@ function header_complete($districts){
 $data = "";
 
 if(!file_exists($filename_cronological)){
-	$data_complete = header_complete();
+	$data = header_complete();
 	// get min dataset from db
 	$sql = "SELECT MIN(`timestamp`) AS timestamp FROM `cities_mean` WHERE `city_id` = $city_id LIMIT 1";
 	$start = debug_query($sql);
