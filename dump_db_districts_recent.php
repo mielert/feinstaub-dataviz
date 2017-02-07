@@ -2,7 +2,8 @@
 include_once("library.php");
 
 // read geodata
-include_once($data_root."stuttgart_with_data.php");
+include_once($data_root."stuttgart.php");
+$coordinates_stuttgart = get_city_geodata();
 
 /**
  *
