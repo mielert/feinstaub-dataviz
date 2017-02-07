@@ -100,7 +100,7 @@ function get_min_max_mid($data){
         array_push($p2,floatval($dataset->P2));
     }
     $statistics["timestamp"] = array_median($timestamps);
-    $statistics["num_sensors"] = count($data);
+    $statistics["num_values"] = count($data);
     $statistics["P1"]["mid"] = array_median($p1);
     $statistics["P2"]["mid"] = array_median($p2);
     $mainSectorP1 = array_main_sector($p1);
