@@ -12,15 +12,13 @@ if($result[0]->timestamp == "") {
   $sql = "SELECT MIN(`timestamp`) AS timestamp 
           FROM `sensor_data` 
           WHERE `lon` IN (SELECT `lon` 
-                          FROM `cities`
-                          LEFT JOIN `districts` ON `districts`.`city_id` = `cities`.`id`
+                          FROM `districts`
                           LEFT JOIN `x_coordinates_districts` ON `x_coordinates_districts`.`district_id` = `districts`.`id`
-                          WHERE `city_id` = $city_id)
+                          WHERE `districts`.`city_id` = $city_id)
           AND `lat` IN (SELECT `lat` 
-                          FROM `cities`
-                          LEFT JOIN `districts` ON `districts`.`city_id` = `cities`.`id`
+                          FROM `districts`
                           LEFT JOIN `x_coordinates_districts` ON `x_coordinates_districts`.`district_id` = `districts`.`id`
-                          WHERE `city_id` = $city_id)";
+                          WHERE `districts`.`city_id` = $city_id)";
   $result = debug_query($sql);
   $starttime = $result[0]->timestamp;
 }
