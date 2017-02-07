@@ -31,8 +31,8 @@ if(!$starttime){
   echo "no start time because of empty table districts_mean at city_id = $city_id";
   exit;
 }
-// get district data
-$sql = "SELECT MIN(`timestamp`) AS timestamp 
+// get sensor data
+$sql = "SELECT * 
           FROM `sensor_data` 
           WHERE `lon` IN (SELECT `lon` 
                           FROM `districts`
