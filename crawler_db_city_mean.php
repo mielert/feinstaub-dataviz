@@ -55,7 +55,7 @@ $sql = "INSERT INTO `cities_mean` (`id`, `city_id`, `timestamp`, `P1h`, `P2h`, `
         VALUES (NULL, '$city_id', '".$statistics["timestamp"]."', '".$statistics["P1"]["mid"]."', '".$statistics["P2"]["mid"]."', 0, 0, '".$statistics["P1"]["min"]."', '".$statistics["P1"]["max"]."', '".$statistics["P2"]["min"]."', '".$statistics["P2"]["max"]."', '".$statistics["P1"]["max_main"]."', '".$statistics["P1"]["min_main"]."', '".$statistics["P2"]["max_main"]."', '".$statistics["P2"]["min_main"]."', '".$statistics["P1"]["min_sensor_id"]."', '".$statistics["P1"]["max_sensor_id"]."', '".$statistics["P2"]["min_sensor_id"]."', '".$statistics["P2"]["max_sensor_id"]."', ".$statistics["num_sensors"].", ".$statistics["num_values"].")";
 debug_query($sql);
 // add 24h floating
-$sql = "SELECT MID(P1h) AS P1d, MID(P2h) AS P2d
+$sql = "SELECT AVG(P1h) AS P1d, AVG(P2h) AS P2d
         FROM `cities_mean` 
         WHERE `city_id` = $city_id
         AND `timestamp` >  DATE_ADD(DATE_ADD('".substr($starttime,0,13).":00:00',INTERVAL -1 DAY),INTERVAL 1 HOUR)
