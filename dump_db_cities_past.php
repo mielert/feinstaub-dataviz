@@ -27,7 +27,7 @@ if(!file_exists($filename_cronological)){
 	$data_complete = header_complete();
 	// get min dataset from db
 	$sql = "SELECT * FROM `cities_mean` ORDER BY `cities_mean`.`timestamp` WHERE `city_id` = $city_id ASC LIMIT 1";
-	$start = db_select($sql);
+	$start = debug_query($sql);
 	$start = strtotime($start[0]->timestamp);
 }
 else{
@@ -46,7 +46,7 @@ else{
 }
 
 $sql = "SELECT * FROM `cities_mean` ORDER BY `cities_mean`.`timestamp` WHERE `city_id` = $city_id DESC LIMIT 1";
-$stop = db_select($sql);
+$stop = debug_query($sql);
 $stop = $stop[0]->timestamp;
 $stop = strtotime($stop);
 
