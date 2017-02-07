@@ -25,7 +25,7 @@ else $startdate = strtotime("2016-12-27 00:00:00");
 $sensorsearchdate = $startdate;
 do {
 	$sql = "SELECT DISTINCT `sensor_id`,`lon`,`lat`
-			FROM `sensors`
+			FROM `sensor_data`
 			WHERE `lon` <> 0
 			AND `lat` <> 0
 			AND `timestamp` > '".date('Y-m-d H:i:s', $sensorsearchdate-60*60)."'
@@ -43,7 +43,7 @@ $startdate = $sensorsearchdate-=60*60;
 foreach($results as $result){
 	// hourly
 	$sql1 = "SELECT avg(P1) AS P1, avg(P2) AS P2
-			FROM sensors
+			FROM sensor_data
 			WHERE `sensor_id` = ".$result->sensor_id."
 			AND `lon` = ".$result->lon."
 			AND `lat` = ".$result->lat."
@@ -76,7 +76,7 @@ foreach($results as $result){
 	//break;
 }
 
-$sql = "SELECT MAX(`timestamp`) AS timestamp FROM `sensors`";
+$sql = "SELECT MAX(`timestamp`) AS timestamp FROM `sensor_data`";
 $results = db_select($sql);
 $stop = $results[0]->timestamp;
 
