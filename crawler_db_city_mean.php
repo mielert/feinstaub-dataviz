@@ -102,9 +102,7 @@ function get_min_max_mid($data){
         $statistics["P2"]["max_sensor_id"] = intval($dataset->sensor_id);
       }
       array_push($p2,floatval($dataset->P2));
-      if(!in_array($dataset->sensor_id, $statistics["num_sensors"]){
-        echo gettype($statistics["num_sensors"]);
-        exit;
+      if(!in_array($dataset->sensor_id, $statistics["num_sensors"])){
         array_push($statistics["num_sensors"],$dataset->sensor_id);
       }
     }
