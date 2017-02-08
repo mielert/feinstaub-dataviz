@@ -28,7 +28,7 @@
 			<h3>Was sehe ich hier?</h3>
 			<div>
 <?php if($_GET["context"]=="chart") { ?>
-				<p>Im Diagramm werden die Messdaten, die die einzelnen Sensoren zu luftdaten.info geschickt haben, mathematisch und grafisch aufbereitet und mit offiziellen Daten der LUBW überlagert. Dabei werden nur Sensoren bedacht, die einerseits im Stadtgebiet aufgestellt sind und andererseits von einem bestimmten Typ sind (SDS011 des Herstellers Nova). Die Daten von luftdaten.info als <a href="https://de.wikipedia.org/wiki/Median" target="_blank">Median</a> jeweils einer Stunde (durchgezogene Linie) und als 24-Stunden-Mittel aus diesem Median dargestellt (gestrichelte Linie). Mit dem 24-Stunden-Mittel soll eine Vergleichbarkeit mit den offiziellen Werten sicherstellen werden.</p>
+				<p>Im Diagramm werden die Messdaten, die die einzelnen Sensoren zu luftdaten.info geschickt haben, mathematisch und grafisch aufbereitet und mit offiziellen Daten der LUBW überlagert. Dabei werden nur Sensoren bedacht, die einerseits im Stadtgebiet aufgestellt sind und andererseits von einem bestimmten Typ sind (SDS011 des Herstellers Nova). Die Daten von luftdaten.info als <a href="https://de.wikipedia.org/wiki/Median" target="_blank">Median</a> jeweils einer Stunde (durchgezogene Linie) und als 24-Stunden-Mittel (gleitender Mittelwert) aus diesem Median dargestellt (gestrichelte Linie). Mit dem 24-Stunden-Mittel soll eine Vergleichbarkeit mit den offiziellen Werten sicherstellen werden.</p>
 				<p>Wenn die Streuung eingeblendet ist, zeigt die helle Fläche die komplette Streubreite der Messungen. Etwas dunkler ist der Bereich gehalten, in dem sich die mittleren 50% aller Messwerte befinden.</p>
 				<p>Die Zahlen, die zu sehen sind, wenn sich die Maus über dem Diagramm befindet, sind folgendermaßen zu interpretieren:<br/>
 				Beispiel: PM10: 65.5 µg/m³ (35.7 [S211] - 97.6 [S231]); ganz unten: 15.11., 07:17, 135 Werte<br/>
@@ -37,10 +37,11 @@
 <?php if($_GET["context"]=="map") { ?>
 				<p>Die Karte zeigt beim Laden die aktuelle Belastung in Stuttgart mit PM10-Feinstaubpartikeln. Die Flächen sind die 23 Stuttgarter Stadtbezirke, die Kreise stellen die momentan aktiven Sensoren dar. In den einzelnen Bezirken wird der Median aus den Sensorwerten des jeweiligen Bezirks gebildet. Eingefärbt sind die Bezirke und Sensoren nach dem Air Quality Index.</p>
 				<p>Über die Einstellungen können Karte und Sensoren anhand einer anderen Farbskala eingefärbt und die Datengrundlage geändert werden.</p>
+				<p>Befindet sich der Mauszeiger über einem Bezirk, werden dessen Werte angezeigt. Über einem Sensor tauchen zusätzlich dessen Werte auf. Ein Klick auf einen Sensor öffnet weitere Auswertungen auf einem anderen Server.</p>
 <?php } ?>
 <?php if($_GET["context"]=="districts") { ?>
 				<p>Die Kurven zeigen PM10-Feinstaubmessungen aus den Stuttgarter Stadtbezirken, die im Rahmen eines Projekts vom OK Lab Stuttgart vorgenommen wurden.</p>
-				<p>Jede Kurve zeigt an jeder Stelle die über die vergangenen 24 Stunden geglättete Werte aus dem entsprechenden Bezirk. Dafür wird jeweils der Median zwischen den aktiven Sensoren und anschließend das arithmetische Mittel über 24 Stunden gebildet.</p>
+				<p>Jede Kurve zeigt an jeder Stelle die über die vergangenen 24 Stunden geglättete Werte aus dem entsprechenden Bezirk. Dafür wird jeweils der Median zwischen den aktiven Sensoren und anschließend das arithmetische Mittel über 24 Stunden gebildet (gleitender Mittelwert).</p>
 				<p>Die eingeblendete Karte zeigt die Feinstaubbelastung in den jeweiligen Stadtbezirken zu einem bestimmten Zeitpunkt.</p>
 				<p>Das Diagramm reagiert auf Mausbewegungen, kann vergrößert und verschoben werden.</p>
 <?php } ?>
