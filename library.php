@@ -196,6 +196,7 @@ function point_in_poylgon($lon,$lat,$polygon){
  */
 function db_select($sql){
 	$mysqli = db_connect();
+	$mysqli->query("SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''))");
     $rows = Array();
     if ($result = $mysqli->query($sql)) {
 		while ($row = $result->fetch_object()) {
