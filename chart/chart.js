@@ -236,48 +236,6 @@ append_lubw();
       .attr("id", "line2")
       .attr("class", "P2")
       .attr("d", line2);
-
-  graph.append("path")
-      .datum(data)
-      .attr("id", "line231p1")
-      .attr("style", "display: none;")
-      .attr("class", "s231")
-      .attr("d", line231p1);
-
-  graph.append("path")
-      .datum(data)
-      .attr("id", "line231p2")
-      .attr("style", "display: none;")
-      .attr("class", "s231")
-      .attr("d", line231p2);
-      
-  graph.append("path")
-      .datum(data)
-      .attr("id", "line217p1")
-      .attr("style", "display: none;")
-      .attr("class", "s217")
-      .attr("d", line217p1);
-
-  graph.append("path")
-      .datum(data)
-      .attr("id", "line217p2")
-      .attr("style", "display: none;")
-      .attr("class", "s217")
-      .attr("d", line217p2);
-      
-  graph.append("path")
-      .datum(data)
-      .attr("id", "line50p1")
-      .attr("style", "display: none;")
-      .attr("class", "s50")
-      .attr("d", line50p1);
-
-  graph.append("path")
-      .datum(data)
-      .attr("id", "line50p2")
-      .attr("style", "display: none;")
-      .attr("class", "s50")
-      .attr("d", line50p2);
       
   graph.append("path")
       .datum(data)
