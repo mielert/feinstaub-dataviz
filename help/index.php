@@ -58,9 +58,9 @@
 				<p><strong>Air Quality Index (USA)</strong>
 <table style="text-align:left;font-size: 100%;">
 <tbody><tr align="center">
-<td><b>PM<sub>2.5</sub> (µg/m<sup>3</sup>)</b></td>
-<td><b>PM<sub>10</sub> (µg/m<sup>3</sup>)</b></td>
-<td><b>AQI</b></td>
+<td><strong>PM<sub>2.5</sub> (µg/m<sup>3</sup>)</strong></td>
+<td><strong>PM<sub>10</sub> (µg/m<sup>3</sup>)</strong></td>
+<td><strong>AQI</strong></td>
 </tr>
 <tr align="center">
 <td>0.0-12.0</td>
@@ -93,12 +93,13 @@
 <td style="background:#7e0023; color:#fff;">gesundheitsgefährdend</td>
 </tr>
 </tbody></table>
-				Angaben gelten jeweils für ein 24-Stunden-Mittel.
+				Angaben gelten jeweils für ein 24-Stunden-Mittel.<br/>
+				Quelle: <a href="https://en.wikipedia.org/wiki/Air_quality_index#Computing_the_AQI" target="_blank">Wikipedia</a>
 				</p>
 				<p><strong>Kurzzeit-Luftqualitätsindex LuQx</strong>
 <table style="text-align:left;font-size: 100%;">
 <tr align="center">
-<td><strong>PM10<br>24-h-MW<br>(µg/m<sup>3</sup>)</strong></td>
+<td><strong>PM<sub>10</sub> (µg/m<sup>3</sup>)</strong></td>
 <td><strong>LuQx<br>Index-<br>wert</strong></td>
 <td><strong>LuQx<br>Note</strong></td>
 <td><strong>Bewertung</strong></td></tr><tbody>
@@ -132,9 +133,8 @@
 <td style="background-color: #ff3434">&gt; 5,4</td>
 <td style="background-color: #ff3434">6</td>
 <td style="background-color: #ff3434">sehr schlecht</td></tr></tbody></table>
-
-
-				
+				Angaben gelten jeweils für ein 24-Stunden-Mittel.<br/>
+				Quelle: <a href="http://www4.lubw.baden-wuerttemberg.de/servlet/is/20152/" target="_blank">LUBW</a>
 				</p>
 			</div>
 			<h3>Sind die Messwerte mit denen der Landesanstalt vergleichbar?</h3>
