@@ -156,6 +156,7 @@ include_once("../library.php");
 						  <select id="color-mode" class="form-control">
 							<option value="AQI" selected="selected">Air Quality Index</option>
 							<option value="GreenRedPink">Grün-Rot-Pink</option>
+							<option value="LuQx">Kurzzeit-Luftqualitätsindex LuQx</option>
 						  </select>
 						</label><br/>
 						  Datenbasis für Bezirke
