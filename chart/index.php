@@ -323,24 +323,27 @@ svg{
 </head>
   <body>
     <div id="chart"><svg id="graph"></svg></div>
-		<div id="controlBar2Button" class="shadow bgcolor"><div id="controlBar2ButtonText">Einstellungen</div></div>
-    <div id="controlBar2" class="shadow">
+    <div id="controlBar2Button" class="bar2Button shadow bgcolor"><div class="bar2ButtonText">Einstellungen</div></div>
+    <div id="infoBar2Button" class="bar2Button shadow bgcolor"><div class="bar2ButtonText">Info</div></div>
+    <div id="controlBar2" class="Bar2 shadow">
       <div id="controlBar2Header" class="bgcolor">
         <h1>Feinstaub in Stuttgart</h1>
-        <!--<h2>Einstellungen</h2>-->
         <button id="toggleAreas" class="toggle">Streuung <span class="display" style="display: none;">aus</span><span class="display">ein</span>blenden</button>
-        <!--<button id="toggle50" class="toggle">Sensor 50 <span class="display" style="display: none;">aus</span><span class="display">ein</span>blenden</button>
-        <button id="toggle231" class="toggle">Sensor 231 <span class="display" style="display: none;">aus</span><span class="display">ein</span>blenden</button>
-        <button id="toggle217" class="toggle">Sensor 217 <span class="display" style="display: none;">aus</span><span class="display">ein</span>blenden</button>-->
         <button id="toggleLUBW" class="toggle">LUBW-Daten <span class="display" style="display: none;">ein</span><span class="display">aus</span>blenden</button>
       </div>
       <div id="controlBar2Footer">
-        <!--<h2>Hilfe</h2>-->
         <iframe src="../help/?context=chart"></iframe>
       </div>
     </div>
-		<span id="copyright">Version <?php echo $version; ?> | Daten: <span id="timestamp"></span></span>
-  </div>
+    <div id="infoBar2" class="Bar2 shadow">
+      <div class="Bar2Header bgcolor">
+        <h1 style="margin-bottom: 0;">Feinstaub in Stuttgart</h1>
+      </div>
+      <div class="Bar2Footer">
+        <iframe src="../help/?context=chart"></iframe>
+      </div>
+    </div>
+<span id="copyright">Version <?php echo $version; ?> | Daten: <span id="timestamp"></span></span>
 
 
 
