@@ -120,7 +120,7 @@ var bisectDate = d3.bisector(function(d) { return d.timestamp; }).left;
 
 function append_lubw(){
   // statDEBW013pm10 aka Gnesener Straße
-  d3.tsv("..data/data_lubw.tsv", function(error, data2) {
+  d3.tsv("../data/data_lubw.tsv", function(error, data2) {
     if (error) throw error;
   
     data2.forEach(function(d2) {
@@ -144,7 +144,7 @@ function append_lubw(){
 }
 
 function append_data(){
-d3.tsv("..data/chronological_city_1.tsv", function(error, data) {
+d3.tsv("../data/chronological_city_1.tsv", function(error, data) {
   if (error) throw error;
 
   data.forEach(function(d) {
