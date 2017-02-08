@@ -110,10 +110,12 @@ function styleFunctionGlobal(feature,attribute,style,deadSensorColor = "0,0,0",m
 	if(feature.getGeometry().getType() == "Point"){
 		if(attribute=="P1"||attribute=="P1floating"){
 			if(style=="AQI") color=colorMappingAQIPM10(feature.get(attribute),deadSensorColor);
+			else if(style=="LuQx") color=colorMappingLuQxPM10(feature.get(attribute),deadSensorColor);
 			else color=colorMappingGreenRedPink(feature.get(attribute),deadSensorColor);
 		}
 		else if(attribute=="P2"||attribute=="P2floating"){
 			if(style=="AQI") color=colorMappingAQIPM25(feature.get(attribute),deadSensorColor);
+			else if(style=="LuQx") color=colorMappingLuQxPM10(feature.get(attribute),deadSensorColor);
 			else color=colorMappingGreenRedPink(feature.get(attribute),deadSensorColor);
 		}
 		return 	new ol.style.Style({
@@ -129,10 +131,12 @@ function styleFunctionGlobal(feature,attribute,style,deadSensorColor = "0,0,0",m
 	if(feature.getGeometry().getType() == "Polygon"){
 		if(attribute=="P1"||attribute=="P1floating"){
 			if(style=="AQI") color=colorMappingAQIPM10(feature.get(attribute),missingValueColor);
+			else if(style=="LuQx") color=colorMappingLuQxPM10(feature.get(attribute),missingValueColor);
 			else color=colorMappingGreenRedPink(feature.get(attribute),missingValueColor);
 		}
 		else if(attribute=="P2"||attribute=="P2floating"){
 			if(style=="AQI") color=colorMappingAQIPM25(feature.get(attribute),missingValueColor);
+			else if(style=="LuQx") color=colorMappingLuQxPM10(feature.get(attribute),missingValueColor);
 			else color=colorMappingGreenRedPink(feature.get(attribute),missingValueColor);
 		}
 		return 	new ol.style.Style({
@@ -200,6 +204,33 @@ var colorMappingAQIPM25 = function(value,undefinedColor) {
 	return color;
 };
 /**
+ * Dust PM10
+ * http://www4.lubw.baden-wuerttemberg.de/servlet/is/20152/
+ * @param {float} Value to map
+ * @param {string} Color ("123,55,212") if value is undefined or 0
+ * @returns {string} Color ("123,55,212")
+ */
+var colorMappingLuQxPM10 = function(value,undefinedColor) {
+	// http://www4.lubw.baden-wuerttemberg.de/servlet/is/20152/
+	var color;
+	if(value === undefined || value <= 0){
+		if(typeof undefinedColor === 'string' || undefinedColor instanceof String)
+			color = undefinedColor;
+		else
+			color = undefinedColor+","+undefinedColor+","+undefinedColor;
+	}
+	else{
+		if      (value<=10)  { color = "52,153,255"; }
+		else if (value<=20) { color = "103,204,255"; }
+		else if (value<=35) { color = "153,255,255"; }
+		else if (value<=50) { color = "255,255,153"; }
+		else if (value<=100) { color = "255,153,52"; }
+		else                 { color = "255,52,52"; }
+
+	}
+	return color;
+};
+/**
  * @param {float} Value to map
  * @param {string} Color ("123,55,212") if value is undefined or 0
  * @returns {string} Color ("123,55,212")
@@ -256,4 +287,16 @@ var styleFunctionGreenRedPinkPM25 = function(feature) {
 };
 var styleFunctionGreenRedPinkPM25floating = function(feature) {
 	return styleFunctionGlobal(feature,"P2floating","GreenRedPink","0,0,0","255,255,255");
+};
+var styleFunctionLuQxPM10 = function(feature) {
+	return styleFunctionGlobal(feature,"P1","LuQx","0,0,0","255,255,255");
+};
+var styleFunctionLuQxPM10floating = function(feature) {
+	return styleFunctionGlobal(feature,"P1floating","LuQx","0,0,0","255,255,255");
+};
+var styleFunctionLuQxPM25 = function(feature) {
+	return styleFunctionGlobal(feature,"P2","LuQx","0,0,0","255,255,255");
+};
+var styleFunctionGLuQxPM25floating = function(feature) {
+	return styleFunctionGlobal(feature,"P2floating","LuQx","0,0,0","255,255,255");
 };
