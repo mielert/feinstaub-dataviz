@@ -552,18 +552,6 @@ var view = graph.append("rect")
       .attr("d", line);      
     graph.select('#line2')
       .attr("d", line2);
-    graph.select('#line231p1')
-      .attr("d", line231p1);
-    graph.select('#line231p2')
-      .attr("d", line231p2);
-    graph.select('#line217p1')
-      .attr("d", line217p1);
-    graph.select('#line217p2')
-      .attr("d", line217p2);
-    graph.select('#line50p1')
-      .attr("d", line50p1);
-    graph.select('#line50p2')
-      .attr("d", line50p2);
     graph.select('#lineP1floating')
       .attr("d", lineP1floating);
     graph.select('#lineP2floating')
@@ -601,14 +589,6 @@ append_data();
 d3.select(window).on('resize', resize); 
 // d3.select("#chart").on('resize', resize); 
 
-
-
-          $( document ).ready(function() {
-              //$("#worstLocations_overlay iframe").css("left","-1000px");
-              //$("#worstLocations_overlay iframe").delay( 10 ).css("left","");
-              //window.setTimeout(toggleList, 800);
-          });
-          
           // read get variables
           var $_GET = {};
           document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
@@ -630,43 +610,9 @@ d3.select(window).on('resize', resize);
           $( "#toggleAreas" ).click(function() {
               toggleAreas();
           });
-          $( "#toggle231" ).click(function() {
-              toggle231();
-          });
-          $( "#toggle217" ).click(function() {
-              toggle217();
-          });
-          $( "#toggle50" ).click(function() {
-              toggle50();
-          });
-          $( "#toggleList" ).click(function() {
-              toggleList();
-          });
           $( "#toggleLUBW" ).click(function() {
               toggleLUBW();
           });
-          $( "#worstLocations_overlay" ).click(function() {
-              toggleList();
-          });
-          function toggle50(){
-              $( ".s50" ).toggle();
-              $( "#toggle50 .display" ).toggle();
-          }
-          function toggle231(){
-              $( ".s231" ).toggle();
-              $( "#toggle231 .display" ).toggle();
-          }
-          function toggle217(){
-              $( ".s217" ).toggle();
-              $( "#toggle217 .display" ).toggle();
-          }
-          function toggleList(){
-              $( "#toggleList .display" ).toggle();
-              if($("#worstLocations_overlay").css("z-index") == "-10000")
-                $("#worstLocations_overlay").css("z-index", "");
-              else
-                $("#worstLocations_overlay").css("z-index", "-10000");
-          }
           function toggleLUBW(){
               $( ".statDEBW013pm10" ).toggle();
               $( ".statDEBW118pm10" ).toggle();
