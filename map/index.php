@@ -334,10 +334,10 @@ function interaction_hover(e){
 						districts_crossed.push(feature.get("name"));
 						district = "<strong>"+feature.get("name")+"</strong><br/>";
 						if(feature.get("Num_Sensors")>0){
-							district+="<table><tr><td>Median PM10</td><td>"+Math.round(feature.get("P1"))+" µg/m³</td></tr>";
-							district+="<tr><td>24h-Mittel aus Median PM10</td><td>"+Math.round(feature.get("P1floating"))+" µg/m³</td></tr>";
-							district+="<tr><td>Median PM2.5</td><td>"+Math.round(feature.get("P2"))+" µg/m³</td></tr>";
-							district+="<tr><td>24h-Mittel aus Median PM2.5</td><td>"+Math.round(feature.get("P2floating"))+" µg/m³</td></tr></table>";
+							district+="<table><tr><td>Median PM10</td><td>"+Math.round(feature.get("P1"))+"&nbsp;µg/m³</td></tr>";
+							district+="<tr><td>24h-Mittel aus Median PM10</td><td>"+Math.round(feature.get("P1floating"))+"&nbsp;µg/m³</td></tr>";
+							district+="<tr><td>Median PM2.5</td><td>"+Math.round(feature.get("P2"))+"&nbsp;µg/m³</td></tr>";
+							district+="<tr><td>24h-Mittel aus Median PM2.5</td><td>"+Math.round(feature.get("P2floating"))+"&nbsp;µg/m³</td></tr></table>";
 							district+="("+feature.get("Num_Sensors")+" Sensor[en]: "+feature.get("Sensor_IDs")+")";
 						}
 						else{
