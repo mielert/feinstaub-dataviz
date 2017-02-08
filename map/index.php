@@ -319,7 +319,7 @@ function interaction_hover(e){
 				P1 = "kein aktueller Wert";
 			}
 			else{
-				P1 = Math.round(feature.get("P1"))+" µg/m³ ";
+				P1 = Math.round(feature.get("P1"))+"&nbsp;µg/m³ ";
 			}
 			out+="<br/><a href=\"https://www.madavi.de/sensor/archiv_luftdaten_info/graph.php?sensor="+feature.get("name")+"\" target=\"_blank\">Sensor "+feature.get("name")+"</a> – PM10: "+P1;
 			point = true;
