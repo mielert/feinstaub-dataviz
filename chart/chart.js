@@ -644,8 +644,7 @@ d3.select(window).on('resize', resize);
 // d3.select("#chart").on('resize', resize); 
 
 
-</script>
-        <script>
+
           $( document ).ready(function() {
               //$("#worstLocations_overlay iframe").css("left","-1000px");
               //$("#worstLocations_overlay iframe").delay( 10 ).css("left","");
