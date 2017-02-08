@@ -6,11 +6,7 @@ include_once("../library.php");
   <head>
     <meta charset="utf-8"/>
     <title>Feinstaub in Stuttgart</title>
-    <meta http-equiv="cache-control" content="max-age=0" />
-    <meta http-equiv="cache-control" content="no-cache" />
-    <meta http-equiv="expires" content="0" />
-    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="max-age=86400" />
     <meta property="og:title" content="Feinstaub in Stuttgart"/>
     <meta property="og:description" content="Hier finden Sie die OpenData-Feinstaubmessungen von OK Lab Stuttgart zusammengefasst und als Diagramm aufbereitet."/>
     <meta property="og:image" content="<?php echo $url; ?>/chart/chart.png"/>
