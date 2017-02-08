@@ -297,6 +297,6 @@ var styleFunctionLuQxPM10floating = function(feature) {
 var styleFunctionLuQxPM25 = function(feature) {
 	return styleFunctionGlobal(feature,"P2","LuQx","0,0,0","255,255,255");
 };
-var styleFunctionGLuQxPM25floating = function(feature) {
+var styleFunctionLuQxPM25floating = function(feature) {
 	return styleFunctionGlobal(feature,"P2floating","LuQx","0,0,0","255,255,255");
 };
