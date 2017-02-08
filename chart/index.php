@@ -1,11 +1,9 @@
 <?php
-$version = "2.8.0";
 include_once("../library.php");
 ?>
 <!DOCTYPE html>
 <html>
   <head>
-    <!--<meta http-equiv="refresh" content="300; URL=<?php if(!isset($basename)) echo basename(__FILE__); else echo $basename; ?>?help=hide"/>-->
     <meta charset="utf-8"/>
     <title>Feinstaub in Stuttgart</title>
     <meta http-equiv="cache-control" content="max-age=0" />
@@ -24,7 +22,8 @@ include_once("../library.php");
     <link rel="stylesheet" href="chartstyles.css" type="text/css" media="all"/>
     <!--
     Change Log
-    2.9.0 planned
+    
+planned
     add zoom
     P10/P2.5 Switch
     Hover for LUBW
@@ -40,6 +39,9 @@ include_once("../library.php");
 	2.6.0
 	non-public version
 	ranking removed
+
+    2.9.0
+    css extracted
 
     2.5.0
     improved geofilter
@@ -95,7 +97,7 @@ include_once("../library.php");
         <iframe src="../help/?context=chart"></iframe>
       </div>
     </div>
-<span id="copyright">Version <?php echo $version; ?> | Daten: <span id="timestamp"></span></span>
+<span id="copyright">Version 2.9.0 | Daten: <span id="timestamp"></span></span>
 
 
 
@@ -198,49 +200,6 @@ var area2 = d3.area()
     .x(function(d) { return xScale(d.timestamp); })
     .y0(function(d) { return yScale(d.P2low); })
     .y1(function(d) { return yScale(d.P2high); });
-
-var line231p1 = d3.line()
-    /*.interpolate(function(points){  //interpolate straight lines with gaps for NaN
-      var section = 0;
-      var arrays = [[]];
-      points.forEach(function(d,i){
-        if(isNaN(d[1]) || d[1]==0){
-          section++;
-          arrays[section] = [];
-        }else{
-          arrays[section].push(d)
-        }
-      });
-
-      var pathSections = [];
-      arrays.forEach(function(points){
-        pathSections.push(d3.svg.line()(points));
-      })
-      var joined = pathSections.join('');
-      return joined.substr(1); //substring becasue D£ always adds an M to a path so we end up with MM at the start
-    })*/
-    .x(function(d) { return xScale(d.timestamp); })
-    .y(function(d) { return yScale(d.P1_231); });
-
-var line231p2 = d3.line()
-    .x(function(d) { return xScale(d.timestamp); })
-    .y(function(d) { return yScale(d.P2_231); });
-    
-var line217p1 = d3.line()
-    .x(function(d) { return xScale(d.timestamp); })
-    .y(function(d) { return yScale(d.P1_217); });
-
-var line217p2 = d3.line()
-    .x(function(d) { return xScale(d.timestamp); })
-    .y(function(d) { return yScale(d.P2_217); });
-    
-var line50p1 = d3.line()
-    .x(function(d) { return xScale(d.timestamp); })
-    .y(function(d) { return yScale(d.P1_50); });
-
-var line50p2 = d3.line()
-    .x(function(d) { return xScale(d.timestamp); })
-    .y(function(d) { return yScale(d.P2_50); });
     
 var lineP1floating = d3.line()
     .x(function(d) { return xScale(d.timestamp); })
@@ -266,7 +225,7 @@ var bisectDate = d3.bisector(function(d) { return d.timestamp; }).left;
 
 function append_lubw(){
   // statDEBW013pm10 aka Gnesener Straße
-  d3.tsv("<?php echo $data_url; ?>/data_lubw.tsv", function(error, data2) {
+  d3.tsv("..data/data_lubw.tsv", function(error, data2) {
     if (error) throw error;
   
     data2.forEach(function(d2) {
@@ -290,7 +249,7 @@ function append_lubw(){
 }
 
 function append_data(){
-d3.tsv("<?php echo $data_url; ?>/chronological_city_1.tsv", function(error, data) {
+d3.tsv("..data/chronological_city_1.tsv", function(error, data) {
   if (error) throw error;
 
   data.forEach(function(d) {
