@@ -57,37 +57,37 @@
 				<p><strong>Eigene Farbskala Grün-Rot-Pink</strong><br/>Die Farbskala besteht aus einem kontinuierlichen Farbverlauf von 0 µg/m<sup>3</sup>(Grün) bis 50 µg/m<sup>3</sup> (Rot) und einem weiteren kontinuierlichen Farbverlauf von 50 µg/m<sup>3</sup>(Rot) bis 200 µg/m<sup>3</sup> (Pink).</p>
 				<p><strong>Air Quality Index (USA)</strong>
 <table style="text-align:left;font-size: 100%;">
-<tbody><tr>
+<tbody><tr align="center">
 <td><b>PM<sub>2.5</sub> (µg/m<sup>3</sup>)</b></td>
 <td><b>PM<sub>10</sub> (µg/m<sup>3</sup>)</b></td>
 <td><b>AQI</b></td>
 </tr>
-<tr>
+<tr align="center">
 <td>0.0-12.0</td>
 <td>0-54</td>
 <td style="background:#00e400;">gut</td>
 </tr>
-<tr>
+<tr align="center">
 <td>12.1-35.4</td>
 <td>55-154</td>
 <td style="background:#ff0;">befriedigend</td>
 </tr>
-<tr>
+<tr align="center">
 <td>35.5-55.4</td>
 <td>155-254</td>
 <td style="background:#ff7e00;">ungesund für empfindliche Personen</td>
 </tr>
-<tr>
+<tr align="center">
 <td>55.5-150.4</td>
 <td>255-354</td>
 <td style="background:#f00; color:#fff;">ungesund</td>
 </tr>
-<tr>
+<tr align="center">
 <td>150.5-250.4</td>
 <td>355-424</td>
 <td style="background:#99004c; color:#fff;">sehr ungesund</td>
 </tr>
-<tr>
+<tr align="center">
 <td>> 250.5</td>
 <td>> 425</td>
 <td style="background:#7e0023; color:#fff;">gesundheitsgefährdend</td>
@@ -96,12 +96,12 @@
 				Angaben gelten jeweils für ein 24-Stunden-Mittel.
 				</p>
 				<p><strong>Kurzzeit-Luftqualitätsindex LuQx</strong>
-<table border="0" class="tabelle1"><thead>
+<table style="text-align:left;font-size: 100%;">
 <tr align="center">
 <td><strong>PM10<br>24-h-MW<br>(µg/m<sup>3</sup>)</strong></td>
 <td><strong>LuQx<br>Index-<br>wert</strong></td>
 <td><strong>LuQx<br>Note</strong></td>
-<td><strong>Bewertung</strong></td></tr></thead><tbody>
+<td><strong>Bewertung</strong></td></tr><tbody>
 <tr align="center">
 <td style="background-color: #3499ff">0 - 10</td>
 <td style="background-color: #3499ff">bis 1,4</td>
