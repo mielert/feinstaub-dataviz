@@ -242,3 +242,31 @@ function debug_query($sql){
 	echo "</div>";
 	return $result;
 }
+/**
+ *
+ */
+function get_sensor_id_by_sensor_name($sensor_name,$type_id=1){
+    $sql = "SELECT * FROM `sensors` WHERE `name` = ".floatval($sensor_name)." LIMIT 1";
+    $result = db_select($sql);
+    if(isset($result[0]->name) && $result[0]->name == $sensor_name)
+        return $result[0]->id;
+    else{
+        $sql = "INSERT INTO `sensors` (`id`,`name`,`type_id`) VALUES (NULL, '$sensor_name',$type_id)";
+        $result = db_insert($sql);
+        $sql = "SELECT * FROM `sensors` WHERE `name` = ".floatval($sensor_name)." LIMIT 1";
+        $result = db_select($sql);
+        return $result[0]->id;
+    }
+}
+/**
+ *
+ */
+function get_sensor_name_by_sensor_id($sensor_id){
+    $sql = "SELECT * FROM `sensors` WHERE `id` = ".floatval($sensor_id)." LIMIT 1";
+    $result = db_select($sql);
+    if(isset($result[0]->id) && $result[0]->id == $sensor_id)
+        return $result[0]->name;
+    else{
+        return false;
+    }
+}
