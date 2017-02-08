@@ -33,8 +33,9 @@ $sql = "SELECT
 				AND lat IN (SELECT lat FROM `x_coordinates_districts` WHERE `district_id` = `districts`.`id`)
 			) AS Num_Sensors,
 			(
-				SELECT GROUP_CONCAT(`sensors_hourly_mean`.`sensor_id`)
+				SELECT GROUP_CONCAT(`sensors`.`name`)
 				FROM `sensors_hourly_mean`
+				LEFT JOIN `sensors` ON `sensors`.`id` = `sensors_hourly_mean`.`sensor_id`		
 				WHERE `timestamp` = '$recent_timestamp'
 				AND lon IN (SELECT lon FROM `x_coordinates_districts` WHERE `district_id` = `districts`.`id`)
 				AND lat IN (SELECT lat FROM `x_coordinates_districts` WHERE `district_id` = `districts`.`id`)
@@ -159,7 +160,7 @@ function sensors_to_feature_collection($recent_sensor_data){
 				"coordinates": ['.$dataset->lon.', '.$dataset->lat.']
 			  },
 				"properties": {
-					"name": "'.$dataset->sensor_id.'",
+					"name": "'.get_sensor_name_by_sensor_id($dataset->sensor_id).'",
 					"P1": "'.$dataset->P1h.'",
 					"P2": "'.$dataset->P2h.'",
 					"P1floating": "'.$dataset->P1d.'",
