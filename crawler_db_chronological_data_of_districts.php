@@ -43,7 +43,7 @@ SELECT DISTINCT `sensors_hourly_mean`.`lon`,
 
 $results = debug_query($sql);
 
-//print_r($results);
+print_r($results);
 
 foreach($results as $result){
 	if(!$result->district_id){
