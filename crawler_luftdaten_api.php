@@ -77,22 +77,6 @@ function remove_sensors_not_sds($data){
 /**
  *
  */
-function get_sensor_id_by_sensor_name($sensor_name,$type_id=1){
-    $sql = "SELECT * FROM `sensors` WHERE `name` = ".floatval($sensor_name)." LIMIT 1";
-    $result = db_select($sql);
-    if(isset($result[0]->name) && $result[0]->name == $sensor_name)
-        return $result[0]->id;
-    else{
-        $sql = "INSERT INTO `sensors` (`id`,`name`,`type_id`) VALUES (NULL, '$sensor_name',$type_id)";
-        $result = db_insert($sql);
-        $sql = "SELECT * FROM `sensors` WHERE `name` = ".floatval($sensor_name)." LIMIT 1";
-        $result = db_select($sql);
-        return $result[0]->id;
-    }
-}
-/**
- *
- */
 function data_to_db($data){
 	date_default_timezone_set('Europe/Gibraltar');
 	if(count($data)>0){
