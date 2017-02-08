@@ -2,11 +2,7 @@
     <head>
         <title>Hilfe zum Feinstaubdiagramm</title>
         <meta charset="utf-8"/>
-        <meta http-equiv="cache-control" content="max-age=0" />
-        <meta http-equiv="cache-control" content="no-cache" />
-        <meta http-equiv="expires" content="0" />
-        <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="cache-control" content="max-age=86400" />
 		<script src="../js/jquery.min.js" type="text/javascript"></script>
 		<script src="../js/jquery-ui.min.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="../js/jquery-ui.min.css" type="text/css" media="all">
@@ -32,11 +28,11 @@
 			<h3>Was sehe ich hier?</h3>
 			<div>
 <?php if($_GET["context"]=="chart") { ?>
-				<p>Im Diagramm werden die Messdaten, die die einzelnen Sensoren zu luftdaten.info geschickt haben, mathematisch und grafisch aufbereitet und mit offiziellen Daten der LUBW überlagert. Dabei werden nur Sensoren bedacht, die einerseits etwa im Stadtgebiet aufgestellt sind (näherungsweise wurde ein Rechteck um Stuttgart gelegt: Lat: 48.6-48.9, Lon: 8.5-9.5) und andererseits von einem bestimmten Typ sind (SDS011 des Herstellers Nova). Die Daten von luftdaten.info werden seit 17.11.2016 pro Sensor über jeweils fünf Minuten arithmetisch gemittelt (davor fand dieser Schritt nicht statt). Anschließend wird der <a href="https://de.wikipedia.org/wiki/Median" target="_blank">Median</a> gebildet (durchgezogene Linie). Hieraus wiederum wird ein arithmetisches Mittel der vergangenen 24 Stunden generiert (gestrichelte Linie), das eine Vergleichbarkeit mit den offiziellen Werten sicherstellen soll.</p>
+				<p>Im Diagramm werden die Messdaten, die die einzelnen Sensoren zu luftdaten.info geschickt haben, mathematisch und grafisch aufbereitet und mit offiziellen Daten der LUBW überlagert. Dabei werden nur Sensoren bedacht, die einerseits im Stadtgebiet aufgestellt sind und andererseits von einem bestimmten Typ sind (SDS011 des Herstellers Nova). Die Daten von luftdaten.info als <a href="https://de.wikipedia.org/wiki/Median" target="_blank">Median</a> jeweils einer Stunde (durchgezogene Linie) und als 24-Stunden-Mittel aus diesem Median dargestellt (gestrichelte Linie). Mit dem 24-Stunden-Mittel soll eine Vergleichbarkeit mit den offiziellen Werten sicherstellen werden.</p>
 				<p>Wenn die Streuung eingeblendet ist, zeigt die helle Fläche die komplette Streubreite der Messungen. Etwas dunkler ist der Bereich gehalten, in dem sich die mittleren 50% aller Messwerte befinden.</p>
 				<p>Die Zahlen, die zu sehen sind, wenn sich die Maus über dem Diagramm befindet, sind folgendermaßen zu interpretieren:<br/>
 				Beispiel: PM10: 65.5 µg/m³ (35.7 [S211] - 97.6 [S231]); ganz unten: 15.11., 07:17, 135 Werte<br/>
-				Interpretation: Für die Partikelgröße PM10 wurden im Median in Stuttgart durch das Projekt 65,5 Mikrogramm pro Kubikmeter Luft gemessen. Dies wurde aus 135 Werten ermittelt, die im Mittel am 15. November 2016 um 7:17 Uhr erhoben wurden und sich von 35,7 µg/m³ beim Sensor 211 bis 97,6 µg/m³ beim Sensor 231 erstreckten. <!--Der Sensor 211 befindet sich am nord-westlichen Rand von Leonberg, der Sensor 231 in Bad Cannstatt.--></p>
+				Interpretation: Für die Partikelgröße PM10 wurden im Median in Stuttgart durch das Projekt 65,5 Mikrogramm pro Kubikmeter Luft gemessen. Dies wurde aus 135 Werten ermittelt, die im Mittel am 15. November 2016 um 7:17 Uhr erhoben wurden und sich von 35,7 µg/m³ beim Sensor 211 bis 97,6 µg/m³ beim Sensor 231 erstreckten.</p>
 <?php } ?>
 <?php if($_GET["context"]=="map") { ?>
 				<p>Die Karte zeigt beim Laden die aktuelle Belastung in Stuttgart mit PM10-Feinstaubpartikeln. Die Flächen sind die 23 Stuttgarter Stadtbezirke, die Kreise stellen die momentan aktiven Sensoren dar. In den einzelnen Bezirken wird der Median aus den Sensorwerten des jeweiligen Bezirks gebildet. Eingefärbt sind die Bezirke und Sensoren nach dem Air Quality Index.</p>
