@@ -50,6 +50,53 @@
 			<div>
 				<p>PM10 und PM2.5 sind Einteilungen für die Größe von Feinstaubpartikeln. Dabei gibt es keine Trennschärfe. Bei PM10 werden "Partikel mit einem aerodynamischen Durchmesser von weniger als 1 µm ... vollständig einbezogen, bei größeren Partikeln wird ein gewisser Prozentsatz gewertet, der mit zunehmender Partikelgröße abnimmt und bei ca. 15 µm schließlich 0 % erreicht." (Wikipedia). PM2.5 bezieht sich auf lungengängige Partikel, d.h. Feinstaubteilchen können in die Lungenbläschen eindringen und gelangen somit in den Blutkreislauf. Seine "Definition ist analog zu PM10, allerdings ist die Gewichtungsfunktion wesentlich steiler (100 % Gewichtung < 0,5 µm; 0 % Gewichtung > 3,5 µm; 50 % Gewichtung bei ca. 2,5 µm)." (Wikipedia)</p>
 			</div>
+			<h3>Was bedeuten die Farben?</h3>
+			<div>
+				<p>Die Farben auf den Karten sind einzelnen Luftwerten zugeordnet. Sie geben an, wie gut die Luft ist.</p>
+				<p>Bisher kommt eine eigene Farbskala und der Air Quality Index (AQI) in der US-amerikainschen Version zum Einsatz. In Planung ist die Implementierung des Kurzzeit-Luftqualitätsindex LuQx der Landesanstalt. Hier fehlen allerdings Angaben zur Beurteilung von PM2.5-Partikeln.</p>
+				<p><strong>Eigene Farbskala</strong></p>
+				<p><strong>Air Quality Index (USA)</strong>
+<table style="text-align:left;">
+<tbody><tr>
+<td><b>PM<sub>2.5</sub> (µg/m<sup>3</sup>)</b></td>
+<td><b>PM<sub>10</sub> (µg/m<sup>3</sup>)</b></td>
+<td><b>AQI</b></td>
+</tr>
+<tr>
+<td>0.0-12.0 (24-hr)</td>
+<td>0-54 (24-hr)</td>
+<td style="background:#00e400;">Good</td>
+</tr>
+<tr>
+<td>12.1-35.4 (24-hr)</td>
+<td>55-154 (24-hr)</td>
+<td style="background:#ff0;">Moderate</td>
+</tr>
+<tr>
+<td>35.5-55.4 (24-hr)</td>
+<td>155-254 (24-hr)</td>
+<td style="background:#ff7e00;">Unhealthy for Sensitive Groups</td>
+</tr>
+<tr>
+<td>55.5-150.4 (24-hr)</td>
+<td>255-354 (24-hr)</td>
+<td style="background:#f00; color:#fff;">Unhealthy</td>
+</tr>
+<tr>
+<td>150.5-250.4 (24-hr)</td>
+<td>355-424 (24-hr)</td>
+<td style="background:#99004c; color:#fff;">Very Unhealthy</td>
+</tr>
+<tr>
+<td>> 250.5 (24-hr)</td>
+<td>> 425 (24-hr)</td>
+<td style="background:#7e0023; color:#fff;">Hazardous</td>
+</tr>
+</tbody></table>
+				
+				</p>
+				<p><strong>Kurzzeit-Luftqualitätsindex LuQx</strong></p>
+			</div>
 			<h3>Sind die Messwerte mit denen der Landesanstalt vergleichbar?</h3>
 			<div>
 				<p>Ja, die über 24 Stunden gemittelten PM10-Werte sind mit denen der Landesanstalt vergleichbar.</p>
