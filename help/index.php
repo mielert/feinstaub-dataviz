@@ -56,44 +56,44 @@
 				<p>Bisher kommt eine eigene Farbskala und der Air Quality Index (AQI) in der US-amerikainschen Version zum Einsatz. In Planung ist die Implementierung des Kurzzeit-Luftqualitätsindex LuQx der Landesanstalt. Hier fehlen allerdings Angaben zur Beurteilung von PM2.5-Partikeln.</p>
 				<p><strong>Eigene Farbskala</strong></p>
 				<p><strong>Air Quality Index (USA)</strong>
-<table style="text-align:left;">
+<table style="text-align:left;font-size: 100%;">
 <tbody><tr>
 <td><b>PM<sub>2.5</sub> (µg/m<sup>3</sup>)</b></td>
 <td><b>PM<sub>10</sub> (µg/m<sup>3</sup>)</b></td>
 <td><b>AQI</b></td>
 </tr>
 <tr>
-<td>0.0-12.0 (24-hr)</td>
-<td>0-54 (24-hr)</td>
-<td style="background:#00e400;">Good</td>
+<td>0.0-12.0</td>
+<td>0-54</td>
+<td style="background:#00e400;">gut</td>
 </tr>
 <tr>
-<td>12.1-35.4 (24-hr)</td>
-<td>55-154 (24-hr)</td>
-<td style="background:#ff0;">Moderate</td>
+<td>12.1-35.4</td>
+<td>55-154</td>
+<td style="background:#ff0;">mäßig gesund</td>
 </tr>
 <tr>
-<td>35.5-55.4 (24-hr)</td>
-<td>155-254 (24-hr)</td>
-<td style="background:#ff7e00;">Unhealthy for Sensitive Groups</td>
+<td>35.5-55.4</td>
+<td>155-254</td>
+<td style="background:#ff7e00;">ungesund für empfindliche Personen</td>
 </tr>
 <tr>
-<td>55.5-150.4 (24-hr)</td>
-<td>255-354 (24-hr)</td>
-<td style="background:#f00; color:#fff;">Unhealthy</td>
+<td>55.5-150.4</td>
+<td>255-354</td>
+<td style="background:#f00; color:#fff;">ungesund</td>
 </tr>
 <tr>
-<td>150.5-250.4 (24-hr)</td>
-<td>355-424 (24-hr)</td>
-<td style="background:#99004c; color:#fff;">Very Unhealthy</td>
+<td>150.5-250.4</td>
+<td>355-424</td>
+<td style="background:#99004c; color:#fff;">sehr ungesund</td>
 </tr>
 <tr>
-<td>> 250.5 (24-hr)</td>
-<td>> 425 (24-hr)</td>
-<td style="background:#7e0023; color:#fff;">Hazardous</td>
+<td>> 250.5</td>
+<td>> 425</td>
+<td style="background:#7e0023; color:#fff;">gesundheitsgefährdend</td>
 </tr>
 </tbody></table>
-				
+				Angaben gelten jeweils für ein 24-Stunden-Mittel.
 				</p>
 				<p><strong>Kurzzeit-Luftqualitätsindex LuQx</strong></p>
 			</div>
