@@ -57,11 +57,14 @@ $j = 0;
 while($timestamp <= $stop){
 	$data.="\n".date("YmdHis",$timestamp);
 	
-	$sql = "SELECT * FROM `cities_mean` WHERE `timestamp` = '".date("Y-m-d H:i:s",$timestamp)."' AND `city_id` = $city_id";
+	$sql = "SELECT * 
+		FROM `cities_mean` 
+		WHERE `timestamp` = '".date("Y-m-d H:i:s",$timestamp)."' 
+		AND `city_id` = $city_id";
 	$results = debug_query($sql);
 	$data.= "	".$results[0]->num_sensors."	".$results[0]->num_values;
-	$data.= "	".$results[0]->P1h_max."	".$results[0]->P1h_min."	".$results[0]->P1h."	".$results[0]->P1h_50_max."	".$results[0]->P1h_50_min."	".$results[0]->P1max_sensor_id."	".$results[0]->P1min_sensor_id."	".$results[0]->P1d;
-	$data.= "	".$results[0]->P2h_max."	".$results[0]->P2h_min."	".$results[0]->P2h."	".$results[0]->P2h_50_max."	".$results[0]->P2h_50_min."	".$results[0]->P2max_sensor_id."	".$results[0]->P2min_sensor_id."	".$results[0]->P2d;
+	$data.= "	".$results[0]->P1h_max."	".$results[0]->P1h_min."	".$results[0]->P1h."	".$results[0]->P1h_50_max."	".$results[0]->P1h_50_min."	".get_sensor_name_by_sensor_id($results[0]->P1max_sensor_id)."	".get_sensor_name_by_sensor_id($results[0]->P1min_sensor_id)."	".$results[0]->P1d;
+	$data.= "	".$results[0]->P2h_max."	".$results[0]->P2h_min."	".$results[0]->P2h."	".$results[0]->P2h_50_max."	".$results[0]->P2h_50_min."	".get_sensor_name_by_sensor_id($results[0]->P2max_sensor_id)."	".get_sensor_name_by_sensor_id($results[0]->P2min_sensor_id)."	".$results[0]->P2d;
 
 	$timestamp = strtotime(date("Y-m-d H:i:s",$timestamp)." + 1 hours");
 	$j++;
