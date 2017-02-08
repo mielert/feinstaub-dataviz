@@ -233,12 +233,12 @@ function db_connect(){
  */
 function debug_query($sql){
 	echo "<div class='debug_query_div'>";
-	echo "<div class='debug_query'>$sql</div>";
+	echo "<div class='debug_query'>Query:<pre>$sql</pre></div>";
 	if(strpos($sql,"SELECT")===0)
 		$result = db_select($sql);
 	else
 		$result = db_insert($sql);
-	echo "<div class='debug_query'><pre>".print_r($result,true)."</pre></div>";
+	echo "<div class='debug_query'><pre>Result: ".print_r($result,true)."</pre></div>";
 	echo "</div>";
 	return $result;
 }
