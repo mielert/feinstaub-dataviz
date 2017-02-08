@@ -331,9 +331,6 @@ svg{
         <button id="toggleAreas" class="toggle">Streuung <span class="display" style="display: none;">aus</span><span class="display">ein</span>blenden</button>
         <button id="toggleLUBW" class="toggle">LUBW-Daten <span class="display" style="display: none;">ein</span><span class="display">aus</span>blenden</button>
       </div>
-      <div id="controlBar2Footer">
-        <iframe src="../help/?context=chart"></iframe>
-      </div>
     </div>
     <div id="infoBar2" class="Bar2 shadow">
       <div class="Bar2Header bgcolor">
