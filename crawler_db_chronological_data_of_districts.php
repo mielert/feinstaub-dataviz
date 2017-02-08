@@ -30,7 +30,7 @@ echo $starttime."<br/>";
 echo "looking for sensors without district<br/>";
 
 $sql = "";
-// $sql.= "SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));";
+//$sql.= "SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));";
 $sql.= "
 SELECT DISTINCT `sensors_hourly_mean`.`lon`,
 						`sensors_hourly_mean`.`lat`,
@@ -42,11 +42,12 @@ SELECT DISTINCT `sensors_hourly_mean`.`lon`,
 
 //echo $sql."<br/>";
 
-$results = debug_query($sql);
+$results = db_select($sql);
 
-print_r($results);
+//print_r($results);
 
 foreach($results as $result){
+	//print_r($result);
 	if(!$result->district_id){
 		$district = point_in_city($result->lon,$result->lat,"Stuttgart");
 		if($district){
@@ -81,9 +82,9 @@ $sql = "SELECT 	`sensors_hourly_mean`.`lon`,
 		AND `district_id` > 0
 		GROUP BY lon,lat";
 
-//echo $sql."<br/>";
+echo $sql."<br/>";
 
-$results = debug_query($sql);
+$results = db_select($sql);
 
 print_r($results);
 
