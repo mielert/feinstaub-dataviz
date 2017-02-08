@@ -54,7 +54,7 @@
 			<div>
 				<p>Die Farben auf den Karten sind einzelnen Luftwerten zugeordnet. Sie geben an, wie gut die Luft ist.</p>
 				<p>Bisher kommt eine eigene Farbskala und der Air Quality Index (AQI) in der US-amerikainschen Version zum Einsatz. In Planung ist die Implementierung des Kurzzeit-Luftqualitätsindex LuQx der Landesanstalt. Hier fehlen allerdings Angaben zur Beurteilung von PM2.5-Partikeln.</p>
-				<p><strong>Eigene Farbskala</strong></p>
+				<p><strong>Eigene Farbskala Grün-Rot-Pink</strong><br/>Die Farbskala besteht aus einem kontinuierlichen Farbverlauf von 0 µg/m<sup>3</sup>(Grün) bis 50 µg/m<sup>3</sup> (Rot) und einem weiteren kontinuierlichen Farbverlauf von 50 µg/m<sup>3</sup>(Rot) bis 200 µg/m<sup>3</sup> (Pink).</p>
 				<p><strong>Air Quality Index (USA)</strong>
 <table style="text-align:left;font-size: 100%;">
 <tbody><tr>
@@ -70,7 +70,7 @@
 <tr>
 <td>12.1-35.4</td>
 <td>55-154</td>
-<td style="background:#ff0;">mäßig gesund</td>
+<td style="background:#ff0;">befriedigend</td>
 </tr>
 <tr>
 <td>35.5-55.4</td>
@@ -95,7 +95,47 @@
 </tbody></table>
 				Angaben gelten jeweils für ein 24-Stunden-Mittel.
 				</p>
-				<p><strong>Kurzzeit-Luftqualitätsindex LuQx</strong></p>
+				<p><strong>Kurzzeit-Luftqualitätsindex LuQx</strong>
+<table border="0" class="tabelle1"><thead>
+<tr align="center">
+<td><strong>PM10<br>24-h-MW<br>(µg/m<sup>3</sup>)</strong></td>
+<td><strong>LuQx<br>Index-<br>wert</strong></td>
+<td><strong>LuQx<br>Note</strong></td>
+<td><strong>Bewertung</strong></td></tr></thead><tbody>
+<tr align="center">
+<td style="background-color: #3499ff">0 - 10</td>
+<td style="background-color: #3499ff">bis 1,4</td>
+<td style="background-color: #3499ff">1</td>
+<td style="background-color: #3499ff">sehr gut</td></tr>
+<tr align="center">
+<td style="background-color: #67ccff">&gt;&nbsp;10 - 20</td>
+<td style="background-color: #67ccff">1,5&nbsp;- 2,4</td>
+<td style="background-color: #67ccff">2</td>
+<td style="background-color: #67ccff">gut</td></tr>
+<tr align="center">
+<td style="background-color: #99ffff">&gt; 20 - 35</td>
+<td style="background-color: #99ffff">2,5&nbsp;- 3,4</td>
+<td style="background-color: #99ffff">3</td>
+<td style="background-color: #99ffff">befriedigend</td></tr>
+<tr align="center">
+<td style="background-color: #ffff99">&gt; 35 - 50</td>
+<td style="background-color: #ffff99">3,5&nbsp;- 4,4</td>
+<td style="background-color: #ffff99">4</td>
+<td style="background-color: #ffff99">ausreichend</td></tr>
+<tr align="center">
+<td style="background-color: #ff9934">&gt;&nbsp;50 - 100</td>
+<td style="background-color: #ff9934">4,5&nbsp;- 5,4</td>
+<td style="background-color: #ff9934">5</td>
+<td style="background-color: #ff9934">schlecht</td></tr>
+<tr align="center">
+<td style="background-color: #ff3434">&gt; 100</td>
+<td style="background-color: #ff3434">&gt; 5,4</td>
+<td style="background-color: #ff3434">6</td>
+<td style="background-color: #ff3434">sehr schlecht</td></tr></tbody></table>
+
+
+				
+				</p>
 			</div>
 			<h3>Sind die Messwerte mit denen der Landesanstalt vergleichbar?</h3>
 			<div>
