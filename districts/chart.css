@@ -1,0 +1,229 @@
+body{
+	-webkit-user-select: none; /* Chrome/Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+ */
+	
+	/* Rules below not implemented in browsers yet */
+	-o-user-select: none;
+	user-select: none;
+	font-size: 0.9em !important;
+}
+
+.y .grid{
+  right:10px;
+}
+
+#worstLocations{
+  z-index: 100000;
+  right: 145px;
+  top: 100px;
+  position: absolute;
+  background: rgba(255,255,255,0.9);
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path, .y2.axis path {
+  display: none;
+}
+
+g.y .tick line {
+  stroke: rgba(0, 0, 0, 0.1);
+  stroke-dasharray: 2,2;
+}
+
+g.y2 .tick line{
+  stroke: rgba(0, 0, 0, 0.9);
+}
+
+#area {
+  fill: rgba(230, 85, 13, 0.1);
+}
+
+#area3 {
+  fill: rgba(230, 85, 13, 0.2);
+}
+
+#area2 {
+  fill: rgba(49, 130, 189, 0.1);
+}
+
+#area4 {
+  fill: rgba(49, 130, 189, 0.2);
+}
+
+.P1 {
+  fill: none;
+  stroke-width: 1.5px;
+	opacity: 0.7;
+	vector-effect="non-scaling-stroke";
+}
+.fadeout{
+	opacity: 0.15;
+}
+.statDEBW013pm10{
+  fill: none;
+  stroke: rgba(49, 163, 84, 1);
+  stroke-width: 1.5px;
+  stroke-dasharray: 5,1;
+}
+
+.statDEBW118pm10{
+  fill: none;
+  stroke: rgba(150, 150, 150, 1);
+  stroke-width: 1.5px;
+  stroke-dasharray: 5,1;
+}
+
+.hover {
+  stroke-width: 3px;
+	opacity: 1;
+}
+
+
+.legend_text{
+  fill: #000 !important;
+  stroke: none !important;
+  font-weight: normal;
+}
+.texthover{
+	font-weight: bold;
+}
+
+.headline {
+  fill: black;
+  font: 15px sans-serif;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.focus circle {
+  fill: none;
+  stroke: steelblue;
+}
+
+.domain {
+  display: none; 
+}
+#graph,#graph2{
+	font-size: 0.7em;
+}
+
+#html_overlay, #worstLocations_overlay {
+  height: 100%;
+  width: 100%;
+  background: rgba(200,200,200,0.6);
+  position: relative;
+  z-index: 10000;
+}
+
+#html_overlay iframe{
+  background: white;
+  height: 80%;
+  width: 400px;
+  position:absolute;
+  top:30px;
+  left:50%;
+  margin-top:0px; /* this is half the height of your div*/  
+  margin-left:-200px; /*this is half of width of your div*/
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  z-index: 10000;
+  overflow-y: scroll; border: none;
+  -webkit-box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.5);
+  box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.5);
+}
+#worstLocations_overlay iframe{
+  background: white;
+  height: 320px;
+  width: 455px;
+  position:absolute;
+  top:30px;
+  left:50%;
+  margin-top:0px; /* this is half the height of your div*/  
+  margin-left:-225px; /*this is half of width of your div*/
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  z-index: 10000;
+  overflow: hidden;
+  border: none;
+  -webkit-box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.5);
+  box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.5);
+}
+.toggle{
+  position: relative;
+  background: #f00;
+  color: #fff;
+  border: none;
+}
+#toggleHelp{
+}
+#toggleAreas{
+}
+#toggle231{
+}
+#buttons{
+  position: absolute;
+  z-index: 10000;
+  left: 24px;
+  bottom: 0px;
+}
+
+svg#graph{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+svg#graph2{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+#chart,#graph{
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+div.tooltip {	
+    position: absolute;			
+    text-align: center;			
+    /*width: 60px;	*/				
+    /*height: 28px;		*/			
+    padding: 4px;				
+    background-color: rgba(255,255,255,0.8);	
+    border: 0px;		
+    /*border-radius: 8px;			*/
+	font-size: 0.8em;
+    pointer-events: none;			
+}
+.hiddenItem{
+	display: none;
+}
+#mapdiv{
+	width: 230px;
+	height: 220px;
+	position: absolute;
+	left: 100px;
+	top:20px;
+}
+#overline{
+	stroke: #ccc;
+}
+#mapTimeInfo{
+	position: absolute;
+}
