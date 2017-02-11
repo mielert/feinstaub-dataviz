@@ -389,27 +389,6 @@ var view = graph.append("rect")
       .on("mousemove", function(d) {data2map(mousemove(d3.mouse(this)));});
 
 /**
- * set map to most recent data
- * very ugly way...
- */
-function init_map(){
-    if($.isArray(districts)){
-        data.forEach(function(d) {
-            $("#mapTimeInfo").html("PM10: 24h-Mittel am "+hoverTimeFormat(d.timestamp));
-<?php
-$counter = 0;
-foreach($districts as $dataset){ ?>
-	districts[<?php echo $counter; ?>].set("P1floating",d.P1floating_<?php echo $dataset; ?>);
-<?php
-$counter++;
-} ?>
-        });
-        map.render();
-        console.log("map to most recent data");
-    }
-}
-
-/**
  * Zoom
  */
 new_xScale = xScale;
@@ -751,7 +730,28 @@ if(d3.max(data, function(d) { return d.P1floating_<?php echo $dataset; ?>; }) <=
  */
 append_data();
 
-d3.select(window).on('resize', resize); 
+d3.select(window).on('resize', resize);
+
+/**
+ * set map to most recent data
+ * very ugly way...
+ */
+function init_map(){
+    if($.isArray(districts)){
+        data.forEach(function(d) {
+            $("#mapTimeInfo").html("PM10: 24h-Mittel am "+hoverTimeFormat(d.timestamp));
+<?php
+$counter = 0;
+foreach($districts as $dataset){ ?>
+	districts[<?php echo $counter; ?>].set("P1floating",d.P1floating_<?php echo $dataset; ?>);
+<?php
+$counter++;
+} ?>
+        });
+        map.render();
+        console.log("map to most recent data");
+    }
+}
 </script>
 </body>
 </html>
