@@ -160,6 +160,7 @@ $.get( "../data/stuttgart_districts.json", function( data ) {
 	  interactions: [],
 	  view: view
 	});
+    init_map();
 });
 
 /**
@@ -341,6 +342,7 @@ function append_data(){
 d.P1floating_<?php echo $dataset; ?> = +d.P1floating_<?php echo $dataset; ?>;
 <?php } ?>
   });
+  init_map();
   // var parseDate = d3.timeParse("%Y%m%d%H%M%S");
 
 	$("#timestamp").html(versionTimeFormat(d3.max(data, function(d) { return d.timestamp; })));
@@ -390,8 +392,10 @@ var view = graph.append("rect")
  * set map to most recent data
  * very ugly way...
  */
-data.forEach(function(d) {
-    $("#mapTimeInfo").html("PM10: 24h-Mittel am "+hoverTimeFormat(d.timestamp));
+function init_map(){
+    if($.isArray(districts)){
+        data.forEach(function(d) {
+            $("#mapTimeInfo").html("PM10: 24h-Mittel am "+hoverTimeFormat(d.timestamp));
 <?php
 $counter = 0;
 foreach($districts as $dataset){ ?>
@@ -399,9 +403,11 @@ foreach($districts as $dataset){ ?>
 <?php
 $counter++;
 } ?>
-  });
-map.render();
-console.log("map to most recent data");
+        });
+        map.render();
+        console.log("map to most recent data");
+    }
+}
 
 /**
  * Zoom
