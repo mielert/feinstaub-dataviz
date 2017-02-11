@@ -331,7 +331,7 @@ function append_lubw(){
 /**
  * Load citizen science data
  */
-var data = false;
+var citizen_science_data = false;
 function append_data(){
 	d3.tsv("/<?php echo $data_dir; ?>chronological_districts_v2_simple.tsv", function(error, data) {
 	if (error) throw error;
@@ -343,6 +343,8 @@ function append_data(){
 d.P1floating_<?php echo $dataset; ?> = +d.P1floating_<?php echo $dataset; ?>;
 <?php } ?>
   });
+	citizen_science_data = data;
+
   init_map();
   // var parseDate = d3.timeParse("%Y%m%d%H%M%S");
 
