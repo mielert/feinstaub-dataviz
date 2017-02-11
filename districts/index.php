@@ -740,7 +740,7 @@ d3.select(window).on('resize', resize);
  * very ugly way...
  */
 function init_map(){
-    if($.isArray(districts) && $.isObject(citizen_science_data)){
+    if($.isArray(districts) && $.isFunction(citizen_science_data.forEach)){
         citizen_science_data.forEach(function(d) {
             $("#mapTimeInfo").html("PM10: 24h-Mittel am "+hoverTimeFormat(d.timestamp));
 <?php
