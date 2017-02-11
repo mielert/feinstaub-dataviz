@@ -339,7 +339,7 @@ function interaction_hover(e){
 							district+="<tr><td>24h-Mittel aus Median PM10</td><td>"+Math.round(feature.get("P1floating"))+"&nbsp;µg/m³</td></tr>";
 							district+="<tr><td>Median PM2.5</td><td>"+Math.round(feature.get("P2"))+"&nbsp;µg/m³</td></tr>";
 							district+="<tr><td>24h-Mittel aus Median PM2.5</td><td>"+Math.round(feature.get("P2floating"))+"&nbsp;µg/m³</td></tr></table>";
-							district+="("+feature.get("Num_Sensors")+" Sensor[en]: "+feature.get("Sensor_IDs")+")";
+							district+="("+feature.get("Num_Sensors")+" Sensor[en]: "+feature.get("Sensor_IDs").replace(",", ", ")+")";
 						}
 						else{
 							district+="keine Daten vorhanden";
