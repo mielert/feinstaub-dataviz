@@ -741,7 +741,7 @@ d3.select(window).on('resize', resize);
  */
 function init_map(){
     if($.isArray(districts)){
-        data.forEach(function(d) {
+        citizen_science_data.forEach(function(d) {
             $("#mapTimeInfo").html("PM10: 24h-Mittel am "+hoverTimeFormat(d.timestamp));
 <?php
 $counter = 0;
