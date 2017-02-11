@@ -62,57 +62,26 @@ g.y2 .tick line{
   fill: none;
   stroke: rgba(230, 85, 13, 1);
   stroke-width: 1.5px;
+  vector-effect: non-scaling-stroke;
 }
 
 .P2 {
   fill: none;
   stroke: rgba(49, 130, 189, 1);
   stroke-width: 1.5px;
+  vector-effect: non-scaling-stroke;
 }
 .overline {
   fill: none;
   stroke: rgba(255, 255, 255, 0.7);
   stroke-width: 3px;
 }
-
-#line231p1 {
-  fill: none;
-  stroke: rgba(230, 85, 13, 0.8);
-  stroke-width: 0.5px;
-}
-
-#line231p2 {
-  fill: none;
-  stroke: rgba(49, 130, 189, 0.8);
-  stroke-width: 0.5px;
-}
-#line217p1 {
-  fill: none;
-  stroke: rgba(230, 85, 13, 0.8);
-  stroke-width: 0.5px;
-}
-
-#line217p2 {
-  fill: none;
-  stroke: rgba(49, 130, 189, 0.8);
-  stroke-width: 0.5px;
-}
-#line50p1 {
-  fill: none;
-  stroke: rgba(230, 85, 13, 0.8);
-  stroke-width: 0.5px;
-}
-
-#line50p2 {
-  fill: none;
-  stroke: rgba(49, 130, 189, 0.8);
-  stroke-width: 0.5px;
-}
 .lineP1floating{
   fill: none;
   stroke: rgba(230, 85, 13, 1);
   stroke-width: 2.5px;
   stroke-dasharray: 5,5;
+  vector-effect: non-scaling-stroke;
 }
 
 .lineP2floating{
@@ -120,6 +89,7 @@ g.y2 .tick line{
   stroke: rgba(49, 130, 189, 1);
   stroke-width: 2.5px;
   stroke-dasharray: 5,5;
+  vector-effect: non-scaling-stroke;
 }
 
 .statDEBW013pm10{
@@ -127,12 +97,14 @@ g.y2 .tick line{
   stroke: rgba(49, 163, 84, 1);
   stroke-width: 2.5px;
   stroke-dasharray: 5,5;
+  vector-effect: non-scaling-stroke;
 }
 .statDEBW118pm10{
   fill: none;
   stroke: rgba(150, 150, 150, 1);
   stroke-width: 2.5px;
   stroke-dasharray: 5,5;
+  vector-effect: non-scaling-stroke;
 }
 .legend_text{
   fill: #000 !important;
