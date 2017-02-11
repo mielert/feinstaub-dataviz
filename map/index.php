@@ -294,7 +294,7 @@ else{
 function interaction_click(e){
 	//alert("interaction_click");
 	map.forEachFeatureAtPixel(e.pixel, function (feature, layer) {
-			if(feature.getGeometry(getType()=="Point"){
+			if(feature.getGeometry().getType()=="Point"){
 				url = "https://www.madavi.de/sensor/archiv_luftdaten_info/graph.php?sensor="+feature.get("name");
 				window.open(url);
 			}
