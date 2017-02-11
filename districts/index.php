@@ -161,7 +161,7 @@ $.get( "../data/stuttgart_districts.json", function( data ) {
 	  view: view
 	});
     init_map();
-});
+}); // end of $.get( "../data/stuttgart_districts.json", function( data ) {
 
 /**
  * Step 2: Init stuff for the line chart 
@@ -331,6 +331,7 @@ function append_lubw(){
 /**
  * Load citizen science data
  */
+var data = false;
 function append_data(){
 	d3.tsv("/<?php echo $data_dir; ?>chronological_districts_v2_simple.tsv", function(error, data) {
 	if (error) throw error;
@@ -749,7 +750,7 @@ $counter++;
 } ?>
         });
         map.render();
-        console.log("map to most recent data");
+        console.log("map initialized with most recent data");
     }
 }
 </script>
