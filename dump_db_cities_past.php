@@ -84,7 +84,7 @@ $start_count = count($data);
 while(count($data)>168){
 	array_shift($data);
 }
-$data = string implode ("\n",$data);
+$data = implode("\n",$data);
 if($start_count>168){
     $data = $header."\n".$data;
 }
