@@ -80,7 +80,7 @@ planned
     <div id="controlBar2Button" class="bar2Button shadow bgcolor"><div class="bar2ButtonText">Einstellungen</div></div>
     <div id="infoBar2Button" class="bar2Button shadow bgcolor"><div class="bar2ButtonText">Info</div></div>
     <div id="controlBar2" class="Bar2 shadow">
-      <div id="controlBar2Header" class="bgcolor">
+      <div class="Bar2Header bgcolor">
         <h1>Feinstaub in Stuttgart</h1>
         <button id="toggleAreas" class="toggle">Streuung <span class="display" style="display: none;">aus</span><span class="display">ein</span>blenden</button>
         <button id="toggleLUBW" class="toggle">LUBW-Daten <span class="display" style="display: none;">ein</span><span class="display">aus</span>blenden</button>
