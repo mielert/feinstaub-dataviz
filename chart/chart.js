@@ -144,7 +144,7 @@ function append_lubw(){
 } // function append_lubw()
 
 function append_data(){
-  d3.tsv("../data/chronological_city_1.tsv", function(error, data) {
+  d3.tsv("../data/chronological_city_1_week.tsv", function(error, data) {
     if (error) throw error;
   
     data.forEach(function(d) {
