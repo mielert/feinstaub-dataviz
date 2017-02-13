@@ -3,8 +3,7 @@ include_once("library.php");
 
 $city_id = 1;
 $filename_cronological = $data_root."chronological_city_$city_id.tsv";
-
-$districts = db_select("SELECT * FROM `districts`");
+$filename_cronological_week = $data_root."chronological_city_".$city_id."_week.tsv";
 
 /**
  *
@@ -16,7 +15,7 @@ function cleanup_string($string){
 /**
  *
  */
-function header_complete($districts){
+function header_complete(){
 	$data = "timestamp	num_sensors	num_values	P1high	P1low	P1mid	P1highmain	P1lowmain	P1highSensorId	P1lowSensorId	P1floating	P2high	P2low	P2mid	P2highmain	P2lowmain	P2highSensorId	P2lowSensorId	P2floating";
 	return $data;
 }
@@ -77,6 +76,19 @@ $result = file_put_contents($filename_cronological, $data, FILE_APPEND | LOCK_EX
 
 print_r($result);
 
+// a smaller file
+$data = file_get_contents($filename_cronological);
+$data = explode("\n",$data);
+$header = $data[0];
+$start_count = count($data);
+while(count($data)>168){
+	array_shift($data);
+}
+$data = string implode ("\n",$data);
+if($start_count>168){
+    $data = $header."\n".$data;
+}
+file_put_contents($filename_cronological_week,$data);
 
 ?>
 </pre>
