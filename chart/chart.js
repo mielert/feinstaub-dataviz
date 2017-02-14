@@ -142,12 +142,13 @@ function append_lubw(){
         .attr("d", line_statDEBW118pm10);
   });
 } // function append_lubw()
-
+var max_timestamp = 0;
 function append_data(){
   d3.tsv("../data/chronological_city_1_week.tsv", function(error, data) {
     if (error) throw error;
   
     data.forEach(function(d) {
+      max_timestamp = d.timestamp;
       d.timestamp = parseDate(d.timestamp);
       d.num_sensors = +d.num_sensors;
       d.P1low = +d.P1low;
@@ -586,7 +587,7 @@ d3.select(window).on('resize', resize);
  * Zoom
  */
 new_xScale = xScale;
-graph.call(d3.zoom().on("zoom", zoom));
+//graph.call(d3.zoom().on("zoom", zoom));
 function zoom(){
   console.log("zoom");
   new_xScale = d3.event.transform.rescaleX(xScale);
@@ -639,3 +640,23 @@ function toggleAreas(){
   $( ".area" ).toggle();
   $( "#toggleAreas .display" ).toggle();
 }
+function dateAdd(date, interval, units) {
+  var ret = new Date(date); //don't change original date
+  switch(interval.toLowerCase()) {
+    case 'year'   :  ret.setFullYear(ret.getFullYear() + units);  break;
+    case 'quarter':  ret.setMonth(ret.getMonth() + 3*units);  break;
+    case 'month'  :  ret.setMonth(ret.getMonth() + units);  break;
+    case 'week'   :  ret.setDate(ret.getDate() + 7*units);  break;
+    case 'day'    :  ret.setDate(ret.getDate() + units);  break;
+    case 'hour'   :  ret.setTime(ret.getTime() + units*3600000);  break;
+    case 'minute' :  ret.setTime(ret.getTime() + units*60000);  break;
+    case 'second' :  ret.setTime(ret.getTime() + units*1000);  break;
+    default       :  ret = undefined;  break;
+  }
+  return ret;
+}
+$( document ).ready(function() {
+  xScale.domain([dateAdd(parseDate(max_timestamp),'day',-7),parseDate(max_timestamp)]);
+  resize();
+  console.log( "ready!" );
+});
