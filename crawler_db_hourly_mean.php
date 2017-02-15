@@ -1,4 +1,4 @@
-<?php if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR“]) exit; ?>
+<?php if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit; ?>
 <html>
 	<head>
 		<script src="../js/jquery.min.js" type="text/javascript"></script>
