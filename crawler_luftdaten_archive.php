@@ -1,4 +1,4 @@
-<?php if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR“]) exit; ?>
+<?php if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit; ?>
 <?php
 $startdate = strtotime(date("Y-m-d 00:00:00")." -3 days");
 // start: 31.8.2016
