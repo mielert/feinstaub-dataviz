@@ -73,8 +73,9 @@ function get_value($data){
     
     return floatval($value);
 }
-
-
+/**
+ *
+ */
 function simplify_data($data){
     echo "<pre>".print_r($data,true)."</pre>";
     $simple = "timestamp	statDEBW013pm10	statDEBW118pm10
@@ -93,16 +94,25 @@ $lubwData = read_lubw_data($url);
 $timestamp = get_timestamp($lubwData);
 $value013p10 = get_value($lubwData);
 
+$dataset = array("sensor_name"=>"DEBW013","sensor_type"=>2,"lon"=>9.229902388181527,"lat"=>48.8089076285062,"timestamp"=>$timestamp,"P10"=>$value013p10,"P25"=>-1);
+save_sensor_data_to_database($dataset);
+
 $url = 'http://www.mnz.lubw.baden-wuerttemberg.de/messwerte/aktuell/spotstatDEBW118.htm';
 $lubwData = read_lubw_data($url);
 $timestamp = get_timestamp($lubwData);
 $value118p10 = get_value($lubwData);
+
+$dataset = array("sensor_name"=>"DEBW118","sensor_type"=>2,"lon"=>9.191035592718874,"lat"=>48.78808934475257,"timestamp"=>$timestamp,"P10"=>$value118p10,"P25"=>-1);
+save_sensor_data_to_database($dataset);
+
 
 echo date("Y-m-d H:i:s",$timestamp).": ".$value013p10." / ".$value118p10."<br/>";
 
 $lastTimestamp = $cronological_data[count($cronological_data)-1]["timestamp"];
 
 echo date("Y-m-d H:i:s",$lastTimestamp);
+print_r(array("timestamp"=>$timestamp,"statDEBW013pm10"=>$value013p10,"statDEBW118pm10"=>$value118p10));
+
 
 if($timestamp > $lastTimestamp){
     array_push($cronological_data,array("timestamp"=>$timestamp,"statDEBW013pm10"=>$value013p10,"statDEBW118pm10"=>$value118p10));
