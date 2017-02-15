@@ -1,3 +1,4 @@
+<?php if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR“]) exit; ?>
 <pre>
 <?php
 echo "not yet...";
