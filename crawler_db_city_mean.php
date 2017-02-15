@@ -11,6 +11,7 @@ if($result[0]->timestamp == "") {
   echo "cities_mean for city_id = $city_id is empty";
   $sql = "SELECT MIN(`timestamp`) AS timestamp 
           FROM `sensor_data` 
+          LEFT JOIN `sensors` ON `sensors`.`id` = `sensors_hourly_mean`.`sensor_id`
           WHERE `lon` IN (SELECT `lon` 
                           FROM `districts`
                           LEFT JOIN `x_coordinates_districts` ON `x_coordinates_districts`.`district_id` = `districts`.`id`
@@ -18,13 +19,15 @@ if($result[0]->timestamp == "") {
           AND `lat` IN (SELECT `lat` 
                           FROM `districts`
                           LEFT JOIN `x_coordinates_districts` ON `x_coordinates_districts`.`district_id` = `districts`.`id`
-                          WHERE `districts`.`city_id` = $city_id)";
+                          WHERE `districts`.`city_id` = $city_id)
+          AND `sensors`.`type_id` = 1";
   $result = debug_query($sql);
   $starttime = $result[0]->timestamp;
 }
 else{
   $sql = "SELECT MIN(`timestamp`) AS timestamp 
           FROM `sensor_data` 
+          LEFT JOIN `sensors` ON `sensors`.`id` = `sensors_hourly_mean`.`sensor_id`
           WHERE `lon` IN (SELECT `lon` 
                           FROM `districts`
                           LEFT JOIN `x_coordinates_districts` ON `x_coordinates_districts`.`district_id` = `districts`.`id`
@@ -33,7 +36,8 @@ else{
                           FROM `districts`
                           LEFT JOIN `x_coordinates_districts` ON `x_coordinates_districts`.`district_id` = `districts`.`id`
                           WHERE `districts`.`city_id` = $city_id)
-           AND `timestamp` > '".$result[0]->timestamp."'";
+          AND `sensors`.`type_id` = 1
+          AND `timestamp` > '".$result[0]->timestamp."'";
   $result = debug_query($sql);
   $starttime = $result[0]->timestamp;
 }
@@ -43,7 +47,10 @@ if(!$starttime){
 }
 else {
   echo "start time of city_id = $city_id = $starttime";
-  $sql = "SELECT DATE_ADD(MAX(timestamp), INTERVAL -1 HOUR) AS timestamp FROM `sensor_data`";
+  $sql = "SELECT DATE_ADD(MAX(timestamp), INTERVAL -1 HOUR) AS timestamp 
+          FROM `sensor_data`
+          LEFT JOIN `sensors` ON `sensors`.`id` = `sensors_hourly_mean`.`sensor_id`
+          WHERE `sensors`.`type_id` = 1";
   $result = debug_query($sql);
   $endtime = $result[0]->timestamp;
   if($starttime > $endtime) {
@@ -55,6 +62,7 @@ else {
 // get sensor data
 $sql = "SELECT * 
           FROM `sensor_data` 
+          LEFT JOIN `sensors` ON `sensors`.`id` = `sensors_hourly_mean`.`sensor_id`
           WHERE `lon` IN (SELECT `lon` 
                           FROM `districts`
                           LEFT JOIN `x_coordinates_districts` ON `x_coordinates_districts`.`district_id` = `districts`.`id`
@@ -64,7 +72,8 @@ $sql = "SELECT *
                           LEFT JOIN `x_coordinates_districts` ON `x_coordinates_districts`.`district_id` = `districts`.`id`
                           WHERE `districts`.`city_id` = $city_id)
           AND `sensor_data`.`timestamp` >  '".substr($starttime,0,13).":00:00'
-          AND `sensor_data`.`timestamp` <= DATE_ADD('".substr($starttime,0,13).":00:00',INTERVAL 1 HOUR)";
+          AND `sensor_data`.`timestamp` <= DATE_ADD('".substr($starttime,0,13).":00:00',INTERVAL 1 HOUR)
+          AND `sensors`.`type_id` = 1";
 $result = debug_query($sql);
 
 // calculate city data
