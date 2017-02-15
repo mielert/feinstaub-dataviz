@@ -139,6 +139,9 @@ function styleFunctionGlobal(feature,attribute,style,deadSensorColor = "0,0,0",m
 			else if(style=="LuQx") color=colorMappingLuQxPM10(feature.get(attribute),missingValueColor);
 			else color=colorMappingGreenRedPink(feature.get(attribute),missingValueColor);
 		}
+		else if(attribute=="Num_Sensors"){
+			color=colorMappingStepsGreenRed(feature.get(attribute),missingValueColor);
+		}
 		return 	new ol.style.Style({
 					stroke: new ol.style.Stroke({
 							color: 'rgba(0, 0, 0, 1)',
@@ -263,6 +266,33 @@ var colorMappingGreenRedPink = function(value,undefinedColor) {
 	return color;
 };
 
+/**
+ * @param {float} Value to map
+ * @param {string} Color ("123,55,212") if value is undefined or 0
+ * @returns {string} Color ("123,55,212")
+ */
+var colorMappingStepsGreenRed = function(value,undefinedColor) {
+	var color;
+	if(value === undefined || value <= 0){
+		if(typeof undefinedColor === 'string' || undefinedColor instanceof String)
+			color = undefinedColor;
+		else
+			color = undefinedColor+","+undefinedColor+","+undefinedColor;
+	}
+	else{
+		if      (value<=0)  { color = "255,0,0"; }
+		else if (value<=1)  { color = "235,20,0"; }
+		else if (value<=2)  { color = "195,40,0"; }
+		else if (value<=4)  { color = "155,80,0"; }
+		else if (value<=6)  { color = "115,120,0"; }
+		else if (value<=8)  { color = "75,160,0"; }
+		else if (value<=10) { color = "35,200,0"; }
+		else                { color = "0,240,0"; }
+
+	}
+	return color;
+};
+
 	
 var styleFunctionAQIPM10 = function(feature) {
 	return styleFunctionGlobal(feature,"P1","AQI","0,0,0","255,255,255");
@@ -300,3 +330,6 @@ var styleFunctionLuQxPM25 = function(feature) {
 var styleFunctionLuQxPM25floating = function(feature) {
 	return styleFunctionGlobal(feature,"P2floating","LuQx","0,0,0","255,255,255");
 };
+var styleFunctionSensorNumbers = function(feature) {
+	return styleFunctionGlobal(feature,"Num_Sensors","StepsGreenRed","0,0,0","255,0,0");
+}
