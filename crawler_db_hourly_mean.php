@@ -26,10 +26,12 @@ $sensorsearchdate = $startdate;
 do {
 	$sql = "SELECT DISTINCT `sensor_id`,`lon`,`lat`
 			FROM `sensor_data`
+			LEFT JOIN `sensors` ON `sensors`.`id` = `sensor_data`.`sensor_id`
 			WHERE `lon` <> 0
 			AND `lat` <> 0
 			AND `timestamp` > '".date('Y-m-d H:i:s', $sensorsearchdate-60*60)."'
-			AND `timestamp` <='".date('Y-m-d H:i:s', $sensorsearchdate)."'";
+			AND `timestamp` <='".date('Y-m-d H:i:s', $sensorsearchdate)."'
+			AND `sensors`.`type_id` = 2";
 	$results = db_select($sql);
 	
 	echo date('Y-m-d H:i:s', $sensorsearchdate).": ".count($results)." Sensoren<br/>";
@@ -44,11 +46,13 @@ foreach($results as $result){
 	// hourly
 	$sql1 = "SELECT avg(P1) AS P1, avg(P2) AS P2
 			FROM sensor_data
+			LEFT JOIN `sensors` ON `sensors`.`id` = `sensor_data`.`sensor_id`
 			WHERE `sensor_id` = ".$result->sensor_id."
 			AND `lon` = ".$result->lon."
 			AND `lat` = ".$result->lat."
 			AND `timestamp` > '".date('Y-m-d H:i:s', $startdate-60*60)."'
-			AND `timestamp` <='".date('Y-m-d H:i:s', $startdate)."'";
+			AND `timestamp` <='".date('Y-m-d H:i:s', $startdate)."'
+			AND `sensors`.`type_id` = 2";
 	//print_r($sql);
 	$results2 = db_select($sql1);
 	//print_r($results2);
@@ -76,7 +80,10 @@ foreach($results as $result){
 	//break;
 }
 
-$sql = "SELECT MAX(`timestamp`) AS timestamp FROM `sensor_data`";
+$sql = "SELECT MAX(`timestamp`) AS timestamp 
+	FROM `sensor_data` 
+	LEFT JOIN `sensors` ON `sensors`.`id` = `sensor_data`.`sensor_id`
+	WHERE `sensors`.`type_id` = 2";
 $results = db_select($sql);
 $stop = $results[0]->timestamp;
 
