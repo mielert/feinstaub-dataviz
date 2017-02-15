@@ -249,14 +249,14 @@ function debug_query($sql){
  * @return int Id of the given sensor
  */
 function get_sensor_id_by_sensor_name($sensor_name,$type_id=1){
-    $sql = "SELECT * FROM `sensors` WHERE `name` = ".floatval($sensor_name)." LIMIT 1";
+    $sql = "SELECT * FROM `sensors` WHERE `name` = '".$sensor_name."' LIMIT 1";
     $result = db_select($sql);
     if(isset($result[0]->name) && $result[0]->name == $sensor_name)
         return $result[0]->id;
     else{
         $sql = "INSERT INTO `sensors` (`id`,`name`,`type_id`) VALUES (NULL, '$sensor_name',$type_id)";
         $result = db_insert($sql);
-        $sql = "SELECT * FROM `sensors` WHERE `name` = ".floatval($sensor_name)." LIMIT 1";
+        $sql = "SELECT * FROM `sensors` WHERE `name` = '".$sensor_name."' LIMIT 1";
         $result = db_select($sql);
         return $result[0]->id;
     }
@@ -282,5 +282,5 @@ function save_sensor_data_to_database($dataset){
     $sql = "INSERT INTO `sensor_data` (`id`, `sensor_id`, `lon`, `lat`, `timestamp`, `P1`, `P2`)
 			VALUES (NULL,".$sensor_id.",".$dataset["lon"].",".$dataset["lat"].",'".date('Y-m-d H:i:s', $dataset["timestamp"])."',".$dataset["P10"].",".$dataset["P25"].")
 			ON DUPLICATE KEY UPDATE `P1` = VALUES(`P1`), `P2` = VALUES(`P2`); ";
-    $result = debug_query($sql);
+    $result = db_select($sql);
 }
