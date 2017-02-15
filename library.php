@@ -244,7 +244,9 @@ function debug_query($sql){
 	return $result;
 }
 /**
- *
+ * @param string $sensor_name Name of the sensor
+ * @param int $type_id Sensor type id
+ * @return int Id of the given sensor
  */
 function get_sensor_id_by_sensor_name($sensor_name,$type_id=1){
     $sql = "SELECT * FROM `sensors` WHERE `name` = ".floatval($sensor_name)." LIMIT 1";
@@ -260,7 +262,8 @@ function get_sensor_id_by_sensor_name($sensor_name,$type_id=1){
     }
 }
 /**
- *
+ * @param int $sensor_id
+ * @return string or bool Name of the sensor or false
  */
 function get_sensor_name_by_sensor_id($sensor_id){
     $sql = "SELECT * FROM `sensors` WHERE `id` = ".floatval($sensor_id)." LIMIT 1";
@@ -270,4 +273,14 @@ function get_sensor_name_by_sensor_id($sensor_id){
     else{
         return false;
     }
+}
+/**
+ * @param array $dataset array("sensor_name"=>"","sensor_type"=>0,"lon"=>0,"lat"=>0,"timestamp"=>"","P10"=>0,"P25"=>0)
+ */
+function save_sensor_data_to_database($dataset){
+    $sensor_id = get_sensor_id_by_sensor_name($dataset["sensor_name"],$dataset["sensor_type"]);
+    $sql = "INSERT INTO `sensor_data` (`id`, `sensor_id`, `lon`, `lat`, `timestamp`, `P1`, `P2`)
+			VALUES (NULL,".$sensor_id.",".$dataset["lon"].",".$dataset["lat"].",'".date('Y-m-d H:i:s', $dataset["timestamp"])."',".$dataset["P10"].",".$dataset["P25"].")
+			ON DUPLICATE KEY UPDATE `P1` = VALUES(`P1`), `P2` = VALUES(`P2`); ";
+    $result = debug_query($sql);
 }
