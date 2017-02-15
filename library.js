@@ -330,6 +330,6 @@ var styleFunctionLuQxPM25 = function(feature) {
 var styleFunctionLuQxPM25floating = function(feature) {
 	return styleFunctionGlobal(feature,"P2floating","LuQx","0,0,0","255,255,255");
 };
-var styleFunctionSensorNumbers = function(feature) {
+var styleFunctionSensorCounter = function(feature) {
 	return styleFunctionGlobal(feature,"Num_Sensors","StepsGreenRed","0,0,0","255,0,0");
 }
