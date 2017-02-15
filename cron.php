@@ -1,4 +1,4 @@
-<?php if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR“]) exit; ?>
+<?php if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit; ?>
 <?php
 include_once("library.php");
 echo "cron<br/>";
