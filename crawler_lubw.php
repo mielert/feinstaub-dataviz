@@ -95,7 +95,7 @@ $timestamp = get_timestamp($lubwData);
 $value013p10 = get_value($lubwData);
 
 $dataset = array("sensor_name"=>"DEBW013","sensor_type"=>2,"lon"=>9.229902388181527,"lat"=>48.8089076285062,"timestamp"=>$timestamp,"P10"=>$value013p10,"P25"=>-1);
-save_sensor_data_to_database($dataset);
+save_sensor_data_to_database_daily_mean($dataset);
 
 $url = 'http://www.mnz.lubw.baden-wuerttemberg.de/messwerte/aktuell/spotstatDEBW118.htm';
 $lubwData = read_lubw_data($url);
@@ -103,7 +103,7 @@ $timestamp = get_timestamp($lubwData);
 $value118p10 = get_value($lubwData);
 
 $dataset = array("sensor_name"=>"DEBW118","sensor_type"=>2,"lon"=>9.191035592718874,"lat"=>48.78808934475257,"timestamp"=>$timestamp,"P10"=>$value118p10,"P25"=>-1);
-save_sensor_data_to_database($dataset);
+save_sensor_data_to_database_daily_mean($dataset);
 
 
 echo date("Y-m-d H:i:s",$timestamp).": ".$value013p10." / ".$value118p10."<br/>";
