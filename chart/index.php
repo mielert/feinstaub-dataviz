@@ -12,7 +12,7 @@ include_once("../library.php");
     <meta property="og:image" content="<?php echo $url; ?>/chart/chart.png"/>
     <meta property="og:url" content="<?php echo $url; ?>/chart/"/>
     <script src="../js/d3.v4.min.js" type="text/javascript"></script>
-    <!--<script src="../js/jquery.min.js" type="text/javascript"></script>-->
+	  <script src="../js/jquery.min.js" type="text/javascript"></script>
     <script src="../library.js" type="text/javascript"></script>
     <link rel="stylesheet" href="../styles.css" type="text/css" media="all"/>
     <link rel="stylesheet" href="chartstyles.css" type="text/css" media="all"/>
