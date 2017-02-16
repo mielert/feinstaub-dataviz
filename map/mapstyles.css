@@ -1,0 +1,59 @@
+			body{
+				font-size: 0.9em !important;
+			}
+			#mapdiv{
+				width: 100%;
+				height: 100%;
+				position: relative;
+				float: right;
+			}
+			#ranking{
+				width: 150px;
+				height: 100%;
+				position: relative;
+				float: left;
+				text-align: center;
+			}
+			.longitude, .latitude{
+				display: none;
+			}
+			.ranking_row tr td{
+				cursor: pointer;
+			}
+			#ranking_table{
+				padding: 5px;
+				width: 100%;
+			}
+			#mapinfo{
+				position: absolute;
+				bottom: 0px;
+				padding: 5px;
+				width: 160px;
+				background-color: #fff;
+			}
+			#mapinfo2{
+				position: absolute;
+				bottom: 0px;
+				padding: 5px;
+				width: 160px;
+				background-color: #fff;
+				display: none;
+				height: auto;
+				color: #000000;
+				font-size: 0.8em;
+			}
+			.ol-attribution img{
+				max-height: 1.6em;
+			}
+			div.ol-zoom{
+				right: 0.5em;
+				bottom: 3em;
+				left: initial;
+				top: initial;
+			}
+			@media (max-device-width: 1000px) {
+				#mapinfo2{
+					width: 280px;
+					font-size: 1em;
+				}
+			}
