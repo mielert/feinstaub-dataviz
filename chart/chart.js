@@ -263,7 +263,7 @@ function append_data(){
       .attr("y2", infoy);
       
     graph.append("text")
-      .text("P10, Median aus gemittelten 5-Min-Werten")
+      .text("PM10 (Median) Quelle: OK Lab Stuttgart")
       .attr("class", "legend_text")
       .attr("x",width-infox+30)
       .attr("y",infoy+3);
@@ -276,7 +276,7 @@ function append_data(){
       .attr("y2", infoy+20);
   
     graph.append("text")
-      .text("P2.5, Median aus gemittelten 5-Min-Werten")
+      .text("PM2.5 (Median) Quelle: OK Lab Stuttgart")
       .attr("class", "legend_text")
       .attr("x",width-infox+30)
       .attr("y",infoy+23);
@@ -289,7 +289,7 @@ function append_data(){
       .attr("y2", infoy+40);
   
     graph.append("text")
-      .text("P10, gleitender 24h-Mittelwert aus Median")
+      .text("PM10 (gleitender 24h-Mittelwert) Quelle: OK Lab Stuttgart")
       .attr("class", "legend_text")
       .attr("x",width-infox+30)
       .attr("y",infoy+43);
@@ -302,7 +302,7 @@ function append_data(){
       .attr("y2", infoy+60);
   
     graph.append("text")
-      .text("P2.5, gleitender 24h-Mittelwert aus Median")
+      .text("PM2.5 (gleitender 24h-Mittelwert) Quelle: OK Lab Stuttgart")
       .attr("class", "legend_text")
       .attr("x",width-infox+30)
       .attr("y",infoy+63);
@@ -315,7 +315,7 @@ function append_data(){
       .attr("y2", infoy+80);
   
     graph.append("text")
-      .text("P10 Bad Cannstatt, Quelle: LUBW")
+      .text("PM10 Bad Cannstatt (gleitender 24h-Mittelwert), Quelle: LUBW")
       .attr("class", "statDEBW013pm10 legend_text")
       .attr("x",width-infox+30)
       .attr("y",infoy+83);
@@ -328,7 +328,7 @@ function append_data(){
       .attr("y2", infoy+100);
   
     graph.append("text")
-      .text("P10 Neckartor, Quelle: LUBW")
+      .text("PM10 Neckartor (gleitender 24h-Mittelwert), Quelle: LUBW")
       .attr("class", "statDEBW118pm10 legend_text")
       .attr("x",width-infox+30)
       .attr("y",infoy+103);
