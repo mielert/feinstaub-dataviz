@@ -29,9 +29,11 @@ $sql = "SELECT
 			(
 				SELECT COUNT(sensor_id)
 				FROM `sensors_hourly_mean`
+				LEFT JOIN `sensors` ON `sensors`.`id` = `sensors_hourly_mean`.`sensor_id`
 				WHERE `timestamp` = '$recent_timestamp'
 				AND lon IN (SELECT lon FROM `x_coordinates_districts` WHERE `district_id` = `districts`.`id`)
 				AND lat IN (SELECT lat FROM `x_coordinates_districts` WHERE `district_id` = `districts`.`id`)
+				AND `sensors`.`type_id` = 1
 			) AS Num_Sensors,
 			(
 				SELECT GROUP_CONCAT(`sensors`.`name`)
@@ -40,6 +42,7 @@ $sql = "SELECT
 				WHERE `timestamp` = '$recent_timestamp'
 				AND lon IN (SELECT lon FROM `x_coordinates_districts` WHERE `district_id` = `districts`.`id`)
 				AND lat IN (SELECT lat FROM `x_coordinates_districts` WHERE `district_id` = `districts`.`id`)
+				AND `sensors`.`type_id` = 1
 			) AS Sensor_IDs,
 			-1 AS P1_Sensors,
 			-1 AS P2_Sensors
@@ -66,9 +69,11 @@ $sql = "SELECT
 			`sensors_hourly_mean`.`lon`,
 			`sensors_hourly_mean`.`lat`
 		FROM `sensors_hourly_mean`
+		LEFT JOIN `sensors` ON `sensors`.`id` = `sensors_hourly_mean`.`sensor_id`
 		LEFT JOIN `x_coordinates_districts` ON (`x_coordinates_districts`.`lat` = `sensors_hourly_mean`.`lat` AND `x_coordinates_districts`.`lon` = `sensors_hourly_mean`.`lon`)
 		WHERE `sensors_hourly_mean`.`timestamp`='$recent_timestamp'
 		AND `x_coordinates_districts`.`district_id` > 0
+		AND `sensors`.`type_id` = 1
 		ORDER BY `x_coordinates_districts`.`district_id`";
 
 $recent_sensor_data = debug_query($sql);
