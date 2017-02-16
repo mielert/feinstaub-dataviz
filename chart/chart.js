@@ -252,7 +252,7 @@ function append_data(){
       .attr("d", lineP2floating);
   
     // Infos
-    var infox = 240;
+    var infox = 280;
     var infoy = 0;
   
     graph.append("line")
