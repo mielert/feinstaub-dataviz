@@ -2,16 +2,10 @@
 <pre><?php
 include_once("library.php");
 
-/**
- *
- * WORK IN PROGRESS
- *
- */
-
-
+$sensor_type_id = 2;
 $filename_cronological_complete = $data_root."chronological_data_lubw.tsv";
 
-$districts = db_select("SELECT * FROM `sensors` ORDER BY `name`");
+$sensors = db_select("SELECT * FROM `sensors` WHERE `sensors`.`type_id` = $sensor_type_id ORDER BY `name`");
 
 /**
  *
@@ -23,19 +17,22 @@ function cleanup_string($string){
 /**
  *
  */
-function header_complete($districts){
-	$data = "timestamp	DEBW013pm10	DEBW118pm10";
+function header_complete($sensors){
+	$data = "timestamp	";
+	foreach($sensors as $dataset){
+		$data.=$dataset->name."pm10	";
+	}
 	return $data;
 }
 
 $data_complete = "";
 
 if(!file_exists($filename_cronological_complete)){
-	$data_complete = header_complete($districts);
+	$data_complete = header_complete($sensors);
 	// get min dataset from db
 	$sql = "SELECT * FROM `sensors_hourly_mean`
 			LEFT JOIN `sensors` ON `sensors`.`id` = `sensors_hourly_mean`.`sensor_id`
-			WHERE `sensors`.`type_id` = 2
+			WHERE `sensors`.`type_id` = $sensor_type_id
 			ORDER BY `sensors_hourly_mean`.`timestamp` ASC
 			LIMIT 1";
 	$start = db_select($sql);
@@ -56,12 +53,6 @@ else{
 	echo $start."\n";
 }
 
-if(!file_exists($filename_cronological_simple))
-	$data_simple = header_simple($districts);
-else{
-
-}
-
 $sql = "SELECT * FROM `sensors_hourly_mean`
 		LEFT JOIN `sensors` ON `sensors`.`id` = `sensors_hourly_mean`.`sensor_id`
 		WHERE `sensors`.`type_id` = 2
@@ -73,11 +64,13 @@ $stop = strtotime($stop);
 
 $timestamp = $start;
 
+echo "start: $start ";
+echo "stop: $stop ";
+
 $max = 100;
 $j = 0;
 while($timestamp <= $stop){
 	$data_complete.="\n".date("YmdHis",$timestamp);
-	$data_simple.="\n".date("YmdHis",$timestamp);
 	
 	$sql = "SELECT *
 			FROM `sensors_hourly_mean`
@@ -85,19 +78,17 @@ while($timestamp <= $stop){
 			WHERE `sensors`.`type_id` = 2
 			AND `timestamp` = '".date("Y-m-d H:i:s",$timestamp)."'
 			ORDER BY `sensor_id`";
-	$results = db_select($sql);
+	$results = debug_query($sql);
 	$values = array();
 	foreach($results as $result){
-		$values[$result->district_id] = array("P1h"=>$result->P1h,"P1d"=>$result->P1d,"P2h"=>$result->P2h,"P2d"=>$result->P2d);
+		$values[$result->name] = $result->P1d;
 	}
-	for($i=1;$i<=23;$i++){
-		if(isset($values[$i])){
-			$data_complete.= "	".$values[$i]["P1h"]."	".$values[$i]["P1d"]."	".$values[$i]["P2h"]."	".$values[$i]["P2d"];
-			$data_simple.= "	".$values[$i]["P1d"];
+	foreach($sensors as $sensor){
+		if(isset($values[$sensor->name])){
+			$data_complete.= "	".$values[$sensor->name];
 		}
 		else{
-			$data_complete.= "	-1	-1	-1	-1";
-			$data_simple.= "	-1";
+			$data_complete.= "	";
 		}
 	}
 	
@@ -106,14 +97,11 @@ while($timestamp <= $stop){
 	if($j>$max) break;
 }
 
-echo $data_simple;
-	
+echo $data_complete;
+
+
 file_put_contents($filename_cronological_complete, $data_complete, FILE_APPEND | LOCK_EX);
 //file_put_contents($filename_cronological_complete, $data_complete);
-file_put_contents($filename_cronological_simple, $data_simple, FILE_APPEND | LOCK_EX);
-
-
-
 
 ?>
 </pre>
