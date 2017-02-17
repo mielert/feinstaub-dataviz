@@ -104,13 +104,15 @@ var lineP2floating = d3.line()
     .x(function(d) { return xScale(d.timestamp); })
     .y(function(d) { return yScale(d.P2floating); });
     
-var line_statDEBW013pm10 = d3.line()
+var line_DEBW013pm10 = d3.line()
     .x(function(d2) { return xScale(d2.timestamp); })
-    .y(function(d2) { return yScale(d2.statDEBW013pm10); });
+    .y(function(d2) { return yScale(d2.DEBW013pm10); })
+    .defined(function(d2) {return !isNaN(d2.DEBW013pm10); });
 
-var line_statDEBW118pm10 = d3.line()
+var line_DEBW118pm10 = d3.line()
     .x(function(d2) { return xScale(d2.timestamp); })
-    .y(function(d2) { return yScale(d2.statDEBW118pm10); });
+    .y(function(d2) { return yScale(d2.DEBW118pm10); })
+    .defined(function(d2) {return !isNaN(d2.DEBW118pm10); });
     
       
 var parseDate = d3.timeParse("%Y%m%d%H%M%S");
@@ -119,27 +121,29 @@ var bisectDate = d3.bisector(function(d) { return d.timestamp; }).left;
 
 
 function append_lubw(){
-  // statDEBW013pm10 aka Gnesener Straße
-  d3.tsv("../data/data_lubw.tsv", function(error, data2) {
+  // DEBW013pm10 aka Gnesener Straße
+  d3.tsv("../data/chronological_data_lubw.tsv", function(error, data2) {
     if (error) throw error;
   
     data2.forEach(function(d2) {
       d2.timestamp = parseDate(d2.timestamp);
-      d2.statDEBW013pm10 = +d2.statDEBW013pm10;
-      d2.statDEBW118pm10 = +d2.statDEBW118pm10;
+      d2.DEBW013pm10 = +((d2.DEBW013pm10==="")?NaN:d2.DEBW013pm10);
+      //d2.DEBW013pm10 = +d2.DEBW013pm10;
+      //d2.DEBW118pm10 = +d2.DEBW118pm10;
+      d2.DEBW118pm10 = +((d2.DEBW118pm10==="")?NaN:d2.DEBW118pm10);
     });
     
     graph.append("path")
         .datum(data2)
-        .attr("id", "line_statDEBW013pm10")
-        .attr("class", "statDEBW013pm10")
-        .attr("d", line_statDEBW013pm10);
+        .attr("id", "line_DEBW013pm10")
+        .attr("class", "DEBW013pm10")
+        .attr("d", line_DEBW013pm10);
         
     graph.append("path")
         .datum(data2)
-        .attr("id", "line_statDEBW118pm10")
-        .attr("class", "statDEBW118pm10")
-        .attr("d", line_statDEBW118pm10);
+        .attr("id", "line_DEBW118pm10")
+        .attr("class", "DEBW118pm10")
+        .attr("d", line_DEBW118pm10);
   });
 } // function append_lubw()
 var max_timestamp = 0;
@@ -308,7 +312,7 @@ function append_data(){
       .attr("y",infoy+63);
   
     graph.append("line")
-      .attr("class", "statDEBW013pm10 legend_line")
+      .attr("class", "DEBW013pm10 legend_line")
       .attr("x1", width-infox)
       .attr("y1", infoy+80)
       .attr("x2", width-infox+20)
@@ -316,12 +320,12 @@ function append_data(){
   
     graph.append("text")
       .text("PM10 Bad Cannstatt (gleitender 24h-Mittelwert), Quelle: LUBW")
-      .attr("class", "statDEBW013pm10 legend_text")
+      .attr("class", "DEBW013pm10 legend_text")
       .attr("x",width-infox+30)
       .attr("y",infoy+83);
   
     graph.append("line")
-      .attr("class", "statDEBW118pm10 legend_line")
+      .attr("class", "DEBW118pm10 legend_line")
       .attr("x1", width-infox)
       .attr("y1", infoy+100)
       .attr("x2", width-infox+20)
@@ -329,7 +333,7 @@ function append_data(){
   
     graph.append("text")
       .text("PM10 Neckartor (gleitender 24h-Mittelwert), Quelle: LUBW")
-      .attr("class", "statDEBW118pm10 legend_text")
+      .attr("class", "DEBW118pm10 legend_text")
       .attr("x",width-infox+30)
       .attr("y",infoy+103);
   
@@ -540,10 +544,10 @@ function resize() {
   graph.select('#area4')
     .attr("d", area4);
     
-  graph.select('#line_statDEBW013pm10')
-    .attr("d", line_statDEBW013pm10);
-  graph.select('#line_statDEBW118pm10')
-    .attr("d", line_statDEBW118pm10);
+  graph.select('#line_DEBW013pm10')
+    .attr("d", line_DEBW013pm10);
+  graph.select('#line_DEBW118pm10')
+    .attr("d", line_DEBW118pm10);
     
   graph.select('#line')
     .attr("d", line);      
@@ -601,8 +605,8 @@ function zoom(){
   graph.select("#area2").attr("transform", 'translate('+d3.event.transform.x+',0) scale('+d3.event.transform.k+',1)');
   graph.select("#area3").attr("transform", 'translate('+d3.event.transform.x+',0) scale('+d3.event.transform.k+',1)');
   graph.select("#area4").attr("transform", 'translate('+d3.event.transform.x+',0) scale('+d3.event.transform.k+',1)');
-  graph.select("#line_statDEBW118pm10").attr("transform", 'translate('+d3.event.transform.x+',0) scale('+d3.event.transform.k+',1)');
-  graph.select("#line_statDEBW013pm10").attr("transform", 'translate('+d3.event.transform.x+',0) scale('+d3.event.transform.k+',1)');
+  graph.select("#line_DEBW118pm10").attr("transform", 'translate('+d3.event.transform.x+',0) scale('+d3.event.transform.k+',1)');
+  graph.select("#line_DEBW013pm10").attr("transform", 'translate('+d3.event.transform.x+',0) scale('+d3.event.transform.k+',1)');
   graph.select("#overlay_rect").attr("transform", 'translate('+d3.event.transform.x+',0) scale('+d3.event.transform.k+',1)');
 } // function zoom()
 
@@ -628,8 +632,8 @@ $( "#toggleLUBW" ).click(function() {
   toggleLUBW();
 });
 function toggleLUBW(){
-  $( ".statDEBW013pm10" ).toggle();
-  $( ".statDEBW118pm10" ).toggle();
+  $( ".DEBW013pm10" ).toggle();
+  $( ".DEBW118pm10" ).toggle();
   $( "#toggleLUBW .display" ).toggle();
 }
 function toggleHelp(){
