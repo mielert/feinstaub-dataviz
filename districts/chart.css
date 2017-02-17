@@ -66,14 +66,14 @@ g.y2 .tick line{
 .fadeout{
 	opacity: 0.15;
 }
-.statDEBW013pm10{
+.DEBW013pm10{
   fill: none;
   stroke: rgba(49, 163, 84, 1);
   stroke-width: 1.5px;
   stroke-dasharray: 5,1;
 }
 
-.statDEBW118pm10{
+.DEBW118pm10{
   fill: none;
   stroke: rgba(150, 150, 150, 1);
   stroke-width: 1.5px;
