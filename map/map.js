@@ -136,7 +136,7 @@ var xhr = $.get( "../data/stuttgart_districts_v2.json", function( data ) {
 									district+="("+feature.get("Num_Sensors")+" Sensor[en]: "+feature.get("Sensor_IDs").replace(/,/g, ", ")+")";
 								}
 								else{
-									district+="keine Daten vorhanden";
+									district+="keine aktuellen Daten vorhanden";
 								}
 								out=district+"<br/>"+out;
 							}
