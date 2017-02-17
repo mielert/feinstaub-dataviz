@@ -248,13 +248,15 @@ var P1floating_<?php echo $dataset; ?> = d3.line()
 <?php
 }
 ?>
-var line_statDEBW013pm10 = d3.line()
+var line_DEBW013pm10 = d3.line()
     .x(function(d2) { return xScale(d2.timestamp); })
-    .y(function(d2) { return yScale(d2.statDEBW013pm10); });
+    .y(function(d2) { return yScale(d2.DEBW013pm10); })
+    .defined(function(d2) {return !isNaN(d2.DEBW013pm10); });
 
-var line_statDEBW118pm10 = d3.line()
+var line_DEBW118pm10 = d3.line()
     .x(function(d2) { return xScale(d2.timestamp); })
-    .y(function(d2) { return yScale(d2.statDEBW118pm10); });
+    .y(function(d2) { return yScale(d2.DEBW118pm10); })
+    .defined(function(d2) {return !isNaN(d2.DEBW118pm10); });
 
 var parseDate = d3.timeParse("%Y%m%d%H%M%S");
 
@@ -269,28 +271,28 @@ var div = d3.select("body").append("div")
  * Load governmental data
  */
 function append_lubw(){
-  // statDEBW013pm10 aka Gnesener Straße
-  d3.tsv("/<?php echo $data_dir; ?>data_lubw.tsv", function(error, data2) {
+  // DEBW013pm10 aka Gnesener Straße
+  d3.tsv("/<?php echo $data_dir; ?>chronological_data_lubw.tsv", function(error, data2) {
     if (error) throw error;
-	console.log("data_lubw.tsv loaded");
+	console.log("chronological_data_lubw.tsv loaded");
   
     data2.forEach(function(d2) {
       d2.timestamp = parseDate(d2.timestamp);
-      d2.statDEBW013pm10 = +d2.statDEBW013pm10;
-      d2.statDEBW118pm10 = +d2.statDEBW118pm10;
+      d2.DEBW013pm10 = +((d2.DEBW013pm10==="")?NaN:d2.DEBW013pm10);
+      d2.DEBW118pm10 = +((d2.DEBW118pm10==="")?NaN:d2.DEBW118pm10);
     });
     
     graph.append("path")
         .datum(data2)
-        .attr("id", "line_statDEBW013pm10")
-        .attr("class", "P1 statDEBW013pm10")
-        .attr("d", line_statDEBW013pm10)
+        .attr("id", "line_DEBW013pm10")
+        .attr("class", "P1 DEBW013pm10")
+        .attr("d", line_DEBW013pm10)
 		.attr( 'vector-effect' , 'non-scaling-stroke' )
       .on("mousemove", function(d) {		
             $(".P1").addClass("fadeout");
-            $(".statDEBW013pm10").addClass("hover");
-            $(".statDEBW013pm10").removeClass("fadeout");
-            $("#statDEBW013pm10_text").addClass("texthover");
+            $(".DEBW013pm10").addClass("hover");
+            $(".DEBW013pm10").removeClass("fadeout");
+            $("#DEBW013pm10_text").addClass("texthover");
             div	.html(hoverTimeFormat(xScale.invert(d3.mouse(this)[0]))+" PM10 24h-Mittel des LUBW-Sensors Bad Cannstatt"+": "+(Math.round(yScale.invert(d3.mouse(this)[1])))+" µg/m³")	
                 .style("opacity", 0.9)	
                 .style("left", (d3.event.pageX) + "px")		
@@ -298,22 +300,22 @@ function append_lubw(){
             })					
         .on("mouseout", function(d) {		
             $(".P1").removeClass("fadeout");
-            $(".statDEBW013pm10").removeClass("hover");
-            $("#statDEBW013pm10_text").removeClass("texthover");
+            $(".DEBW013pm10").removeClass("hover");
+            $("#DEBW013pm10_text").removeClass("texthover");
             div.style("opacity", 0);	
         });
         
     graph.append("path")
         .datum(data2)
-        .attr("id", "line_statDEBW118pm10")
-        .attr("class", "P1 statDEBW118pm10")
-        .attr("d", line_statDEBW118pm10)
+        .attr("id", "line_DEBW118pm10")
+        .attr("class", "P1 DEBW118pm10")
+        .attr("d", line_DEBW118pm10)
 		.attr( 'vector-effect' , 'non-scaling-stroke' )
       .on("mousemove", function(d) {		
             $(".P1").addClass("fadeout");
-            $(".statDEBW118pm10").addClass("hover");
-            $(".statDEBW118pm10").removeClass("fadeout");
-            $("#statDEBW118pm10_text").addClass("texthover");
+            $(".DEBW118pm10").addClass("hover");
+            $(".DEBW118pm10").removeClass("fadeout");
+            $("#DEBW118pm10_text").addClass("texthover");
             div	.html(hoverTimeFormat(xScale.invert(d3.mouse(this)[0]))+" PM10 24h-Mittel des LUBW-Sensors Neckartor"+": "+(Math.round(yScale.invert(d3.mouse(this)[1])))+" µg/m³")	
                 .style("opacity", 0.9)	
                 .style("left", (d3.event.pageX) + "px")		
@@ -321,8 +323,8 @@ function append_lubw(){
             })					
         .on("mouseout", function(d) {		
             $(".P1").removeClass("fadeout");
-            $(".statDEBW118pm10").removeClass("hover");
-            $("#statDEBW118pm10_text").removeClass("texthover");
+            $(".DEBW118pm10").removeClass("hover");
+            $("#DEBW118pm10_text").removeClass("texthover");
             div.style("opacity", 0);	
         });
   });
@@ -410,8 +412,8 @@ function zoom(){
 <?php foreach($districts as $dataset){ ?>
   graph.select("#P1floating_<?php echo $dataset; ?>").attr("transform", 'translate('+d3.event.transform.x+',0) scale('+d3.event.transform.k+',1)');
 <?php } ?>
-  graph.select("#line_statDEBW118pm10").attr("transform", 'translate('+d3.event.transform.x+',0) scale('+d3.event.transform.k+',1)');
-  graph.select("#line_statDEBW013pm10").attr("transform", 'translate('+d3.event.transform.x+',0) scale('+d3.event.transform.k+',1)');
+  graph.select("#line_DEBW118pm10").attr("transform", 'translate('+d3.event.transform.x+',0) scale('+d3.event.transform.k+',1)');
+  graph.select("#line_DEBW013pm10").attr("transform", 'translate('+d3.event.transform.x+',0) scale('+d3.event.transform.k+',1)');
   graph.select("#overlay_rect").attr("transform", 'translate('+d3.event.transform.x+',0) scale('+d3.event.transform.k+',1)');
 }
 graph.on('mousemove', function () {
@@ -541,73 +543,73 @@ $counter++;
 } ?>
 
   graph2.append("line")
-    .attr("class", "P1 legend_line statDEBW118pm10")
+    .attr("class", "P1 legend_line DEBW118pm10")
     .attr("x1", infox)
     .attr("y1", infoy+<?php echo ($counter*$step);?>)
     .attr("x2", infox+20)
     .attr("y2", infoy+<?php echo ($counter*$step);?>)
       .on("mouseover", function(d) {		
             $(".P1").addClass("fadeout");
-            $(".statDEBW118pm10").addClass("hover");
-            $(".statDEBW118pm10").removeClass("fadeout");
-            $("#statDEBW118pm10_text").addClass("texthover");
+            $(".DEBW118pm10").addClass("hover");
+            $(".DEBW118pm10").removeClass("fadeout");
+            $("#DEBW118pm10_text").addClass("texthover");
             })					
         .on("mouseout", function(d) {		
             $(".P1").removeClass("fadeout");
-            $(".statDEBW118pm10").removeClass("hover");
-            $("#statDEBW118pm10_text").removeClass("texthover");
+            $(".DEBW118pm10").removeClass("hover");
+            $("#DEBW118pm10_text").removeClass("texthover");
         });
     
   graph2.append("text")
       .text("LUBW Neckartor")
       .attr("class", "legend_text")
-	  .attr("id", "statDEBW118pm10_text")
+	  .attr("id", "DEBW118pm10_text")
       .attr("x",infox+30)
       .attr("y",infoy+3+<?php echo ($counter*$step);?>)
 			      .on("mouseover", function(d) {		
             $(".P1").addClass("fadeout");
-			$(".statDEBW118pm10").addClass("hover");
-            $("#statDEBW118pm10_text").addClass("texthover");
+			$(".DEBW118pm10").addClass("hover");
+            $("#DEBW118pm10_text").addClass("texthover");
             })					
         .on("mouseout", function(d) {		
             $(".P1").removeClass("fadeout");
-            $(".statDEBW118pm10").removeClass("hover");
-            $("#statDEBW118pm10_text").removeClass("texthover");
+            $(".DEBW118pm10").removeClass("hover");
+            $("#DEBW118pm10_text").removeClass("texthover");
         });
 
   graph2.append("line")
-    .attr("class", "P1 legend_line statDEBW013pm10")
+    .attr("class", "P1 legend_line DEBW013pm10")
     .attr("x1", infox)
     .attr("y1", infoy+<?php echo (($counter+1)*$step);?>)
     .attr("x2", infox+20)
     .attr("y2", infoy+<?php echo (($counter+1)*$step);?>)
       .on("mouseover", function(d) {		
             $(".P1").addClass("fadeout");
-            $(".statDEBW013pm10").addClass("hover");
-            $(".statDEBW013pm10").removeClass("fadeout");
-            $("#statDEBW013pm10_text").addClass("texthover");
+            $(".DEBW013pm10").addClass("hover");
+            $(".DEBW013pm10").removeClass("fadeout");
+            $("#DEBW013pm10_text").addClass("texthover");
             })					
         .on("mouseout", function(d) {		
             $(".P1").removeClass("fadeout");
-            $(".statDEBW013pm10").removeClass("hover");
-            $("#statDEBW013pm10_text").removeClass("texthover");
+            $(".DEBW013pm10").removeClass("hover");
+            $("#DEBW013pm10_text").removeClass("texthover");
         });
     
   graph2.append("text")
       .text("LUBW Bad Cannstatt")
       .attr("class", "legend_text")
-	  .attr("id", "statDEBW013pm10_text")
+	  .attr("id", "DEBW013pm10_text")
       .attr("x",infox+30)
       .attr("y",infoy+3+<?php echo (($counter+1)*$step);?>)
 			      .on("mouseover", function(d) {		
             $(".P1").addClass("fadeout");
-			$(".statDEBW013pm10").addClass("hover");
-            $("#statDEBW013pm10_text").addClass("texthover");
+			$(".DEBW013pm10").addClass("hover");
+            $("#DEBW013pm10_text").addClass("texthover");
             })					
         .on("mouseout", function(d) {		
             $(".P1").removeClass("fadeout");
-            $(".statDEBW013pm10").removeClass("hover");
-            $("#statDEBW013pm10_text").removeClass("texthover");
+            $(".DEBW013pm10").removeClass("hover");
+            $("#DEBW013pm10_text").removeClass("texthover");
         });
 
 
@@ -697,10 +699,10 @@ if(d3.max(data, function(d) { return d.P1floating_<?php echo $dataset; ?>; }) <=
       .attr("d", P1floating_<?php echo $dataset; ?>);      
 <?php } ?>
 
-    graph.select('#line_statDEBW118pm10')
-      .attr("d", line_statDEBW118pm10);
-    graph.select('#line_statDEBW013pm10')
-      .attr("d", line_statDEBW013pm10);
+    graph.select('#line_DEBW118pm10')
+      .attr("d", line_DEBW118pm10);
+    graph.select('#line_DEBW013pm10')
+      .attr("d", line_DEBW013pm10);
       
     graph.select('#overlay_rect')
       .attr("width", width)
