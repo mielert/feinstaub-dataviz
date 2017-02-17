@@ -7,6 +7,8 @@ var view = new ol.View({
 var jsonDistricts = "";
 var jsonSensors = "";
 var map = "";
+var vectorDistricts = "";
+var vectorSensors = "";
 var xhr = $.get( "../data/stuttgart_districts_v2.json", function( data ) {
 	console.log("stuttgart_districts_v2.json loaded");
 	jsonDistricts = data;
@@ -26,7 +28,7 @@ var xhr = $.get( "../data/stuttgart_districts_v2.json", function( data ) {
 					)
 		});
 	
-		var vectorDistricts = new ol.layer.Vector({
+		vectorDistricts = new ol.layer.Vector({
 		  source: vectorSourceDistricts,
 		  style: styleFunctionAQIPM10floating,
 		  opacity: 0.5
@@ -44,7 +46,7 @@ var xhr = $.get( "../data/stuttgart_districts_v2.json", function( data ) {
 					)
 		});
 
-		var vectorSensors = new ol.layer.Vector({
+		vectorSensors = new ol.layer.Vector({
 		  source: vectorSourceSensors,
 		  style: styleFunctionAQIPM10
 		});
