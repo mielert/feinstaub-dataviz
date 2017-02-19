@@ -250,7 +250,7 @@ Die gezeigten Daten werden mit freundlicher Genehmigung der <a href="http://www.
 Die erste Frage, die sich stellt, ist die nach dem gewünschten Ergebnis. Soll eine Karte, ein Liniendiagramm oder eine ganz andere Darstellung entstehen? Was mit d3 möglich ist, können Sie den <a href="https://github.com/d3/d3/wiki/Gallery" target="_blank">Beispielen</a> entnehmen. Auch für OpenLayers gibt es eine, leider nicht ganz so nett aufbereitete, <a href="http://openlayers.org/en/latest/examples/" target="_blank">Beispielsammlung</a>. Haben Sie diese Entscheidung gefällt, greifen Sie sich am besten in einem ersten Schritt die bei mir auf dem Server vorhandenen Daten ab und experimentieren mit diesen. Hierfür suchen Sie entweder im Quellcode meiner Visualisierungen nach "<a href="https://de.wikipedia.org/wiki/JavaScript_Object_Notation" target="_blank">JSON</a>" (Geodaten) oder "<a href="https://de.wikipedia.org/wiki/CSV_(Dateiformat)" target="_blank">TSV</a>" (tabellarische Daten).
 
 <strong>Momentan sind folgende Dateien verfügbar:</strong>
-<table>
+<table style="text-align:left;font-size: 100%;width: 100%;">
 <tbody>
 <tr>
 <td><strong>Datei</strong></td>
