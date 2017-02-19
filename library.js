@@ -333,3 +333,12 @@ var styleFunctionLuQxPM25floating = function(feature) {
 var styleFunctionSensorCounter = function(feature) {
 	return styleFunctionGlobal(feature,"Num_Sensors","StepsGreenRed","0,0,0","255,0,0");
 }
+
+// read get variables
+var $_GET = {};
+document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
+	function decode(s) {
+		return decodeURIComponent(s.split("+").join(" "));
+	}
+	$_GET[decode(arguments[1])] = decode(arguments[2]);
+});
