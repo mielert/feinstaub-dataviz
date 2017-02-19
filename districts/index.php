@@ -86,9 +86,9 @@ $counter++;
 </head>
   <body>
     <div id="chart">
+		<div id="mapdiv"><div id="mapTimeInfo">Aktuelles 24h-Mittel PM10</div></div>
 		<svg id="graph"></svg>
 		<svg id="graph2"></svg>
-		<div id="mapdiv"><div id="mapTimeInfo">Aktuelles 24h-Mittel PM10</div></div>
 	</div>
 	<div id="controlBar2Button" class="bar2Button shadow bgcolor"><div class="bar2ButtonText">Einstellungen</div></div>
 	<div id="infoBar2Button" class="bar2Button shadow bgcolor"><div class="bar2ButtonText">Info</div></div>
@@ -125,9 +125,9 @@ console.log("mode: "+((week)?"week":"normal"));
  */
 var view = new ol.View({
 	  projection: 'EPSG:3857',
-	  maxZoom: 10,
+	  maxZoom: 9,
 	  center: ol.proj.fromLonLat([9.193, 48.786]),
-	  zoom: 10
+	  zoom: 9
 });
 // Get Stuttgart Geodata
 var jsonDistricts = "";
@@ -356,7 +356,7 @@ d.P1floating_<?php echo $dataset; ?> = +d.P1floating_<?php echo $dataset; ?>;
 	$("#timestamp").html(versionTimeFormat(d3.max(data, function(d) { return d.timestamp; })));
   xScale.domain(d3.extent(data, function(d) { return d.timestamp; }));
   //y.domain([d3.min(data, function(d) { return d.P2low; }), d3.max(data, function(d) { return d.P1high; })]);
-  yScale.domain([0, d3.max(data, function(d) { return Math.max(d.P1floating_<?php echo join(",d.P1floating_",$districts); ?>); })]);
+  yScale.domain([0, 1.3*d3.max(data, function(d) { return Math.max(d.P1floating_<?php echo join(",d.P1floating_",$districts); ?>); })]);
   //y.domain([d3.min(data, function(d) { return 0; }), d3.max(data, function(d) { return 250; })]);
 
 /**
