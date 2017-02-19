@@ -4,6 +4,7 @@ include_once("library.php");
 
 $filename_cronological_complete = $data_root."chronological_districts_v2_complete.tsv";
 $filename_cronological_simple = $data_root."chronological_districts_v2_simple.tsv";
+$filename_cronological_simple_week = $data_root."chronological_districts_v2_simple_week.tsv";
 
 $districts = db_select("SELECT * FROM `districts`");
 
@@ -37,6 +38,7 @@ function header_simple($districts){
 
 $data_complete = "";
 $data_simple = "";
+$data_simple_week = "";
 
 if(!file_exists($filename_cronological_complete)){
 	$data_complete = header_complete($districts);
@@ -62,9 +64,9 @@ else{
 
 if(!file_exists($filename_cronological_simple))
 	$data_simple = header_simple($districts);
-else{
+if(!file_exists($filename_cronological_simple_week))
+	$data_simple_week = header_simple($districts);
 
-}
 
 $sql = "SELECT * FROM `districts_mean` ORDER BY `districts_mean`.`timestamp` DESC LIMIT 1";
 $stop = db_select($sql);
@@ -106,6 +108,32 @@ echo $data_simple;
 file_put_contents($filename_cronological_complete, $data_complete, FILE_APPEND | LOCK_EX);
 //file_put_contents($filename_cronological_complete, $data_complete);
 file_put_contents($filename_cronological_simple, $data_simple, FILE_APPEND | LOCK_EX);
+
+// week data
+$start = strtotime(date("Y-m-d H:i:s",$stop)." - 168 hours");
+$timestamp = $start;
+while($timestamp <= $stop){
+	$data_simple_week.="\n".date("YmdHis",$timestamp);
+	
+	$sql = "SELECT * FROM `districts_mean` WHERE `timestamp` = '".date("Y-m-d H:i:s",$timestamp)."' ORDER BY `district_id`";
+	$results = db_select($sql);
+	$values = array();
+	foreach($results as $result){
+		$values[$result->district_id] = array("P1h"=>$result->P1h,"P1d"=>$result->P1d,"P2h"=>$result->P2h,"P2d"=>$result->P2d);
+	}
+	for($i=1;$i<=23;$i++){
+		if(isset($values[$i])){
+			$data_simple_week.= "	".$values[$i]["P1d"];
+		}
+		else{
+			$data_simple_week.= "	-1";
+		}
+	}
+	
+	$timestamp = strtotime(date("Y-m-d H:i:s",$timestamp)." + 1 hours");
+}
+
+file_put_contents($filename_cronological_simple_week, $data_simple_week);
 
 
 
