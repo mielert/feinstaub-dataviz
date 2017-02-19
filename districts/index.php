@@ -118,6 +118,8 @@ $counter++;
 	<span id="copyright">Version <?php echo $version; ?> | Daten: <span id="timestamp"></span></span>
   </div>
 <script>
+var week = ($_GET.mode=="week")?true:false;
+console.log("mode: "+((week)?"week":"normal"));
 /**
  * Step 1: Load the map
  */
@@ -272,7 +274,7 @@ var div = d3.select("body").append("div")
  */
 function append_lubw(){
   // DEBW013pm10 aka Gnesener Straße
-  d3.tsv("/<?php echo $data_dir; ?>chronological_data_lubw.tsv", function(error, data2) {
+  d3.tsv("../data/chronological_data_lubw.tsv", function(error, data2) {
     if (error) throw error;
 	console.log("chronological_data_lubw.tsv loaded");
   
@@ -334,10 +336,11 @@ function append_lubw(){
  * Load citizen science data
  */
 var citizen_science_data = false;
+var district_data_file = "../data/chronological_districts_v2_simple"+((week)?"_week":"")+".tsv";
 function append_data(){
-	d3.tsv("/<?php echo $data_dir; ?>chronological_districts_v2_simple.tsv", function(error, data) {
+	d3.tsv(district_data_file, function(error, data) {
 	if (error) throw error;
-	console.log("chronological_districts_v2_simple.tsv loaded");
+	console.log(district_data_file+" loaded");
 
   data.forEach(function(d) {
     d.timestamp = parseDate(d.timestamp);
