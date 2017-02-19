@@ -163,7 +163,7 @@ function styleFunctionGlobal(feature,attribute,style,deadSensorColor = "0,0,0",m
 var colorMappingAQIPM10 = function(value,undefinedColor) {
 	// https://en.wikipedia.org/wiki/Air_quality_index#Computing_the_AQI
 	var color;
-	if(value === undefined || value <= 0){
+	if(value === undefined || value <= 0 || isNaN(value)){
 		if(typeof undefinedColor === 'string' || undefinedColor instanceof String)
 			color = undefinedColor;
 		else
@@ -189,7 +189,7 @@ var colorMappingAQIPM10 = function(value,undefinedColor) {
  */
 var colorMappingAQIPM25 = function(value,undefinedColor) {
 	var color;
-	if(value === undefined || value <= 0){
+	if(value === undefined || value <= 0 || isNaN(value)){
 		if(typeof undefinedColor === 'string' || undefinedColor instanceof String)
 			color = undefinedColor;
 		else
@@ -216,7 +216,7 @@ var colorMappingAQIPM25 = function(value,undefinedColor) {
 var colorMappingLuQxPM10 = function(value,undefinedColor) {
 	// http://www4.lubw.baden-wuerttemberg.de/servlet/is/20152/
 	var color;
-	if(value === undefined || value <= 0){
+	if(value === undefined || value <= 0 || isNaN(value)){
 		if(typeof undefinedColor === 'string' || undefinedColor instanceof String)
 			color = undefinedColor;
 		else
@@ -241,7 +241,7 @@ var colorMappingLuQxPM10 = function(value,undefinedColor) {
 var colorMappingGreenRedPink = function(value,undefinedColor) {
 	//alert("huhu");
 	var color;
-	if(value === undefined || value <= 0){
+	if(value === undefined || value <= 0 || isNaN(value)){
 		if(typeof undefinedColor === 'string' || undefinedColor instanceof String)
 			color = undefinedColor;
 		else
@@ -273,7 +273,7 @@ var colorMappingGreenRedPink = function(value,undefinedColor) {
  */
 var colorMappingStepsGreenRed = function(value,undefinedColor) {
 	var color;
-	if(value === undefined || value <= 0){
+	if(value === undefined || value <= 0 || isNaN(value)){
 		if(typeof undefinedColor === 'string' || undefinedColor instanceof String)
 			color = undefinedColor;
 		else
