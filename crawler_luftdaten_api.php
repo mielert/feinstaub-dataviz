@@ -1,4 +1,4 @@
-<?php if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit; ?>
+<pre><?php if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit; ?>
 <?php
 include_once("library.php");
 /**
@@ -69,7 +69,7 @@ https://api.madavi.de/v1/now/?format=json
 function remove_sensors_not_sds($data){
     $data_sds = array();
     foreach($data as $dataset){
-        if(substr($dataset["sensor"]["sensor_type"]["name"],0,3)=="SDS"){
+        if($dataset["sensor"]["sensor_type"]["name"]=="SDS011"){
             array_push($data_sds,$dataset);
         }
     }
@@ -78,7 +78,7 @@ function remove_sensors_not_sds($data){
 /**
  *
  */
-function data_to_db($data){
+function prepare_data_for_db($data){
 	date_default_timezone_set('Europe/Gibraltar');
 	if(count($data)>0){
 		$sql = array();
@@ -95,23 +95,37 @@ function data_to_db($data){
             }
 			$timestamp = strtotime(str_replace("+00:00","+01:00",$dataset["timestamp"]));
             $sensor_id = get_sensor_id_by_sensor_name($dataset["sensor"]["id"]);
-			array_push($sql,"(NULL, '".$sensor_id."', '".$dataset["location"]["longitude"]."', '".$dataset["location"]["latitude"]."', '".date("Y-m-d H:i:s",$timestamp)."', '".$P1."', '".$P2."')");
-            // aus csv2db:
-            // array_push($sql,"(NULL, '".$dataset["sensor_id"]."', '".$dataset["lon"]."', '".$dataset["lat"]."', '".date("Y-m-d H:i:s",$timestamp)."', '".$dataset["P1"]."', '".$dataset["P2"]."')");
-
+			// there are – but should'nt be – datasets without location. have to be removed
+			if($dataset["location"]["longitude"]!=""&&$dataset["location"]["latitude"]!="")
+				array_push($sql,"(NULL, '".intval($sensor_id)."', '".floatval($dataset["location"]["longitude"])."', '".floatval($dataset["location"]["latitude"])."', '".date("Y-m-d H:i:s",$timestamp)."', '".floatval($P1)."', '".floatval($P2)."')");
+			// we've got quite long queries so let's split them up
+			if(count($sql)>=200){
+				data_to_db($sql);
+				$sql = array();
+			}
 		}
-		$sql = join(",",$sql);
-		$sql = "INSERT INTO `sensor_data` (`id`, `sensor_id`, `lon`, `lat`, `timestamp`, `P1`, `P2`) VALUES ".$sql." ON DUPLICATE KEY UPDATE `P1` = Values(`P1`), `P2` = Values(`P2`)";
-        // aus cvs2db:
-        // $sql = "INSERT INTO `sensors` (`id`, `sensor_id`, `lon`, `lat`, `timestamp`, `P1`, `P2`) VALUES ".$sql." ON DUPLICATE KEY UPDATE";
-        //mail("fritz.mielert@gmx.de","SQL Sensor Data",$sql);
-		db_insert($sql);
+		if(count($sql)>0){
+			data_to_db($sql);
+		}
 	}
+}
+/**
+ *
+ */
+function data_to_db($sql){
+	echo count($sql);
+	$sql = join(",\n",$sql);
+	$sql = "INSERT INTO `sensor_data`
+			(`id`, `sensor_id`, `lon`, `lat`, `timestamp`, `P1`, `P2`)
+			VALUES ".$sql."
+			ON DUPLICATE KEY UPDATE
+			`P1` = Values(`P1`), `P2` = Values(`P2`)";
+	return debug_query($sql);
 }
 // read data via api
 $data = read_data_via_api();
 // sds011 cleanup
 $data = remove_sensors_not_sds($data);
 // save to db
-data_to_db($data);
-?>
+prepare_data_for_db($data);
+?></pre>
