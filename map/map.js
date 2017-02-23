@@ -145,7 +145,7 @@ var xhr = $.get( "../data/stuttgart_districts_v2.json", function( data ) {
                                                       district_data = true;
                                                       district+="("+feature.get("Num_Sensors")+" Sensor[en]: "+feature.get("Sensor_IDs").replace(/,/g, ", ")+")";
                                                       district+="<table>";
-                                                      district+="<tr><td>&nbsp;</td><td align=\"right\"><strong>PM10</strong></td><td align=\"right\"><strong>PM2.5</strong></td></tr>";
+                                                      district+="<tr><td><strong>Bezirk</strong></td><td align=\"right\"><strong>PM10</strong></td><td align=\"right\"><strong>PM2.5</strong></td></tr>";
                                                       district+="<tr><td>Median</td><td align=\"right\">"+Math.round(feature.get("P1"))+"</td><td align=\"right\">"+Math.round(feature.get("P2"))+"</td></tr>";
                                                       district+="<tr><td>24h-Mittel</td><td align=\"right\">"+Math.round(feature.get("P1floating"))+"</td><td align=\"right\">"+Math.round(feature.get("P2floating"))+"</td></tr>";
                                                 }
