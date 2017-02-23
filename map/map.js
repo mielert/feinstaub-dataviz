@@ -104,41 +104,54 @@ var xhr = $.get( "../data/stuttgart_districts_v2.json", function( data ) {
 		}
 		function interaction_hover(e){
 			var out = "";
+                  var out_sensors = "";
+                  var district = "";
 			var point = false;
+                  var district_data = false;
 			var districts_crossed = [];
+			var sensors_crossed = [];
 			var hover_something = false;
 			map.forEachFeatureAtPixel(e.pixel, function (feature, layer) {
 				if(feature.getGeometry().getType()=="Point"){
-					hover_something = true;
-					if(feature.get("P1") === undefined){
-						P1 = "kein aktueller Wert";
-					}
-					else{
-						P1 = Math.round(feature.get("P1"))+"&nbsp;µg/m³ ";
-					}
-					out+="<br/><a href=\"https://www.madavi.de/sensor/archiv_luftdaten_info/graph.php?sensor="+feature.get("name")+"\" target=\"_blank\">Sensor "+feature.get("name")+"</a> – PM10: "+P1;
-					point = true;
+                              if(feature.get("name")!=="" && sensors_crossed.length < 3){
+                                    hover_something = true;
+                                    sensors_crossed.push(feature.get("name"));
+                                    if(feature.get("P1") === undefined){
+                                          P1 = "–";
+                                    }
+                                    else{
+                                          P1 = Math.round(feature.get("P1"));
+                                    }
+                                    if(feature.get("P2") === undefined){
+                                          P2 = "–";
+                                    }
+                                    else{
+                                          P2 = Math.round(feature.get("P2"));
+                                    }
+                                    out_sensors+="<tr><td><a href=\"https://www.madavi.de/sensor/archiv_luftdaten_info/graph.php?sensor="+feature.get("name")+"\" target=\"_blank\">Sensor "+feature.get("name")+"</a></td><td align=\"right\">"+P1+"</td><td align=\"right\">"+P2+"</td></td/tr>";
+                                    point = true;
+                              }
 				}
 				else{
 					
 					if(feature.getGeometry().getType()=="Polygon"){
-						hover_something = true;
 						district = "";
-						if(feature.get("name")!=""){
+						if(feature.get("name")!=="" && districts_crossed.length <= 1){
 							if($.inArray(feature.get("name"),districts_crossed)){
-								districts_crossed.push(feature.get("name"));
-								district = "<strong>"+feature.get("name")+"</strong><br/>";
-								if(feature.get("Num_Sensors")>0){
-									district+="<table><tr><td>Median PM10</td><td>"+Math.round(feature.get("P1"))+"&nbsp;µg/m³</td></tr>";
-									district+="<tr><td>24h-Mittel aus Median PM10</td><td>"+Math.round(feature.get("P1floating"))+"&nbsp;µg/m³</td></tr>";
-									district+="<tr><td>Median PM2.5</td><td>"+Math.round(feature.get("P2"))+"&nbsp;µg/m³</td></tr>";
-									district+="<tr><td>24h-Mittel aus Median PM2.5</td><td>"+Math.round(feature.get("P2floating"))+"&nbsp;µg/m³</td></tr></table>";
-									district+="("+feature.get("Num_Sensors")+" Sensor[en]: "+feature.get("Sensor_IDs").replace(/,/g, ", ")+")";
-								}
-								else{
-									district+="keine aktuellen Daten vorhanden";
-								}
-								out=district+"<br/>"+out;
+                                                hover_something = true;
+                                                districts_crossed.push(feature.get("name"));
+                                                district = "<strong>"+feature.get("name")+"</strong><br/>";
+                                                if(feature.get("Num_Sensors")>0){
+                                                      district_data = true;
+                                                      district+="("+feature.get("Num_Sensors")+" Sensor[en]: "+feature.get("Sensor_IDs").replace(/,/g, ", ")+")";
+                                                      district+="<table>";
+                                                      district+="<tr><td>&nbsp;</td><td align=\"right\"><strong>PM10</strong></td><td align=\"right\"><strong>PM2.5</strong></td></tr>";
+                                                      district+="<tr><td>Median</td><td align=\"right\">"+Math.round(feature.get("P1"))+"</td><td align=\"right\">"+Math.round(feature.get("P2"))+"</td></tr>";
+                                                      district+="<tr><td>24h-Mittel</td><td align=\"right\">"+Math.round(feature.get("P1floating"))+"</td><td align=\"right\">"+Math.round(feature.get("P2floating"))+"</td></tr>";
+                                                }
+                                                else{
+                                                      district+="keine aktuellen Daten vorhanden";
+                                                }
 							}
 						}
 					}
@@ -146,7 +159,10 @@ var xhr = $.get( "../data/stuttgart_districts_v2.json", function( data ) {
 			});
 			if(point) jTarget.css("cursor", "pointer");
 			else jTarget.css("cursor", "");
-			$("#mapinfo2").html( "<div id=\"innerInfo\">"+out+"</div>" );
+                  if(out_sensors!==""){
+                        out_sensors = (!district_data?"<table><tr><td>&nbsp;</td><td align=\"right\">PM10</td><td align=\"right\">PM2.5</td></tr>":"")+'<tr><td><strong>Einzelwerte</strong></td><td align=\"right\">&nbsp;</td><td align=\"right\">&nbsp;</td></tr>'+out_sensors+'';
+                  }
+			$("#mapinfo2").html( "<div id=\"innerInfo\">"+district+out_sensors+(district_data?"</table>":"")+"<br/>Alle Feinstaubwerte in µg/m³</div>" );
 			if(hover_something){
 				$("#mapinfo2").css({top: e.pixel[1]+20, left: e.pixel[0]-70, height: $("#innerInfo").height()}).show();
 			}
