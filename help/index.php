@@ -48,7 +48,7 @@
 			</div>
 			<h3>Was bedeuten PM10 und PM2.5?</h3>
 			<div>
-				<p>PM10 und PM2.5 sind Einteilungen für die Größe von Feinstaubpartikeln. Dabei gibt es keine Trennschärfe. Bei PM10 werden "Partikel mit einem aerodynamischen Durchmesser von weniger als 1 µm ... vollständig einbezogen, bei größeren Partikeln wird ein gewisser Prozentsatz gewertet, der mit zunehmender Partikelgröße abnimmt und bei ca. 15 µm schließlich 0 % erreicht." (Wikipedia). PM2.5 bezieht sich auf lungengängige Partikel, d.h. Feinstaubteilchen können in die Lungenbläschen eindringen und gelangen somit in den Blutkreislauf. Seine "Definition ist analog zu PM10, allerdings ist die Gewichtungsfunktion wesentlich steiler (100 % Gewichtung < 0,5 µm; 0 % Gewichtung > 3,5 µm; 50 % Gewichtung bei ca. 2,5 µm)." (Wikipedia)</p>
+				<p>PM10 und PM2.5 sind Einteilungen für die Größe von Feinstaubpartikeln. Dabei gibt es keine Trennschärfe. Bei PM10 werden "Partikel mit einem aerodynamischen Durchmesser von weniger als 1 µm ... vollständig einbezogen, bei größeren Partikeln wird ein gewisser Prozentsatz gewertet, der mit zunehmender Partikelgröße abnimmt und bei ca. 15 µm schließlich 0 % erreicht." (<a href="https://de.wikipedia.org/wiki/Feinstaub" target="_blank">Wikipedia</a>). PM2.5 bezieht sich auf lungengängige Partikel, d.h. Feinstaubteilchen können in die Lungenbläschen eindringen und gelangen somit in den Blutkreislauf. Seine "Definition ist analog zu PM10, allerdings ist die Gewichtungsfunktion wesentlich steiler (100 % Gewichtung &lt; 0,5 µm; 0 % Gewichtung &gt; 3,5 µm; 50 % Gewichtung bei ca. 2,5 µm)." (<a href="https://de.wikipedia.org/wiki/Feinstaub" target="_blank">Wikipedia</a>)</p>
 			</div>
 			<h3>Was bedeuten die Farben in den Karten?</h3>
 			<div>
@@ -96,74 +96,6 @@
 				Angaben gelten jeweils für ein 24-Stunden-Mittel.<br/>
 				Quelle: <a href="https://en.wikipedia.org/wiki/Air_quality_index#Computing_the_AQI" target="_blank">Wikipedia</a>
 				</p>
-				<p><strong>Kurzzeit-Luftqualitätsindex LuQx</strong>
-<table style="text-align:left;font-size: 100%;width: 100%;">
-<tr align="center">
-<td><strong>PM<sub>10</sub> (µg/m<sup>3</sup>)</strong></td>
-<td><strong>Bewertung</strong></td></tr><tbody>
-<tr align="center">
-<td>0 - 10</td>
-<td style="background-color: #3499ff">sehr gut</td></tr>
-<tr align="center">
-<td>&gt;&nbsp;10 - 20</td>
-<h3>Was bedeuten PM10 und PM2.5?</h3>
-<div>
-
-PM10 und PM2.5 sind Einteilungen für die Größe von Feinstaubpartikeln. Dabei gibt es keine Trennschärfe. Bei PM10 werden "Partikel mit einem aerodynamischen Durchmesser von weniger als 1 µm ... vollständig einbezogen, bei größeren Partikeln wird ein gewisser Prozentsatz gewertet, der mit zunehmender Partikelgröße abnimmt und bei ca. 15 µm schließlich 0 % erreicht." (<a href="https://de.wikipedia.org/wiki/Feinstaub" target="_blank">Wikipedia</a>). PM2.5 bezieht sich auf lungengängige Partikel, d.h. Feinstaubteilchen können in die Lungenbläschen eindringen und gelangen somit in den Blutkreislauf. Seine "Definition ist analog zu PM10, allerdings ist die Gewichtungsfunktion wesentlich steiler (100 % Gewichtung &lt; 0,5 µm; 0 % Gewichtung &gt; 3,5 µm; 50 % Gewichtung bei ca. 2,5 µm)." (<a href="https://de.wikipedia.org/wiki/Feinstaub" target="_blank">Wikipedia</a>)
-
-</div>
-<h3>Was bedeuten die Farben in den Karten?</h3>
-<div>
-
-Die Farben in den Karten sind einzelnen Luftwerten zugeordnet. Sie geben an, wie gut die Luft ist.
-
-Bisher kommt eine eigene Farbskala und der Air Quality Index (AQI) in der US-amerikainschen Version zum Einsatz. In Planung ist die Implementierung des Kurzzeit-Luftqualitätsindex LuQx der Landesanstalt. Hier fehlen allerdings Angaben zur Beurteilung von PM2.5-Partikeln.
-
-<strong>Eigene Farbskala Grün-Rot-Pink</strong>
-Die Farbskala besteht aus einem kontinuierlichen Farbverlauf von 0 µg/m<sup>3</sup>(Grün) bis 50 µg/m<sup>3</sup> (Rot) und einem weiteren kontinuierlichen Farbverlauf von 50 µg/m<sup>3</sup>(Rot) bis 200 µg/m<sup>3</sup> (Pink).
-
-<strong>Air Quality Index (USA)</strong>
-<table style="text-align: left; font-size: 100%; width: 100%;">
-<tbody>
-<tr align="center">
-<td><strong>PM<sub>2.5</sub> (µg/m<sup>3</sup>)</strong></td>
-<td><strong>PM<sub>10</sub> (µg/m<sup>3</sup>)</strong></td>
-<td><strong>AQI</strong></td>
-</tr>
-<tr align="center">
-<td>0.0-12.0</td>
-<td>0-54</td>
-<td style="background: #00e400;">gut</td>
-</tr>
-<tr align="center">
-<td>12.1-35.4</td>
-<td>55-154</td>
-<td style="background: #ff0;">befriedigend</td>
-</tr>
-<tr align="center">
-<td>35.5-55.4</td>
-<td>155-254</td>
-<td style="background: #ff7e00;">ungesund für empfindliche Personen</td>
-</tr>
-<tr align="center">
-<td>55.5-150.4</td>
-<td>255-354</td>
-<td style="background: #f00; color: #fff;">ungesund</td>
-</tr>
-<tr align="center">
-<td>150.5-250.4</td>
-<td>355-424</td>
-<td style="background: #99004c; color: #fff;">sehr ungesund</td>
-</tr>
-<tr align="center">
-<td>&gt; 250.5</td>
-<td>&gt; 425</td>
-<td style="background: #7e0023; color: #fff;">gesundheitsgefährdend</td>
-</tr>
-</tbody>
-</table>
-Angaben gelten jeweils für ein 24-Stunden-Mittel.
-Quelle: <a href="https://en.wikipedia.org/wiki/Air_quality_index#Computing_the_AQI" target="_blank">Wikipedia</a>
 
 <strong>Kurzzeit-Luftqualitätsindex LuQx</strong>
 <table style="text-align: left; font-size: 100%; width: 100%;">
@@ -221,9 +153,9 @@ Die Werte sind schwer zu beurteilen. Wir brauchen alle noch Erfahrung mit ihrer 
 <h3>Was sind das für Sensoren und wie funktionieren sie?</h3>
 <div>
 
-Die SDS011-Sensoren des Herstellers Nova saugen Luft ein. Mittels eines Laserstrahls wird dann die Lichtstreuung ermittelt, die Rückschlüsse auf die Partikelkonzentration zulassen. Gesteuert wird der Sensor über einen W-Lan-Chip (NodeMCU), der die Daten auch gleich an verschiedene Server schickt.
+Die SDS011-Sensoren des Herstellers Nova saugen Luft ein. Mittels eines Laserstrahls wird dann die Lichtstreuung ermittelt, die Rückschlüsse auf die Partikelkonzentration zulassen. Gesteuert wird der Sensor über einen W-Lan-Chip (NodeMCU), der die Daten auch gleich an verschiedene Server schickt.</div>
 <h3>Ich will bei mir zuhause oder am Arbeitsplatz eigene Messungen vornehmen. Wie komme ich an einen Feinstaubsensor?</h3>
-Eine ausführliche Anleitung findet sich unter <a href="http://luftdaten.info/feinstaubsensor-bauen/" target="_blank">luftdaten.info</a>. Immer wieder werden im <a href="http://shackspace.de" target="_blank">Shackspace</a> gemeinsam Sensoren zusammengebaut. Wende Dich am besten an <a href="mailto:jan.lutz@buero-fuer-gestalten.de">Jan Lutz</a>.
+<div>Eine ausführliche Anleitung findet sich unter <a href="http://luftdaten.info/feinstaubsensor-bauen/" target="_blank">luftdaten.info</a>. Immer wieder werden im <a href="http://shackspace.de" target="_blank">Shackspace</a> gemeinsam Sensoren zusammengebaut. Wende Dich am besten an <a href="mailto:jan.lutz@buero-fuer-gestalten.de">Jan Lutz</a>.
 
 </div>
 <h3>Ich habe Verbesserungsvorschläge für die Diagramme. Wie kann ich mich einbringen?</h3>
@@ -247,7 +179,7 @@ Die gezeigten Daten werden mit freundlicher Genehmigung der <a href="http://www.
 <h3>Ich will selber Daten visualisieren. Wie finde ich einen Einstieg?</h3>
 <div>
 
-Die erste Frage, die sich stellt, ist die nach dem gewünschten Ergebnis. Soll eine Karte, ein Liniendiagramm oder eine ganz andere Darstellung entstehen? Was mit d3 möglich ist, können Sie den <a href="https://github.com/d3/d3/wiki/Gallery" target="_blank">Beispielen</a> entnehmen. Auch für OpenLayers gibt es eine, leider nicht ganz so nett aufbereitete, <a href="http://openlayers.org/en/latest/examples/" target="_blank">Beispielsammlung</a>. Haben Sie diese Entscheidung gefällt, greifen Sie sich am besten in einem ersten Schritt die bei mir auf dem Server vorhandenen Daten ab und experimentieren mit diesen. Hierfür suchen Sie entweder im Quellcode meiner Visualisierungen nach "<a href="https://de.wikipedia.org/wiki/JavaScript_Object_Notation" target="_blank">JSON</a>" (Geodaten) oder "<a href="https://de.wikipedia.org/wiki/CSV_(Dateiformat)" target="_blank">TSV</a>" (tabellarische Daten).
+<p>Die erste Frage, die sich stellt, ist die nach dem gewünschten Ergebnis. Soll eine Karte, ein Liniendiagramm oder eine ganz andere Darstellung entstehen? Was mit d3 möglich ist, können Sie den <a href="https://github.com/d3/d3/wiki/Gallery" target="_blank">Beispielen</a> entnehmen. Auch für OpenLayers gibt es eine, leider nicht ganz so nett aufbereitete, <a href="http://openlayers.org/en/latest/examples/" target="_blank">Beispielsammlung</a>. Haben Sie diese Entscheidung gefällt, greifen Sie sich am besten in einem ersten Schritt die bei mir auf dem Server vorhandenen Daten ab und experimentieren mit diesen. Hierfür suchen Sie entweder im Quellcode meiner Visualisierungen nach "<a href="https://de.wikipedia.org/wiki/JavaScript_Object_Notation" target="_blank">JSON</a>" (Geodaten) oder "<a href="https://de.wikipedia.org/wiki/CSV_(Dateiformat)" target="_blank">TSV</a>" (tabellarische Daten).</p>
 
 <strong>Momentan sind folgende Dateien verfügbar:</strong>
 <table style="text-align:left;font-size: 100%;width: 100%;">
