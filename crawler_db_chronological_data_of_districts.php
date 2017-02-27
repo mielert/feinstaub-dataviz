@@ -1,15 +1,8 @@
-<?php if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit; ?>
-<html>
-	<head>
-		<script src="js/jquery.min.js" type="text/javascript"></script>
-	</head>
-	<body>
-		<pre>
-<?php
+<?php 
+if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit; 
 /**
  * chronological data of districts
  * database driven
- * http://fritzmielert.de/feinstaub/chronological_data_of_districts_db.php?starttime=1483052400
  */
 include_once("library.php");
 
@@ -29,9 +22,7 @@ echo $starttime."<br/>";
 
 echo "looking for sensors without district<br/>";
 
-$sql = "";
-//$sql.= "SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));";
-$sql.= "
+$sql = "
 SELECT DISTINCT `sensors_hourly_mean`.`lon`,
 						`sensors_hourly_mean`.`lat`,
 						`district_id`
@@ -166,17 +157,9 @@ if($starttime < $stop){
 	echo "$starttime < $stop";
 	if(!isset($_GET["nocron"]))
 		echo file_get_contents($project_url."crawler_db_chronological_data_of_districts.php?starttime=".strtotime($starttime." + 1 hours").'&nocron=1');
-	/*else
-		echo '		<script>
-			$(document).ready(function(){
-				window.location.href = "crawler_db_chronological_data_of_districts.php?starttime='.strtotime($starttime." + 1 hours").'&nocron=1";
-			});
-			</script>';*/
 }
 else {
 	echo "$starttime >= $stop";
 }
 
 ?>
-	</body>
-</html>
