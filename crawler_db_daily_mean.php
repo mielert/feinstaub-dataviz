@@ -19,12 +19,12 @@ $sql = "SELECT `sensors_hourly_mean`.`id`,
 			AND shm.`timestamp` <= `sensors_hourly_mean`.`timestamp`
 			AND shm.`timestamp` > (`sensors_hourly_mean`.`timestamp`  - INTERVAL 1 DAY) ) AS P2d_new
 		FROM `sensors_hourly_mean`
-		LEFT JOIN `sensors` ON `sensors`.`id` = `sensors_hourly_mean`.`sensor_id`
 		WHERE (`sensors_hourly_mean`.`P1d` IS NULL
 		OR `sensors_hourly_mean`.`P2d` IS NULL
 		OR `sensors_hourly_mean`.`P1d` = 0
 		OR `sensors_hourly_mean`.`P2d` = 0)
-		AND `sensors`.`type_id` = 1
+		AND (`sensors_hourly_mean`.`P1` IS NOT NULL
+		OR `sensors_hourly_mean`.`P2` IS NOT NULL)
 		ORDER BY `sensors_hourly_mean`.`timestamp`
 		LIMIT 500";
 $results = debug_query($sql);
