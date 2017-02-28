@@ -58,6 +58,8 @@ $mysql_host = "localhost";
 /**
  * @param array one-dimensional array containing floats
  * @return float median
+ * @copyright cc by-sa 3.0 Mchl/stackexchange 
+ * @see http://codereview.stackexchange.com/questions/220/calculate-a-median
  */
 function array_median($array) {
     // perhaps all non numeric values should filtered out of $array here?
