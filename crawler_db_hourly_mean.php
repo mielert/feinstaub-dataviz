@@ -1,10 +1,5 @@
-<?php if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit; ?>
-<html>
-	<head>
-		<script src="../js/jquery.min.js" type="text/javascript"></script>
-	</head>
-	<body>
-<?php
+<?php 
+if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit;
 /**
  * crawler
  */
@@ -12,7 +7,9 @@
 include_once("library.php");
 
 //SELECT MAX(`timestamp`) FROM `sensors_hourly_mean` WHERE 1
-$res_max_timestamp = db_select("SELECT MAX(`timestamp`) AS timestamp FROM `sensors_hourly_mean`");
+$res_max_timestamp = db_select("SELECT MAX(`timestamp`) AS timestamp
+							    FROM `sensors_hourly_mean`
+								WHERE `sensor_id` IN (SELECT `id` FROM `sensors` WHERE `type_id` <> 2)");
 //print_r($res_max_timestamp);
 if($res_max_timestamp[0]->timestamp > 1){
 	$startdate = strtotime($res_max_timestamp[0]->timestamp)+60*60;
@@ -42,9 +39,7 @@ do {
 //print_r($results);
 $startdate = $sensorsearchdate-=60*60;
 
-
 foreach($results as $result){
-	// hourly
 	$sql1 = "SELECT avg(P1) AS P1, avg(P2) AS P2
 			FROM sensor_data
 			LEFT JOIN `sensors` ON `sensors`.`id` = `sensor_data`.`sensor_id`
@@ -64,37 +59,5 @@ foreach($results as $result){
 		echo "$sql<br/>";
 		db_insert($sql);
 	}
-
-	// daily
-	/*
-	$sql = "SELECT `sensor_id`,`lon`,`lat`, avg(P1)
-			FROM sensors
-			WHERE `sensor_id` = ".$result->sensor_id."
-			AND `lon` = ".$result->lon."
-			AND `lat` = ".$result->lat."
-			AND `timestamp` > '".date('Y-m-d H:i:s', $startdate-24*60*60)."'
-			AND `timestamp` <='".date('Y-m-d H:i:s', $startdate)."'";
-	print_r($sql);
-	$results2 = db_select($sql);
-	print_r($results2);
-	*/
-	//break;
 }
-
-$sql = "SELECT MAX(`timestamp`) AS timestamp 
-	FROM `sensor_data` 
-	LEFT JOIN `sensors` ON `sensors`.`id` = `sensor_data`.`sensor_id`
-	WHERE `sensors`.`type_id` = 1";
-$results = db_select($sql);
-$stop = $results[0]->timestamp;
-
-if($startdate < strtotime($stop)-60*60)
-echo '		<script>
-		$(document).ready(function(){
-			location.reload();
-		});
-		</script>';
-
 ?>
-	</body>
-</html>
