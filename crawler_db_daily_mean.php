@@ -1,5 +1,5 @@
 <?php
-if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit;
+//if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit;
 /**
  * crawler
  */
@@ -7,7 +7,7 @@ if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit;
 include_once("library.php");
 
 // daily
-$sql = "SELECT `sensors_hourly_mean`.`id`,
+$sql = "SELECT `sensors_hourly_mean`.`id`, `sensors_hourly_mean`.`timestamp`,
 		(	SELECT AVG(shm.P1)
 			FROM `sensors_hourly_mean` AS shm
 			WHERE shm.sensor_id = `sensors_hourly_mean`.`sensor_id`
