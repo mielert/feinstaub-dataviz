@@ -1,5 +1,5 @@
 <?php
-$version = "1.5.2 Github";
+$version = "1.6.0 Github";
 
 include_once("../library.php");
 
@@ -17,15 +17,21 @@ include_once("../library.php");
 	<meta property="og:url" content="<?php echo $url; ?>/districts/">
     <script src="../js/d3.v4.min.js" type="text/javascript"></script>
     <script src="../js/jquery.min.js" type="text/javascript"></script>
-	<script src="../js/ol.js" type="text/javascript"></script>
+	<!--<script src="../js/ol.js" type="text/javascript"></script>-->
     <script src="../library.js" type="text/javascript"></script>
-	<link rel="stylesheet" href="../js/ol.css" type="text/css" media="all">
+	<!--<link rel="stylesheet" href="../js/ol.css" type="text/css" media="all">-->
 	<link rel="stylesheet" href="../styles.css" type="text/css" media="all">
 	<link rel="stylesheet" href="chart.css" type="text/css" media="all">
 
     <!--
 	ToDo
 	- reduce size (1.5MB)
+	1.6.0
+	js separated
+	ol removed
+	php mostly removed
+	reduced size to 1,09
+
 	1.5.2
 	zoom
 	moved to Github
@@ -93,7 +99,17 @@ include_once("../library.php");
 	</div>
 	<span id="copyright">Version <?php echo $version; ?> | Daten: <span id="timestamp"></span></span>
   </div>
-<script src="districts.js" type="text/javascript"></script>
+<script>
+
+	
+</script>
+
+<script src="districtstest.js" type="text/javascript"></script>
+<script>
+
+
+
+</script>
 <!--<div id="status_bar"></div>-->
 </body>
 </html>
