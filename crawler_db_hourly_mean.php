@@ -1,5 +1,5 @@
 <?php 
-if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit;
+//if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit;
 /**
  * crawler
  */
@@ -7,9 +7,10 @@ if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit;
 include_once("library.php");
 
 //SELECT MAX(`timestamp`) FROM `sensors_hourly_mean` WHERE 1
-$res_max_timestamp = db_select("SELECT MAX(`timestamp`) AS timestamp
-							    FROM `sensors_hourly_mean`
-								WHERE `sensor_id` IN (SELECT `id` FROM `sensors` WHERE `type_id` <> 2)");
+$sql = "SELECT MAX(`timestamp`) AS timestamp
+		FROM `sensors_hourly_mean`
+		WHERE `sensor_id` IN (SELECT `id` FROM `sensors` WHERE `type_id` <> 2)";
+$res_max_timestamp = debug_query($sql);
 //print_r($res_max_timestamp);
 if($res_max_timestamp[0]->timestamp > 1){
 	$startdate = strtotime($res_max_timestamp[0]->timestamp)+60*60;
@@ -29,8 +30,8 @@ do {
 			AND `lat` <> 0
 			AND `timestamp` > '".date('Y-m-d H:i:s', $sensorsearchdate-60*60)."'
 			AND `timestamp` <='".date('Y-m-d H:i:s', $sensorsearchdate)."'
-			AND `sensors`.`type_id` = 1";
-	$results = db_select($sql);
+			AND `sensors`.`type_id` <> 2";
+	$results = debug_query($sql);
 	
 	echo date('Y-m-d H:i:s', $sensorsearchdate).": ".count($results)." Sensoren<br/>";
 	$sensorsearchdate+=60*60;
@@ -48,9 +49,9 @@ foreach($results as $result){
 			AND `lat` = ".$result->lat."
 			AND `timestamp` > '".date('Y-m-d H:i:s', $startdate-60*60)."'
 			AND `timestamp` <='".date('Y-m-d H:i:s', $startdate)."'
-			AND `sensors`.`type_id` = 1";
+			AND `sensors`.`type_id` <> 2";
 	//print_r($sql);
-	$results2 = db_select($sql1);
+	$results2 = debug_query($sql1);
 	//print_r($results2);
 	if($results2[0]->P1 != ""){
 		$sql = "INSERT INTO `sensors_hourly_mean` (`id`, `sensor_id`, `lon`, `lat`, `timestamp`, `P1`, `P2`)
@@ -58,6 +59,23 @@ foreach($results as $result){
 				ON DUPLICATE KEY UPDATE `P1` = VALUES(`P1`), `P2` = VALUES(`P2`); ";
 		echo "$sql<br/>";
 		db_insert($sql);
+		$sql = "SELECT `sensors_hourly_mean`.`id`,
+				(	SELECT AVG(shm.P1)
+					FROM `sensors_hourly_mean` AS shm
+					WHERE shm.sensor_id = ".$result->sensor_id."
+					AND shm.`timestamp` <= '".date('Y-m-d H:i:s', $startdate)."'
+					AND shm.`timestamp` > ('".date('Y-m-d H:i:s', $startdate)."'  - INTERVAL 1 DAY) ) AS P1d_new,
+				(	SELECT AVG(shm.P2)
+					FROM `sensors_hourly_mean` AS shm
+					WHERE shm.sensor_id = ".$result->sensor_id."
+					AND shm.`timestamp` <= '".date('Y-m-d H:i:s', $startdate)."'
+					AND shm.`timestamp` > ('".date('Y-m-d H:i:s', $startdate)."'  - INTERVAL 1 DAY) ) AS P2d_new
+				FROM `sensors_hourly_mean`
+				LIMIT 1";
+		$results3 = debug_query($sql);
+		$result3 = $results3[0];
+		$sql = "UPDATE `sensors_hourly_mean` SET `P1d` = ".$result3->P1d_new.", `P2d` = ".$result3->P2d_new." WHERE `sensor_id` = ".$result->sensor_id." AND `timestamp` = '".date('Y-m-d H:i:s', $startdate)."'";
+		debug_query($sql);
 	}
 }
 ?>
