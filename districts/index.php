@@ -94,5 +94,6 @@ include_once("../library.php");
 	<span id="copyright">Version <?php echo $version; ?> | Daten: <span id="timestamp"></span></span>
   </div>
 <script src="districts.js" type="text/javascript"></script>
+<!--<div id="status_bar"></div>-->
 </body>
 </html>
