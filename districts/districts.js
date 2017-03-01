@@ -1,5 +1,6 @@
+console.log("Loading...");
 var week = ($_GET.mode=="week")?true:false;
-console.log("mode: "+((week)?"week":"normal"));
+log("Data mode: "+((week)?"just seven days":"complete data"));
 /**
  * Step 1: Load the map
  */
@@ -14,8 +15,9 @@ var jsonDistricts = "";
 var districtNames = [];
 var newStyles = "";
 
-$.get( "../data/stuttgart_districts.json", function( data ) {
-	console.log("stuttgart_districts.json loaded");
+var geodata_file = "../data/stuttgart_districts.json";
+$.get( geodata_file, function( data ) {
+	log("Map ("+geodata_file+") loaded");
 
 	// generate styles for districts
 	var counter = 0;
@@ -63,6 +65,10 @@ $.get( "../data/stuttgart_districts.json", function( data ) {
 	  view: view
 	});
     init_map();
+    /**
+      * Step 3: Load citizen science data
+      */
+     append_data();
 }); // end of $.get( "../data/stuttgart_districts.json", function( data ) {
 
 /**
@@ -163,9 +169,10 @@ var div = d3.select("body").append("div")
  */
 function append_lubw(){
   // DEBW013pm10 aka Gnesener Straße
-  d3.tsv("../data/chronological_data_lubw.tsv", function(error, data2) {
+  var data_file = "../data/chronological_data_lubw.tsv";
+  d3.tsv(data_file, function(error, data2) {
     if (error) throw error;
-	console.log("chronological_data_lubw.tsv loaded");
+	log("LUBW data ("+data_file+") loaded");
   
     data2.forEach(function(d2) {
       d2.timestamp = parseDate(d2.timestamp);
@@ -218,6 +225,7 @@ function append_lubw(){
             $("#DEBW118pm10_text").removeClass("texthover");
             div.style("opacity", 0);	
         });
+      close_log();
   });
 }
 
@@ -229,7 +237,7 @@ var district_data_file = "../data/chronological_districts_v2_simple"+((week)?"_w
 function append_data(){
 	d3.tsv(district_data_file, function(error, data) {
 	if (error) throw error;
-	console.log(district_data_file+" loaded");
+	log("District data ("+district_data_file+") loaded");
 
 	var P1max = 0;
 	data.forEach(function(d) {
@@ -298,7 +306,6 @@ function zoom(){
 }
 graph.on('mousemove', function () {
    coordinates = d3.mouse(this);
-   //console.log(coordinates[0]);
 	graph.select("#overline")
 		.attr("x1",coordinates[0])
 		.attr("x2",coordinates[0]);
@@ -606,10 +613,7 @@ $.each(districtNames, function( key, val ) {
       
   }
 
-/**
- * Step 3: Load citizen science data
- */
-append_data();
+
 
 d3.select(window).on('resize', resize);
 
@@ -628,6 +632,6 @@ function init_map(){
 			});
         });
         map.render();
-        console.log("map initialized with most recent data");
+        log("Map initialized with most recent data");
     }
 }
