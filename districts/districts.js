@@ -4,21 +4,34 @@ log("Data mode: "+((week)?"just seven days":"complete data"));
 /**
  * Step 1: Load the map
  */
-var view = new ol.View({
-	  projection: 'EPSG:3857',
-	  maxZoom: 9,
-	  center: ol.proj.fromLonLat([9.193, 48.786]),
-	  zoom: 9
-});
+
 // Get Stuttgart Geodata
 var jsonDistricts = "";
 var districtNames = [];
 var newStyles = "";
 
+var map_width  = 150;
+var map_height = 150;
+
+var vis = d3.select("#mapdiv").append("svg")
+            .attr("width", map_width).attr("height", map_height).attr("style", "margin-top:35px");
+
 var geodata_file = "../data/stuttgart_districts.json";
 $.get( geodata_file, function( data ) {
 	log("Map ("+geodata_file+") loaded");
 
+      var projection = d3.geoMercator().fitSize([map_width, map_height], data);
+      var path = d3.geoPath().projection(projection);
+        
+      vis.selectAll('path')
+        .data(data.features)
+        .enter()
+        .append('path')
+        .attr('d', path)
+        .style("fill", "#fff")
+        .style("stroke-width", "1")
+        .style("stroke", "black");
+      
 	// generate styles for districts
 	var counter = 0;
 	$.each( data.features, function( key, val ) {
@@ -35,35 +48,7 @@ $.get( geodata_file, function( data ) {
 			//.defined(function(d) {return !isNaN(d.P1floating_...); });
 	});
 	
-	jsonDistricts = data;
 
-	districts = (new ol.format.GeoJSON())
-		.readFeatures(
-						  jsonDistricts,
-						  {
-							  featureProjection: 'EPSG:3857'
-						  }
-					  );
-
-	var vectorSourceStuttgart = new ol.source.Vector({
-	  features: districts
-	});
-
-	vectorDistricts = new ol.layer.Vector({
-	  source: vectorSourceStuttgart,
-	  style: styleFunctionAQIPM10floating,
-	  opacity: 1
-	});
-  
-	map = new ol.Map({
-	  layers: [
-		vectorDistricts
-	  ],
-	  target: 'mapdiv',
-	  controls: [],
-	  interactions: [],
-	  view: view
-	});
     init_map();
     /**
       * Step 3: Load citizen science data
@@ -310,24 +295,26 @@ graph.on('mousemove', function () {
 		.attr("x1",coordinates[0])
 		.attr("x2",coordinates[0]);
 });
+
 /**
  * update map
  */
 function data2map(d){
 	if(d){
-		counter = 0;
+		//counter = 0;
 		$.each(districtNames, function( key, val ) {
-			districts[counter].set("P1floating",d["P1floating_"+val.replace(/ /g, "_")]);
-			counter++;
+			//districts[counter].set("P1floating",d["P1floating_"+val.replace(/ /g, "_")]);
+                  d3colorSVG(key,d["P1floating_"+val.replace(/ /g, "_")],"255,255,255");
+			//counter++;
 		});
 		$("#mapTimeInfo").html("PM10: 24h-Mittel am "+hoverTimeFormat(d.timestamp));
 	}
-	var select_color_mode = document.getElementById('color-mode');
-	var function_name = "styleFunction";
-	function_name = function_name+select_color_mode.value+"PM10floating";
-	vectorDistricts.setStyle(eval(function_name));
-	map.render();
+	//var function_name = "styleFunction";
+	//function_name = function_name+select_color_mode.value+"PM10floating";
+	//vectorDistricts.setStyle(eval(function_name));
+	//map.render();
 }
+
 /**
  * init graphs
  */
@@ -363,10 +350,11 @@ $.each(districtNames, function( key, val ) {
  *
  */
 function highlight_district_on_map(district_name){
-	counter = 0;
+	//counter = 0;
 	$.each(districtNames, function( key, val ) {
-		districts[counter].set("fadeout",(district_name=="")?0:(district_name==val.replace(/ /g, "_"))?0:1);
-		counter++;
+		//districts[counter].set("fadeout",(district_name=="")?0:(district_name==val.replace(/ /g, "_"))?0:1);
+            $("#mapdiv svg path:nth-of-type("+(key+1)+")").css("opacity", (district_name==="")?1:(district_name===val.replace(/ /g, "_"))?1:0.15);
+		//counter++;
 	});
 	console.log(district_name);
 }
@@ -622,16 +610,21 @@ d3.select(window).on('resize', resize);
  * very ugly way...
  */
 function init_map(){
-    if($.isArray(districts) && $.isFunction(citizen_science_data.forEach)){
-        citizen_science_data.forEach(function(d) {
-            $("#mapTimeInfo").html("PM10: 24h-Mittel am "+hoverTimeFormat(d.timestamp));
-			counter = 0;
-			$.each(districtNames, function( key, val ) {
-				districts[counter].set("P1floating",d["P1floating_"+val.replace(/ /g, "_")]);
-				counter++;
-			});
-        });
-        map.render();
-        log("Map initialized with most recent data");
+    if($.isFunction(citizen_science_data.forEach)){
+      citizen_science_data.forEach(function(d) {
+              $.each(districtNames, function( key, val ) {
+                   d3colorSVG(key,d["P1floating_"+val.replace(/ /g, "_")],"255,255,255");
+              });
+      });
+      log("Map initialized with most recent data");
     }
+}
+
+function d3colorSVG(element,value,default_color="255,255,255"){
+      var mode = document.getElementById('color-mode').value;
+      //console.log("value: "+value+" mode: "+mode+" element: "+element+" default_color: "+default_color);
+      if(mode==="AQI") color = colorMappingAQIPM10(value,default_color);
+      if(mode==="LuQx") color = colorMappingLuQxPM10(value,default_color);
+      if(mode==="GreenRedPink") color = colorMappingGreenRedPink(value,default_color);
+      $("#mapdiv svg path:nth-of-type("+(element+1)+")").css("fill", "rgb("+color+")");
 }
