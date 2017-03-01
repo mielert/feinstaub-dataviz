@@ -112,6 +112,7 @@ file_put_contents($filename_cronological_simple, $data_simple, FILE_APPEND | LOC
 // week data
 $start = strtotime(date("Y-m-d H:i:s",$stop)." - 168 hours");
 $timestamp = $start;
+$data_simple_week = header_simple($districts);
 while($timestamp <= $stop){
 	$data_simple_week.="\n".date("YmdHis",$timestamp);
 	
