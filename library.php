@@ -248,19 +248,23 @@ function debug_query($sql){
 /**
  * @param string $sensor_name Name of the sensor
  * @param int $type_id Sensor type id
+ * @param bool $insert Whether to insert if not exist
  * @return int Id of the given sensor
  */
-function get_sensor_id_by_sensor_name($sensor_name,$type_id=1){
+function get_sensor_id_by_sensor_name($sensor_name,$type_id=1,$insert=true){
     $sql = "SELECT * FROM `sensors` WHERE `name` = '".$sensor_name."' LIMIT 1";
     $result = db_select($sql);
     if(isset($result[0]->name) && $result[0]->name == $sensor_name)
         return $result[0]->id;
     else{
-        $sql = "INSERT INTO `sensors` (`id`,`name`,`type_id`) VALUES (NULL, '$sensor_name',$type_id)";
-        $result = db_insert($sql);
-        $sql = "SELECT * FROM `sensors` WHERE `name` = '".$sensor_name."' LIMIT 1";
-        $result = db_select($sql);
-        return $result[0]->id;
+		if($insert){
+			$sql = "INSERT INTO `sensors` (`id`,`name`,`type_id`) VALUES (NULL, '$sensor_name',$type_id)";
+			$result = db_insert($sql);
+			$sql = "SELECT * FROM `sensors` WHERE `name` = '".$sensor_name."' LIMIT 1";
+			$result = db_select($sql);
+			return $result[0]->id;
+		}
+		else return false;
     }
 }
 /**
