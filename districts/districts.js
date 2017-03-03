@@ -619,12 +619,23 @@ function init_map(){
       log("Map initialized with most recent data");
     }
 }
-
+mapScale();
+/**
+ *
+ */
+function mapScale(){
+	// clear map
+	$("#mapscale").html("");
+	// generate new map
+}
+/**
+ *
+ */
 function d3colorSVG(element,value,default_color="255,255,255"){
       var mode = document.getElementById('color-mode').value;
       //console.log("value: "+value+" mode: "+mode+" element: "+element+" default_color: "+default_color);
-      if(mode==="AQI") color = colorMappingAQIPM10(value,default_color);
-      if(mode==="LuQx") color = colorMappingLuQxPM10(value,default_color);
-      if(mode==="GreenRedPink") color = colorMappingGreenRedPink(value,default_color);
+      if(mode==="AQI") color = colorMapping(colorLookupTableAQIPM10,value,default_color);
+      if(mode==="LuQx") color = colorMapping(colorLookupTableLuQxPM10,value,default_color);
+      if(mode==="GreenRedPink") color = colorMapping(colorLookupTableGreenRedPink,value,default_color);
       $("#mapdiv svg path:nth-of-type("+(element+1)+")").css("fill", "rgb("+color+")");
 }
