@@ -116,25 +116,16 @@ function close_log(){
 	$("#status_bar").hide();
 }
 /**
- * @param feature Object
- * @param attribute String feature to map "P1", "P2", "P1floating", "P2floating"
- * @param style String "AQI" "GreenRedPink"
- * @param deadSensorColor String rgb value "0,0,0"
- * @param missingValueColor String rgb value "255,255,255"
+ * @param feature {object}
+ * @param attribute {string} feature to map "P1", "P2", "P1floating", "P2floating"
+ * @param lut {object} Color lookup table
+ * @param deadSensorColor {string} rgb value "0,0,0"
+ * @param missingValueColor {string} rgb value "255,255,255"
  */
-function styleFunctionGlobal(feature,attribute,style,deadSensorColor = "0,0,0",missingValueColor = "255,255,255"){
+function styleFunctionGlobal(feature,attribute,lut,deadSensorColor = "0,0,0",missingValueColor = "255,255,255"){
 	var color;
 	if(feature.getGeometry().getType() == "Point"){
-		if(attribute=="P1"||attribute=="P1floating"){
-			if(style=="AQI") color=colorMappingAQIPM10(feature.get(attribute),deadSensorColor);
-			else if(style=="LuQx") color=colorMappingLuQxPM10(feature.get(attribute),deadSensorColor);
-			else color=colorMappingGreenRedPink(feature.get(attribute),deadSensorColor);
-		}
-		else if(attribute=="P2"||attribute=="P2floating"){
-			if(style=="AQI") color=colorMappingAQIPM25(feature.get(attribute),deadSensorColor);
-			else if(style=="LuQx") color=colorMappingLuQxPM10(feature.get(attribute),deadSensorColor);
-			else color=colorMappingGreenRedPink(feature.get(attribute),deadSensorColor);
-		}
+		color=colorMapping(lut,feature.get(attribute),deadSensorColor);
 		return 	new ol.style.Style({
 					image: 	new ol.style.Circle({
 							radius: (isMobile?20:8),
@@ -146,19 +137,7 @@ function styleFunctionGlobal(feature,attribute,style,deadSensorColor = "0,0,0",m
 				});
 	}
 	if(feature.getGeometry().getType() == "Polygon"){
-		if(attribute=="P1"||attribute=="P1floating"){
-			if(style=="AQI") color=colorMappingAQIPM10(feature.get(attribute),missingValueColor);
-			else if(style=="LuQx") color=colorMappingLuQxPM10(feature.get(attribute),missingValueColor);
-			else color=colorMappingGreenRedPink(feature.get(attribute),missingValueColor);
-		}
-		else if(attribute=="P2"||attribute=="P2floating"){
-			if(style=="AQI") color=colorMappingAQIPM25(feature.get(attribute),missingValueColor);
-			else if(style=="LuQx") color=colorMappingLuQxPM10(feature.get(attribute),missingValueColor);
-			else color=colorMappingGreenRedPink(feature.get(attribute),missingValueColor);
-		}
-		else if(attribute=="Num_Sensors"){
-			color=colorMappingStepsGreenRed(feature.get(attribute),missingValueColor);
-		}
+		color=colorMapping(lut,feature.get(attribute),missingValueColor);
 		return 	new ol.style.Style({
 					stroke: new ol.style.Stroke({
 							color: 'rgba(0, 0, 0, 1)',
@@ -171,92 +150,42 @@ function styleFunctionGlobal(feature,attribute,style,deadSensorColor = "0,0,0",m
 	}
 }
 /**
+ * Color lookup table
  * Dust PM10
  * https://en.wikipedia.org/wiki/Air_quality_index#Computing_the_AQI
- * @param {float} Value to map
- * @param {string} Color ("123,55,212") if value is undefined or 0
- * @returns {string} Color ("123,55,212")
  */
-var colorMappingAQIPM10 = function(value,undefinedColor) {
-	// https://en.wikipedia.org/wiki/Air_quality_index#Computing_the_AQI
-	var color;
-	if(value === undefined || value <= 0 || isNaN(value)){
-		if(typeof undefinedColor === 'string' || undefinedColor instanceof String)
-			color = undefinedColor;
-		else
-			color = undefinedColor+","+undefinedColor+","+undefinedColor;
-	}
-	else{
-		if      (value<=54)  { color = "0,228,0"; }
-		else if (value<=154) { color = "255,255,0"; }
-		else if (value<=254) { color = "255,126,0"; }
-		else if (value<=354) { color = "255,0,0"; }
-		else if (value<=424) { color = "143,63,151"; }
-		else                 { color = "126,0,35"; }
-
-	}
-	return color;
-};
+var colorLookupTableAQIPM10 = {"type":"step","values":[[54,[0,228,0]],[154,[255,255,0]],[254,[255,126,0]],[354,[255,0,0]],[424,[143,63,151]],[false,[126,0,35]]]};
 /**
- * Dust P2.5
+ * Color lookup table
+ * Dust PM2.5
  * https://en.wikipedia.org/wiki/Air_quality_index#Computing_the_AQI
- * @param {float} Value to map
- * @param {string} Color ("123,55,212") if value is undefined or 0
- * @returns {string} Color ("123,55,212")
  */
-var colorMappingAQIPM25 = function(value,undefinedColor) {
-	var color;
-	if(value === undefined || value <= 0 || isNaN(value)){
-		if(typeof undefinedColor === 'string' || undefinedColor instanceof String)
-			color = undefinedColor;
-		else
-			color = undefinedColor+","+undefinedColor+","+undefinedColor;
-	}
-	else{
-		if      (value<=12.0) { color = "0,228,0"; }
-		else if (value<=35.4) { color = "255,255,0"; }
-		else if (value<=55.4) { color = "255,126,0"; }
-		else if (value<=150.4){ color = "255,0,0"; }
-		else if (value<=250.4){ color = "143,63,151"; }
-		else                  { color = "126,0,35"; }
-
-	}
-	return color;
-};
+var colorLookupTableAQIPM25 = {"type":"step","values":[[12.0,[0,228,0]],[35.4,[255,255,0]],[55.4,[255,126,0]],[150.4,[255,0,0]],[250.0,[143,63,151]],[false,[126,0,35]]]};
 /**
+ * Color lookup table
  * Dust PM10
  * http://www4.lubw.baden-wuerttemberg.de/servlet/is/20152/
- * @param {float} Value to map
- * @param {string} Color ("123,55,212") if value is undefined or 0
- * @returns {string} Color ("123,55,212")
  */
-var colorMappingLuQxPM10 = function(value,undefinedColor) {
-	// http://www4.lubw.baden-wuerttemberg.de/servlet/is/20152/
-	var color;
-	if(value === undefined || value <= 0 || isNaN(value)){
-		if(typeof undefinedColor === 'string' || undefinedColor instanceof String)
-			color = undefinedColor;
-		else
-			color = undefinedColor+","+undefinedColor+","+undefinedColor;
-	}
-	else{
-		if      (value<=10)  { color = "52,153,255"; }
-		else if (value<=20) { color = "103,204,255"; }
-		else if (value<=35) { color = "153,255,255"; }
-		else if (value<=50) { color = "255,255,153"; }
-		else if (value<=100) { color = "255,153,52"; }
-		else                 { color = "255,52,52"; }
-
-	}
-	return color;
-};
+var colorLookupTableLuQxPM10 = {"type":"step","values":[[10,[52,153,255]],[20,[103,204,255]],[35,[153,255,255]],[50,[255,255,153]],[100,[255,153,52]],[false,[255,52,52]]]};
 /**
+ * Color lookup table
+ * Gradient Green Red Pink
+ */
+var colorLookupTableGreenRedPink = {"type":"gradient","values":[[0,[0,150,0]],[50,[255,0,0]],[200,[255,0,255]],[false,[255,0,255]]]};
+/**
+ * Color lookup table
+ * Gradient Red Green
+ */
+var colorLookupTableRedGreen = {"type":"gradient","values":[[0,[255,0,0]],[10,[0,240,0]],[false,[0,240,0]]]};
+
+/**
+ * Calculate color from color lookup table
+ * @param {object} Color lookup table
  * @param {float} Value to map
  * @param {string} Color ("123,55,212") if value is undefined or 0
  * @returns {string} Color ("123,55,212")
  */
-var colorMappingGreenRedPink = function(value,undefinedColor) {
-	//alert("huhu");
+var colorMapping = function(lut,value,undefinedColor) {
 	var color;
 	if(value === undefined || value <= 0 || isNaN(value)){
 		if(typeof undefinedColor === 'string' || undefinedColor instanceof String)
@@ -265,90 +194,73 @@ var colorMappingGreenRedPink = function(value,undefinedColor) {
 			color = undefinedColor+","+undefinedColor+","+undefinedColor;
 	}
 	else{
-		//alert("not undefined");
 		value = parseFloat(value);
-		if(value<=50){
-			color = Math.round(value/50*255)+","+(150-Math.round(value/50*150))+",0";
-			//alert(color);
-		}
-		else {
-			if(value<200){
-				color = "255,0,"+Math.round((value-50)/150*255);
+		// step
+		if(lut.type=="step"){
+			color = lut.values[lut.values.length-1][1][0]+","+lut.values[lut.values.length-1][1][1]+","+lut.values[lut.values.length-1][1][2];
+			for(i=0;i<lut.values.length-1;i++){
+				if(value<=lut.values[i][0]) {
+					color = lut.values[i][1][0]+","+lut.values[i][1][1]+","+lut.values[i][1][2];
+					break;
+				}
 			}
-			else{
-				color = "255,0,255";
+		}
+		// gradient
+		else if(lut.type=="gradient"){
+			color = lut.values[lut.values.length-1][1][0]+","+lut.values[lut.values.length-1][1][1]+","+lut.values[lut.values.length-1][1][2];
+			for(i=0;i<lut.values.length-1;i++){
+				if(value<=lut.values[i+1][0]) {
+					var r = Math.round((lut.values[i+1][1][0]-lut.values[i][1][0])/(lut.values[i+1][0]-lut.values[i][0])*value+lut.values[i][1][0]);
+					var g = Math.round((lut.values[i+1][1][1]-lut.values[i][1][1])/(lut.values[i+1][0]-lut.values[i][0])*value+lut.values[i][1][1]);
+					var b = Math.round((lut.values[i+1][1][2]-lut.values[i][1][2])/(lut.values[i+1][0]-lut.values[i][0])*value+lut.values[i][1][2]);
+					color = r+","+g+","+b;
+					break;
+				}
 			}
 		}
 	}
 	return color;
 };
 
-/**
- * @param {float} Value to map
- * @param {string} Color ("123,55,212") if value is undefined or 0
- * @returns {string} Color ("123,55,212")
- */
-var colorMappingStepsGreenRed = function(value,undefinedColor) {
-	var color;
-	if(value === undefined || value <= 0 || isNaN(value)){
-		if(typeof undefinedColor === 'string' || undefinedColor instanceof String)
-			color = undefinedColor;
-		else
-			color = undefinedColor+","+undefinedColor+","+undefinedColor;
-	}
-	else{
-		if      (value<=0)  { color = "255,0,0"; }
-		else if (value<=1)  { color = "235,20,0"; }
-		else if (value<=2)  { color = "195,40,0"; }
-		else if (value<=4)  { color = "155,80,0"; }
-		else if (value<=6)  { color = "115,120,0"; }
-		else if (value<=8)  { color = "75,160,0"; }
-		else if (value<=10) { color = "35,200,0"; }
-		else                { color = "0,240,0"; }
 
-	}
-	return color;
-};
-
-	
 var styleFunctionAQIPM10 = function(feature) {
-	return styleFunctionGlobal(feature,"P1","AQI","0,0,0","255,255,255");
+	return styleFunctionGlobal(feature,"P1",colorLookupTableAQIPM10,"0,0,0","255,255,255");
 };
 var styleFunctionAQIPM10floating = function(feature) {
-	return styleFunctionGlobal(feature,"P1floating","AQI","0,0,0","255,255,255");
+	return styleFunctionGlobal(feature,"P1floating",colorLookupTableAQIPM10,"0,0,0","255,255,255");
 };
 var styleFunctionAQIPM25 = function(feature) {
-	return styleFunctionGlobal(feature,"P2","AQI","0,0,0","255,255,255");
+	return styleFunctionGlobal(feature,"P2",colorLookupTableAQIPM25,"0,0,0","255,255,255");
 };
 var styleFunctionAQIPM25floating = function(feature) {
-	return styleFunctionGlobal(feature,"P2floating","AQI","0,0,0","255,255,255");
+	return styleFunctionGlobal(feature,"P2floating",colorLookupTableAQIPM25,"0,0,0","255,255,255");
 };
 var styleFunctionGreenRedPinkPM10 = function(feature) {
-	return styleFunctionGlobal(feature,"P1","GreenRedPink","0,0,0","255,255,255");
+	return styleFunctionGlobal(feature,"P1",colorLookupTableGreenRedPink,"0,0,0","255,255,255");
 };
 var styleFunctionGreenRedPinkPM10floating = function(feature) {
-	return styleFunctionGlobal(feature,"P1floating","GreenRedPink","0,0,0","255,255,255");
+	return styleFunctionGlobal(feature,"P1floating",colorLookupTableGreenRedPink,"0,0,0","255,255,255");
 };
 var styleFunctionGreenRedPinkPM25 = function(feature) {
-	return styleFunctionGlobal(feature,"P2","GreenRedPink","0,0,0","255,255,255");
+	return styleFunctionGlobal(feature,"P2",colorLookupTableGreenRedPink,"0,0,0","255,255,255");
 };
 var styleFunctionGreenRedPinkPM25floating = function(feature) {
-	return styleFunctionGlobal(feature,"P2floating","GreenRedPink","0,0,0","255,255,255");
+	return styleFunctionGlobal(feature,"P2floating",colorLookupTableGreenRedPink,"0,0,0","255,255,255");
 };
 var styleFunctionLuQxPM10 = function(feature) {
-	return styleFunctionGlobal(feature,"P1","LuQx","0,0,0","255,255,255");
+	return styleFunctionGlobal(feature,"P1",colorLookupTableLuQxPM10,"0,0,0","255,255,255");
 };
 var styleFunctionLuQxPM10floating = function(feature) {
-	return styleFunctionGlobal(feature,"P1floating","LuQx","0,0,0","255,255,255");
+	return styleFunctionGlobal(feature,"P1floating",colorLookupTableLuQxPM10,"0,0,0","255,255,255");
 };
 var styleFunctionLuQxPM25 = function(feature) {
-	return styleFunctionGlobal(feature,"P2","LuQx","0,0,0","255,255,255");
+	return styleFunctionGlobal(feature,"P2",colorLookupTableLuQxPM10,"0,0,0","255,255,255");
 };
 var styleFunctionLuQxPM25floating = function(feature) {
-	return styleFunctionGlobal(feature,"P2floating","LuQx","0,0,0","255,255,255");
+	return styleFunctionGlobal(feature,"P2floating",colorLookupTableLuQxPM10,"0,0,0","255,255,255");
 };
 var styleFunctionSensorCounter = function(feature) {
-	return styleFunctionGlobal(feature,"Num_Sensors","StepsGreenRed","0,0,0","255,0,0");
+	return styleFunctionGlobal(feature,"Num_Sensors",colorLookupTableRedGreen,"0,0,0","255,0,0");
 }
 
 // read get variables
