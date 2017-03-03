@@ -104,7 +104,7 @@ include_once("../library.php");
 	
 </script>
 
-<script src="districtstest.js" type="text/javascript"></script>
+<script src="districts.js" type="text/javascript"></script>
 <script>
 
 
