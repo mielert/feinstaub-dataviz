@@ -301,18 +301,11 @@ graph.on('mousemove', function () {
  */
 function data2map(d){
 	if(d){
-		//counter = 0;
 		$.each(districtNames, function( key, val ) {
-			//districts[counter].set("P1floating",d["P1floating_"+val.replace(/ /g, "_")]);
-                  d3colorSVG(key,d["P1floating_"+val.replace(/ /g, "_")],"255,255,255");
-			//counter++;
+            d3colorSVG(key,d["P1floating_"+val.replace(/ /g, "_")],"255,255,255");
 		});
 		$("#mapTimeInfo").html("PM10: 24h-Mittel am "+hoverTimeFormat(d.timestamp));
 	}
-	//var function_name = "styleFunction";
-	//function_name = function_name+select_color_mode.value+"PM10floating";
-	//vectorDistricts.setStyle(eval(function_name));
-	//map.render();
 }
 
 /**
