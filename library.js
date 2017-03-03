@@ -187,7 +187,7 @@ var colorLookupTableRedGreen = {"type":"gradient","values":[[0,[255,0,0]],[10,[0
  */
 var colorMapping = function(lut,value,undefinedColor) {
 	var color;
-	if(value === undefined || value <= 0 || isNaN(value)){
+	if(value === undefined || value < 0 || isNaN(value)){
 		if(typeof undefinedColor === 'string' || undefinedColor instanceof String)
 			color = undefinedColor;
 		else
