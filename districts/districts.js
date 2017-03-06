@@ -302,7 +302,9 @@ graph.on('mousemove', function () {
 function data2map(d){
 	if(d){
 		$.each(districtNames, function( key, val ) {
-            d3colorSVG(key,d["P1floating_"+val.replace(/ /g, "_")],"255,255,255");
+			var value = d["P1floating_"+val.replace(/ /g, "_")];
+			if(value<=0) value = NaN;
+            d3colorSVG(key,value,"255,255,255");
 		});
 		$("#mapTimeInfo").html("PM10: 24h-Mittel am "+hoverTimeFormat(d.timestamp));
 	}
@@ -605,9 +607,9 @@ d3.select(window).on('resize', resize);
 function init_map(){
     if($.isFunction(citizen_science_data.forEach)){
       citizen_science_data.forEach(function(d) {
-              $.each(districtNames, function( key, val ) {
-                   d3colorSVG(key,d["P1floating_"+val.replace(/ /g, "_")],"255,255,255");
-              });
+			$.each(districtNames, function( key, val ) {
+				 d3colorSVG(key,d["P1floating_"+val.replace(/ /g, "_")],"255,255,255");
+			});
       });
       log("Map initialized with most recent data");
     }
@@ -617,9 +619,37 @@ mapScale();
  *
  */
 function mapScale(){
+	var scaleWidth = 40;
+	var scaleHeight = 100;
+	
+	var scale = d3.select("#mapscale").append("svg")
+            .attr("width", scaleWidth).attr("height", scaleHeight).attr("style", "margin-top:35px");
+
 	// clear map
 	$("#mapscale").html("");
+	// get mode
+	var mode = document.getElementById('color-mode').value;
+	// get lut
+	var lut;
+    if(mode==="AQI") lut = colorLookupTableAQIPM10;
+    if(mode==="LuQx") lut = colorLookupTableLuQxPM10;
+    if(mode==="GreenRedPink") lut = colorLookupTableGreenRedPink;
+	console.log(lut);
 	// generate new map
+	var steps = lut.values.length;
+	console.log(steps);
+	var dimension = (2 * lut.values[lut.values.length-2][0]-lut.values[lut.values.length-3][0])/scaleHeight;
+	console.log(dimension);
+	var color;
+	var i = 0;
+	var value = i * dimension;
+	console.log(value);
+	color = colorMapping(lut,i*dimension,"255,255,255");
+	console.log(color);
+	for(i=0;i<scaleHeight;i++){
+		color = colorMapping(lut,i*dimension,"255,255,255");
+		console.log(color);
+	}
 }
 /**
  *
