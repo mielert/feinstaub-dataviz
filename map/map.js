@@ -30,7 +30,7 @@ var xhr = $.get( "../data/stuttgart_districts_v2.json", function( data ) {
 	
 		vectorDistricts = new ol.layer.Vector({
 		  source: vectorSourceDistricts,
-		  style: styleFunctionAQIPM10floating,
+		  style: styleFuntionOpenLayers,
 		  opacity: 0.5
 		});
 	
@@ -48,7 +48,7 @@ var xhr = $.get( "../data/stuttgart_districts_v2.json", function( data ) {
 
 		vectorSensors = new ol.layer.Vector({
 		  source: vectorSourceSensors,
-		  style: styleFunctionAQIPM10
+		  style: styleFuntionOpenLayers
 		});
 		
 		var geoguniheidelbergMapLayer = new ol.layer.Tile({
@@ -195,11 +195,10 @@ var xhr = $.get( "../data/stuttgart_districts_v2.json", function( data ) {
 	select_color_mode.addEventListener('change', function() {
 		change_colormapping();
 	});
+      // update map
 	function change_colormapping(){
-		var function_name = "styleFunction";
-		function_name = function_name+select_color_mode.value+select_source.value;
-		vectorSensors.setStyle(eval(function_name.replace("floating", "")));
-		vectorDistricts.setStyle(eval(function_name));
+		vectorSensors.setStyle(styleFuntionOpenLayers);
+		vectorDistricts.setStyle(styleFuntionOpenLayers);
 		map.render();
 	}
 	$(document).ready(function(){
