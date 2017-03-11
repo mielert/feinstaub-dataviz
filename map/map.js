@@ -197,6 +197,14 @@ var xhr = $.get( "../data/stuttgart_districts_v2.json", function( data ) {
 	});
       // update map
 	function change_colormapping(){
+            // check whether lut is valid or not
+            if(select_source.value === "PM25" || select_source.value === "PM25floating"){
+                  $("#color-mode option[value='LuQx']").attr('disabled',true);
+                  if(select_color_mode.value === "LuQx") select_color_mode.value = "AQI";
+            }
+            else{
+                  $("#color-mode option[value='LuQx']").attr('disabled',false);
+            }
 		vectorSensors.setStyle(styleFuntionOpenLayers);
 		vectorDistricts.setStyle(styleFuntionOpenLayers);
 		map.render();
