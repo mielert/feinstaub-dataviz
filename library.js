@@ -221,46 +221,32 @@ var colorMapping = function(lut,value,undefinedColor) {
 	}
 	return color;
 };
-
-
-var styleFunctionAQIPM10 = function(feature) {
-	return styleFunctionGlobal(feature,"P1",colorLookupTableAQIPM10,"0,0,0","255,255,255");
-};
-var styleFunctionAQIPM10floating = function(feature) {
-	return styleFunctionGlobal(feature,"P1floating",colorLookupTableAQIPM10,"0,0,0","255,255,255");
-};
-var styleFunctionAQIPM25 = function(feature) {
-	return styleFunctionGlobal(feature,"P2",colorLookupTableAQIPM25,"0,0,0","255,255,255");
-};
-var styleFunctionAQIPM25floating = function(feature) {
-	return styleFunctionGlobal(feature,"P2floating",colorLookupTableAQIPM25,"0,0,0","255,255,255");
-};
-var styleFunctionGreenRedPinkPM10 = function(feature) {
-	return styleFunctionGlobal(feature,"P1",colorLookupTableGreenRedPink,"0,0,0","255,255,255");
-};
-var styleFunctionGreenRedPinkPM10floating = function(feature) {
-	return styleFunctionGlobal(feature,"P1floating",colorLookupTableGreenRedPink,"0,0,0","255,255,255");
-};
-var styleFunctionGreenRedPinkPM25 = function(feature) {
-	return styleFunctionGlobal(feature,"P2",colorLookupTableGreenRedPink,"0,0,0","255,255,255");
-};
-var styleFunctionGreenRedPinkPM25floating = function(feature) {
-	return styleFunctionGlobal(feature,"P2floating",colorLookupTableGreenRedPink,"0,0,0","255,255,255");
-};
-var styleFunctionLuQxPM10 = function(feature) {
-	return styleFunctionGlobal(feature,"P1",colorLookupTableLuQxPM10,"0,0,0","255,255,255");
-};
-var styleFunctionLuQxPM10floating = function(feature) {
-	return styleFunctionGlobal(feature,"P1floating",colorLookupTableLuQxPM10,"0,0,0","255,255,255");
-};
-var styleFunctionLuQxPM25 = function(feature) {
-	return styleFunctionGlobal(feature,"P2",colorLookupTableLuQxPM10,"0,0,0","255,255,255");
-};
-var styleFunctionLuQxPM25floating = function(feature) {
-	return styleFunctionGlobal(feature,"P2floating",colorLookupTableLuQxPM10,"0,0,0","255,255,255");
-};
-var styleFunctionSensorCounter = function(feature) {
-	return styleFunctionGlobal(feature,"Num_Sensors",colorLookupTableRedGreen,"0,0,0","255,0,0");
+/**
+ * Styling for OpenLayers
+ * @param {object} Feature
+ * @returns {object} Result from styleFunctionGlobal (applied color lookup table)
+ */
+var styleFuntionOpenLayers = function(feature) {
+	var lut;
+	var attribute = select_source.value;
+	attribute = attribute.replace("PM25", "P2");
+	attribute = attribute.replace("PM10", "P1");
+	if(feature.getGeometry().getType() == "Point"){
+		attribute = attribute.replace("floating", "");
+	}
+	if(select_color_mode.value == "AQI") {
+		  if(attribute == "P1")
+				lut = colorLookupTableAQIPM10;
+		  else
+				lut = colorLookupTableAQIPM25;
+	}
+	else if(select_color_mode.value == "GreenRedPink"){
+		  lut = colorLookupTableGreenRedPink;
+	}
+	else if(select_color_mode.value == "LuQx"){
+		  lut = colorLookupTableLuQxPM10;
+	}
+	return styleFunctionGlobal(feature,attribute,lut,"0,0,0","255,255,255");
 }
 
 // read get variables
