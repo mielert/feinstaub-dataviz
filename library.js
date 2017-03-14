@@ -248,7 +248,65 @@ var styleFuntionOpenLayers = function(feature) {
 	}
 	return styleFunctionGlobal(feature,attribute,lut,"0,0,0","255,255,255");
 }
+/**
+ * @param {String} div Name of the div to use for scale
+ * @param {String} orientation "vertical" or "horizontal"
+ * @param {Int} width Width of the scale
+ * @param {Int} height Height of the scale
+ * @param {Object} lut Color lookup table to use
+ */
+function d3ScaleComplex(div,orientation,width,height,lut){
+	// clear legend
+	$(div).html("");
+	
+	var scale = d3.select(div).append("svg").attr("width", width).attr("height", height);
 
+	var minValue = 0;
+	var maxValue = 0;
+	if(lut.type === "step"){
+		minValue = 0;
+		maxValue = lut.values[lut.values.length-2][0] + (lut.values[lut.values.length-2][0]-lut.values[lut.values.length-3][0]);
+	}
+	else{
+		minValue = lut.values[0][0];
+		maxValue = lut.values[lut.values.length-2][0]+50;
+	}
+	var dimension = (maxValue-minValue)/height;
+	var i = 0;
+	if(orientation==="vertical"){
+		//colored bar
+		for(i=0;i<height;i++){
+			var color = colorMapping(lut,i*dimension,"255,255,255");
+			//console.log("rect "+i+"-"+(i+1)+": "+i*dimension+": "+color);
+			scale.append("rect")
+				.attr("fill", "rgb("+color+")")
+				.attr("width", width/3)
+				.attr("height", 1)
+				.attr("transform", "translate(0,"+(height-i)+")");
+		}
+		//labels
+		for(i=0;i<lut.values.length;i++){
+			if(lut.values[i][0]){
+				//text
+				scale.append("text")
+					.text(lut.values[i][0])
+					.attr("class", "legend_text")
+					.attr("x",width/3+3)
+					.attr("y",(height-lut.values[i][0]/dimension)+4);
+				//little black dot
+				scale.append("line")
+					.attr("style", "stroke: #000;")
+					.attr("x1", width/3)
+					.attr("y1", (height-lut.values[i][0]/dimension))
+					.attr("x2", width/3+2)
+					.attr("y2", (height-lut.values[i][0]/dimension));
+			}
+		}
+	}
+	else{
+		//ToDo
+	}
+}
 // read get variables
 var $_GET = {};
 document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
