@@ -116,6 +116,12 @@ g.y2 .tick line{
 #graph,#graph2{
 	font-size: 0.7em;
 }
+#mapscale{
+	font-size: 0.5em;
+	position: absolute;
+	bottom: 0;
+	right: -45px;
+}
 
 #html_overlay, #worstLocations_overlay {
   height: 100%;
@@ -214,21 +220,24 @@ div.tooltip {
 .hiddenItem{
 	display: none;
 }
-#mapdiv{
+#legend2{
 	width: 150px;
-	height: 150px;
 	position: absolute;
 	left: 100px;
 	top:20px;
+	z-index: 1000;
 }
 #overline{
 	stroke: #ccc;
 }
 #mapTimeInfo{
-	position: absolute;
-	z-index: 1000;
 	background-color: #fff;
 }
 .ol-viewport{
 	padding-top: 5px;
+}
+#scale{
+	position: relative;
+	right: 0;
+	bottom: 0;
 }
