@@ -255,12 +255,10 @@ var styleFuntionOpenLayers = function(feature) {
  * @param {Int} height Height of the scale
  * @param {Object} lut Color lookup table to use
  */
-function d3ScaleComplex(div,orientation,width,height,lut){
+function scaleComplex(div,orientation,width,height,lut){
 	// clear legend
 	$(div).html("");
 	
-	var scale = d3.select(div).append("svg").attr("width", width).attr("height", height);
-
 	var minValue = 0;
 	var maxValue = 0;
 	if(lut.type === "step"){
@@ -273,6 +271,55 @@ function d3ScaleComplex(div,orientation,width,height,lut){
 	}
 	var dimension = (maxValue-minValue)/height;
 	var i = 0;
+	var svg = "<svg xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns=\"http://www.w3.org/2000/svg\" width=\""+width+"\" height=\""+height+"\">";
+	if(orientation==="vertical"){
+		//colored bar
+		for(i=0;i<height;i++){
+			var color = colorMapping(lut,i*dimension,"255,255,255");
+			//console.log("rect "+i+"-"+(i+1)+": "+i*dimension+": "+color);
+			svg+='<rect fill="rgb('+color+')" width="'+(width/3)+'" height="1" transform="translate(0,'+(height-i)+')"></rect>';
+		}
+		//labels
+		for(i=0;i<lut.values.length;i++){
+			if(lut.values[i][0]){
+				//text
+				svg+='<text class="legend_text" x="'+(width/3+3)+'" y="'+((height-lut.values[i][0]/dimension)+4)+'">'+lut.values[i][0]+'</text>';
+				//little black dot
+				svg+='<line style="stroke: #000;" x1="'+(width/3+3)+'" y1="'+(height-lut.values[i][0]/dimension)+'" x2="'+(width/3+2)+'" y2="'+(height-lut.values[i][0]/dimension)+'"></line>';
+			}
+		}
+	}
+	else{
+		//ToDo
+	}
+	svg+= "</svg>";
+	$(div).append(svg);
+	$(div).html($(div).html());
+}
+/**
+ * @param {String} div Name of the div to use for scale
+ * @param {String} orientation "vertical" or "horizontal"
+ * @param {Int} width Width of the scale
+ * @param {Int} height Height of the scale
+ * @param {Object} lut Color lookup table to use
+ */
+function d3ScaleComplex(div,orientation,width,height,lut){
+	// clear legend
+	$(div).html("");
+	
+	var minValue = 0;
+	var maxValue = 0;
+	if(lut.type === "step"){
+		minValue = 0;
+		maxValue = lut.values[lut.values.length-2][0] + (lut.values[lut.values.length-2][0]-lut.values[lut.values.length-3][0]);
+	}
+	else{
+		minValue = lut.values[0][0];
+		maxValue = lut.values[lut.values.length-2][0]+50;
+	}
+	var dimension = (maxValue-minValue)/height;
+	var i = 0;
+	var scale = d3.select(div).append("svg").attr("width", width).attr("height", height);
 	if(orientation==="vertical"){
 		//colored bar
 		for(i=0;i<height;i++){
