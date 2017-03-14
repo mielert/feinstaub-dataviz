@@ -68,10 +68,11 @@ include_once("../library.php");
 </head>
   <body>
     <div id="chart">
-		<div id="mapdiv"><div id="mapTimeInfo">Aktuelles 24h-Mittel PM10</div></div>
-		<svg id="graph"></svg>
-		<svg id="graph2"></svg>
-	</div>
+		<div id="legend2">
+			<div id="mapTimeInfo">Aktuelles 24h-Mittel PM10</div>
+			<div id="mapdiv"></div>
+			<div id="mapscale">scale</div>
+		</div>
 	<div id="controlBar2Button" class="bar2Button shadow bgcolor"><div class="bar2ButtonText">Einstellungen</div></div>
 	<div id="infoBar2Button" class="bar2Button shadow bgcolor"><div class="bar2ButtonText">Info</div></div>
     <div id="controlBar2" class="Bar2 shadow">
