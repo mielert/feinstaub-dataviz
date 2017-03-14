@@ -68,6 +68,8 @@ include_once("../library.php");
 	<body>
 		<div style="width:100%;height:100%;">
 			<div id="mapdiv"></div>
+			<div id="mapscale"></div>
+
 	<div id="controlBar2Button" class="bar2Button shadow bgcolor"><div class="bar2ButtonText">Einstellungen</div></div>
 	<div id="infoBar2Button" class="bar2Button shadow bgcolor"><div class="bar2ButtonText">Info</div></div>
     <div id="controlBar2" class="Bar2 shadow">
