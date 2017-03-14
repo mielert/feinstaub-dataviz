@@ -1,6 +1,9 @@
 console.log("Loading...");
 var week = ($_GET.mode=="week")?true:false;
 log("Data mode: "+((week)?"just seven days":"complete data"));
+
+var currentData = false;
+
 /**
  * Step 1: Load the map
  */
@@ -14,7 +17,7 @@ var map_width  = 150;
 var map_height = 150;
 
 var vis = d3.select("#mapdiv").append("svg")
-            .attr("width", map_width).attr("height", map_height).attr("style", "margin-top:35px");
+            .attr("width", map_width).attr("height", map_height);
 
 var geodata_file = "../data/stuttgart_districts.json";
 $.get( geodata_file, function( data ) {
@@ -296,19 +299,7 @@ graph.on('mousemove', function () {
 		.attr("x2",coordinates[0]);
 });
 
-/**
- * update map
- */
-function data2map(d){
-	if(d){
-		$.each(districtNames, function( key, val ) {
-			var value = d["P1floating_"+val.replace(/ /g, "_")];
-			if(value<=0) value = NaN;
-            d3colorSVG(key,value,"255,255,255");
-		});
-		$("#mapTimeInfo").html("PM10: 24h-Mittel am "+hoverTimeFormat(d.timestamp));
-	}
-}
+
 
 /**
  * init graphs
@@ -515,91 +506,96 @@ $.each(districtNames, function( key, val ) {
 /**
  *
  */
-  function resize() {
-		if(window.innerWidth > 800){
-			if(!controlVisible && !infoVisible){
-				$("#chart").css({left: 0, width: "100%"});
-			}
-			else{
-				$("#chart").css({left: 400, width: window.innerWidth-400});
-			}
-		}
-    width = parseInt(d3.select("#graph").style("width")) - margin_left - margin_right;
-    height = parseInt(d3.select("#graph").style("height")) - margin_top - margin_bottom;
+function resize() {
+	  if(window.innerWidth > 800){
+		  if(!controlVisible && !infoVisible){
+			  $("#chart").css({left: 0, width: "100%"});
+		  }
+		  else{
+			  $("#chart").css({left: 400, width: window.innerWidth-400});
+		  }
+	  }
+  width = parseInt(d3.select("#graph").style("width")) - margin_left - margin_right;
+  height = parseInt(d3.select("#graph").style("height")) - margin_top - margin_bottom;
 
-    /* Update the range of the scale with new width/height */
-    xScale.range([0, width]);
-    yScale.range([height, 0]);
+  /* Update the range of the scale with new width/height */
+  xScale.range([0, width]);
+  yScale.range([height, 0]);
 
-    /* Update the axis with the new scale */
-    graph.select('.x.axis')
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
+  /* Update the axis with the new scale */
+  graph.select('.x.axis')
+	.attr("transform", "translate(0," + height + ")")
+	.call(xAxis);
 
-    graph.select('#yaxis')
-      .call(yAxis1)
-      .attr("transform", "translate(0,0)")
-      .attr("tickSize",width);
+  graph.select('#yaxis')
+	.call(yAxis1)
+	.attr("transform", "translate(0,0)")
+	.attr("tickSize",width);
 
-    graph.select('#y2axis')
-      .call(yAxis2)
-      .attr("transform", "translate(" + width + ",0)")
-      .attr("tickSize",-width);
-      
-    graph.selectAll('#yaxis line')
-      .attr("x2", width);
-      
-    graph.selectAll('#y2axis line')
-      .attr("x2", -width);
+  graph.select('#y2axis')
+	.call(yAxis2)
+	.attr("transform", "translate(" + width + ",0)")
+	.attr("tickSize",-width);
+	
+  graph.selectAll('#yaxis line')
+	.attr("x2", width);
+	
+  graph.selectAll('#y2axis line')
+	.attr("x2", -width);
 
-	graph.select("#overline")
-		//.attr("x1",timecode)
-		//.attr("x2",timecode)
-		.attr("y1",0)
-		.attr("y2",height);
+  graph.select("#overline")
+	  //.attr("x1",timecode)
+	  //.attr("x2",timecode)
+	  .attr("y1",0)
+	  .attr("y2",height);
 
 
-    /* Force D3 to recalculate and update the lines and areas */
-	$.each(districtNames, function( key, val ) {
-		graph.select("#P1floating_"+val.replace(/ /g, "_"))
-			.attr("d", eval("P1floating_"+val.replace(/ /g, "_")));  
-	});
+  /* Force D3 to recalculate and update the lines and areas */
+  $.each(districtNames, function( key, val ) {
+	  graph.select("#P1floating_"+val.replace(/ /g, "_"))
+		  .attr("d", eval("P1floating_"+val.replace(/ /g, "_")));  
+  });
 
-    graph.select('#line_DEBW118pm10')
-      .attr("d", line_DEBW118pm10);
-    graph.select('#line_DEBW013pm10')
-      .attr("d", line_DEBW013pm10);
-      
-    graph.select('#overlay_rect')
-      .attr("width", width)
-      .attr("height", height);
-      
-    graph.select('#text3')
-      .attr("y", (window.innerHeight-height/2-55));
-    graph.select('#text4')
-      .attr("y", window.innerHeight-height/2-64);
-    graph.select('#text5')
-      .attr("y", window.innerHeight-height/2-46);
-    graph.select('#polytext3')
-      .attr("y", window.innerHeight-height/2-79);
-    
-    graph.select('#legend_y')
-      .attr("x", 0 - (window.innerHeight / 2));
-    graph.select('#copyright')
-      .attr("y", window.innerHeight-margin_bottom-4);
-      
-    graph.selectAll(".legend_line")
-      .attr("x1", width-120)
-      .attr("x2", width-100);
-    graph.selectAll(".legend_text")
-      .attr("x", width-90);
-      
-  }
+  graph.select('#line_DEBW118pm10')
+	.attr("d", line_DEBW118pm10);
+  graph.select('#line_DEBW013pm10')
+	.attr("d", line_DEBW013pm10);
+	
+  graph.select('#overlay_rect')
+	.attr("width", width)
+	.attr("height", height);
+	
+  graph.select('#text3')
+	.attr("y", (window.innerHeight-height/2-55));
+  graph.select('#text4')
+	.attr("y", window.innerHeight-height/2-64);
+  graph.select('#text5')
+	.attr("y", window.innerHeight-height/2-46);
+  graph.select('#polytext3')
+	.attr("y", window.innerHeight-height/2-79);
+  
+  graph.select('#legend_y')
+	.attr("x", 0 - (window.innerHeight / 2));
+  graph.select('#copyright')
+	.attr("y", window.innerHeight-margin_bottom-4);
+	
+  graph.selectAll(".legend_line")
+	.attr("x1", width-120)
+	.attr("x2", width-100);
+  graph.selectAll(".legend_text")
+	.attr("x", width-90);
+	
+}
 
 
 
 d3.select(window).on('resize', resize);
 
+var mapScaleId = "#mapscale";
+var mapScaleOrientation = "vertical";
+var mapScaleWidth = 40;
+var mapScaleHeight = 100;
+var mapScaleLut = colorLookupTableAQIPM10;
 /**
  * set map to most recent data
  * very ugly way...
@@ -613,44 +609,30 @@ function init_map(){
       });
       log("Map initialized with most recent data");
     }
+	d3ScaleComplex(mapScaleId,mapScaleOrientation,mapScaleWidth,mapScaleHeight,mapScaleLut);
 }
-mapScale();
 /**
- *
+ * update map
  */
-function mapScale(){
-	var scaleWidth = 40;
-	var scaleHeight = 100;
-	
-	var scale = d3.select("#mapscale").append("svg")
-            .attr("width", scaleWidth).attr("height", scaleHeight).attr("style", "margin-top:35px");
-
-	// clear map
-	$("#mapscale").html("");
-	// get mode
-	var mode = document.getElementById('color-mode').value;
-	// get lut
-	var lut;
-    if(mode==="AQI") lut = colorLookupTableAQIPM10;
-    if(mode==="LuQx") lut = colorLookupTableLuQxPM10;
-    if(mode==="GreenRedPink") lut = colorLookupTableGreenRedPink;
-	console.log(lut);
-	// generate new map
-	var steps = lut.values.length;
-	console.log(steps);
-	var dimension = (2 * lut.values[lut.values.length-2][0]-lut.values[lut.values.length-3][0])/scaleHeight;
-	console.log(dimension);
-	var color;
-	var i = 0;
-	var value = i * dimension;
-	console.log(value);
-	color = colorMapping(lut,i*dimension,"255,255,255");
-	console.log(color);
-	for(i=0;i<scaleHeight;i++){
-		color = colorMapping(lut,i*dimension,"255,255,255");
-		console.log(color);
+function data2map(d = currentData){
+	currentData = d;
+	if(d){
+		$.each(districtNames, function( key, val ) {
+			var value = d["P1floating_"+val.replace(/ /g, "_")];
+			if(value<=0) value = NaN;
+            d3colorSVG(key,value,"255,255,255");
+		});
+		$("#mapTimeInfo").html("PM10: 24h-Mittel am "+hoverTimeFormat(d.timestamp));
 	}
 }
+
+$("#color-mode").on("change", function() {
+	if($(this).val()==="AQI") mapScaleLut = colorLookupTableAQIPM10;
+	if($(this).val()==="LuQx") mapScaleLut = colorLookupTableLuQxPM10;
+	if($(this).val()==="GreenRedPink") mapScaleLut = colorLookupTableGreenRedPink;
+	d3ScaleComplex(mapScaleId,mapScaleOrientation,mapScaleWidth,mapScaleHeight,mapScaleLut);
+	data2map();
+});
 /**
  *
  */
