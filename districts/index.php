@@ -1,8 +1,5 @@
 <?php
 $version = "1.6.0 Github";
-
-include_once("../library.php");
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,8 +10,8 @@ include_once("../library.php");
 	<meta http-equiv="cache-control" content="public" />
 	<meta property="og:title" content="Feinstaub in Stuttgart">
 	<meta property="og:description" content="Hier finden Sie die OpenData-Feinstaubmessungen von OK Lab Stuttgart nach Stadtteilen geordnet und als Diagramm aufbereitet.">
-	<meta property="og:image" content="<?php echo $url; ?>/districts/districts.png">
-	<meta property="og:url" content="<?php echo $url; ?>/districts/">
+	<meta property="og:image" content="<?php echo $_SERVER["REQUEST_SCHEME"]."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]; ?>districts.png">
+	<meta property="og:url" content="<?php echo $_SERVER["REQUEST_SCHEME"]."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]; ?>">
     <script src="../js/d3.v4.min.js" type="text/javascript"></script>
     <script src="../js/jquery.min.js" type="text/javascript"></script>
 	<!--<script src="../js/ol.js" type="text/javascript"></script>-->
@@ -73,6 +70,9 @@ include_once("../library.php");
 			<div id="mapdiv"></div>
 			<div id="mapscale">scale</div>
 		</div>
+		<svg id="graph"></svg>
+		<svg id="graph2"></svg>
+	</div>
 	<div id="controlBar2Button" class="bar2Button shadow bgcolor"><div class="bar2ButtonText">Einstellungen</div></div>
 	<div id="infoBar2Button" class="bar2Button shadow bgcolor"><div class="bar2ButtonText">Info</div></div>
     <div id="controlBar2" class="Bar2 shadow">
