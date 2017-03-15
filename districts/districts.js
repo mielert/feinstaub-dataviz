@@ -285,7 +285,7 @@ var view = graph.append("rect")
  * Zoom
  */
 new_xScale = xScale;
-graph.call(d3.zoom().on("zoom", zoom));
+if(!week) graph.call(d3.zoom().on("zoom", zoom));
 function zoom(){
 	new_xScale = d3.event.transform.rescaleX(xScale);
 	graph.select('.x.axis').call(xAxis.scale(new_xScale));
