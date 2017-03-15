@@ -1,6 +1,3 @@
-<?php
-include_once("../library.php");
-?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -9,11 +6,10 @@ include_once("../library.php");
 		<meta http-equiv="cache-control" content="max-age=86400" />
 		<meta property="og:title" content="Feinstaub in Stuttgart">
 		<meta property="og:description" content="Hier finden Sie die OpenData-Feinstaubmessungen von OK Lab Stuttgart als Karte aufbereitet.">
-		<meta property="og:image" content="<?php echo $url; ?>/map/map.png">
-		<meta property="og:url" content="<?php echo $url; ?>/map/">
-		<!--<script src="/feinstaub/js/d3.v4.min.js" type="text/javascript"></script>-->
+		<meta property="og:image" content="<?php echo $_SERVER["REQUEST_SCHEME"]."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]; ?>map.png">
+		<meta property="og:url" content="<?php echo $_SERVER["REQUEST_SCHEME"]."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]; ?>">
 		<script src="../js/jquery.min.js" type="text/javascript"></script>
-		<script src="../js/jquery-ui.min.js" type="text/javascript"></script>
+		<!--<script src="../js/jquery-ui.min.js" type="text/javascript"></script>-->
 		<script src="../js/ol.js" type="text/javascript"></script>
  		<script src="../library.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="../js/ol.css" type="text/css" media="all">
@@ -25,7 +21,7 @@ include_once("../library.php");
 		
 		ToDo
 		- include LUBW
-		- reduce size (1,35MB)
+		- reduce size (1,32MB)
 		
 		2.8.0
 		reduced php
