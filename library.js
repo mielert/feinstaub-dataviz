@@ -231,9 +231,6 @@ var styleFuntionOpenLayers = function(feature) {
 	var attribute = select_source.value;
 	attribute = attribute.replace("PM25", "P2");
 	attribute = attribute.replace("PM10", "P1");
-	if(feature.getGeometry().getType() == "Point"){
-		attribute = attribute.replace("floating", "");
-	}
 	if(select_color_mode.value == "AQI") {
 		  if(attribute == "P1")
 				lut = colorLookupTableAQIPM10;
@@ -285,7 +282,7 @@ function scaleComplex(div,orientation,width,height,lut){
 				//text
 				svg+='<text class="legend_text" x="'+(width/3+3)+'" y="'+((height-lut.values[i][0]/dimension)+4)+'">'+lut.values[i][0]+'</text>';
 				//little black dot
-				svg+='<line style="stroke: #000;" x1="'+(width/3+3)+'" y1="'+(height-lut.values[i][0]/dimension)+'" x2="'+(width/3+2)+'" y2="'+(height-lut.values[i][0]/dimension)+'"></line>';
+				svg+='<line style="stroke: #000;" x1="'+(width/3)+'" y1="'+(height-lut.values[i][0]/dimension)+'" x2="'+(width/3+2)+'" y2="'+(height-lut.values[i][0]/dimension)+'"></line>';
 			}
 		}
 	}
