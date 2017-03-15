@@ -43,7 +43,7 @@
 				<p>Die Kurven zeigen PM10-Feinstaubmessungen aus den Stuttgarter Stadtbezirken, die im Rahmen eines Projekts vom OK Lab Stuttgart vorgenommen wurden.</p>
 				<p>Jede Kurve zeigt an jeder Stelle die über die vergangenen 24 Stunden geglättete Werte aus dem entsprechenden Bezirk. Dafür wird jeweils der Median zwischen den aktiven Sensoren und anschließend das arithmetische Mittel über 24 Stunden gebildet (gleitender Mittelwert).</p>
 				<p>Die eingeblendete Karte zeigt die Feinstaubbelastung in den jeweiligen Stadtbezirken zu einem bestimmten Zeitpunkt.</p>
-				<p>Das Diagramm reagiert auf Mausbewegungen, kann vergrößert und verschoben werden.</p>
+				<p>Wenn das Diagramm zu Beginn mehr als eine Woche darstellt, reagiert es auf Mausbewegungen und kann vergrößert und verschoben werden.</p>
 <?php } ?>
 			</div>
 			<h3>Was bedeuten PM10 und PM2.5?</h3>
@@ -173,7 +173,7 @@ Ja, kein Problem. Die Diagramme (<a href="https://feinstaub-stuttgart.info/datav
 <h3>Datenherkunft</h3>
 <div>
 
-Die gezeigten Daten werden mit freundlicher Genehmigung der <a href="http://www.mnz.lubw.baden-wuerttemberg.de/" target="_blank">Landesanstalt für Umwelt, Messungen und Naturschutz Baden-Württemberg (LUBW)</a> und <a href="http://luftdaten.info" target="_blank">luftdaten.info</a> hier gezeigt und mittels PHP und Javascript (inklusive der grandiosen Tools <a href="https://d3js.org" target="_blank">d3</a>, <a href="http://openlayers.org/" target="_blank">OpenLayers</a>, <a href="https://jquery.com/" target="_blank">jQuery</a> &amp; <a href="http://jqueryui.com/" target="_blank">jQuery UI</a>) aufbereitet.
+Die gezeigten Daten werden mit freundlicher Genehmigung der <a href="http://www.mnz.lubw.baden-wuerttemberg.de/" target="_blank">Landesanstalt für Umwelt, Messungen und Naturschutz Baden-Württemberg (LUBW)</a> und <a href="http://luftdaten.info" target="_blank">luftdaten.info</a> hier gezeigt und mittels PHP und Javascript (inklusive der grandiosen Tools <a href="https://d3js.org" target="_blank">d3</a>, <a href="http://openlayers.org/" target="_blank">OpenLayers</a>, <a href="https://jquery.com/" target="_blank">jQuery</a> &amp; <a href="http://jqueryui.com/" target="_blank">jQuery UI</a>) aufbereitet. Das verwendete Kartenmaterial stammt (über den Umweg <a href="http://korona.geog.uni-heidelberg.de/" target="_blank">Uni Heidelberg</a>) von <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap und den dort Mitwirkenden</a> und ist CC-BY-SA lizensiert.
 
 </div>
 <h3>Ich will selber Daten visualisieren. Wie finde ich einen Einstieg?</h3>
