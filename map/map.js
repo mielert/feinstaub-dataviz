@@ -13,7 +13,7 @@ var vectorSensors = "";
 var mapScaleId = "#mapscale";
 var mapScaleOrientation = "vertical";
 var mapScaleWidth = 40;
-var mapScaleHeight = 100;
+var mapScaleHeight = 200;
 var mapScaleLut = colorLookupTableAQIPM10;
 
 scaleComplex(mapScaleId,mapScaleOrientation,mapScaleWidth,mapScaleHeight,mapScaleLut);
@@ -218,7 +218,12 @@ var xhr = $.get( "../data/stuttgart_districts_v2.json", function( data ) {
 		vectorSensors.setStyle(styleFuntionOpenLayers);
 		vectorDistricts.setStyle(styleFuntionOpenLayers);
 		map.render();
-            if($("#color-mode").val()==="AQI") mapScaleLut = colorLookupTableAQIPM10;
+            if($("#color-mode").val()==="AQI") {
+                  if(select_source.value === "PM25" || select_source.value === "PM25floating")
+                        mapScaleLut = colorLookupTableAQIPM25;
+                  else
+                        mapScaleLut = colorLookupTableAQIPM10;
+            }
             if($("#color-mode").val()==="LuQx") mapScaleLut = colorLookupTableLuQxPM10;
             if($("#color-mode").val()==="GreenRedPink") mapScaleLut = colorLookupTableGreenRedPink;
             scaleComplex(mapScaleId,mapScaleOrientation,mapScaleWidth,mapScaleHeight,mapScaleLut);
