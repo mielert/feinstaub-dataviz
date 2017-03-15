@@ -12,7 +12,8 @@ $districts = db_select("SELECT * FROM `districts`");
  *
  */
 function cleanup_string($string){
-	$string = str_replace(array(" ","ä","ö","ü","ß"),array("_","ae","oe","ue","sz"),$string);
+	//$string = str_replace(array(" ","ä","ö","ü","ß"),array("_","ae","oe","ue","sz"),$string);
+	$string = str_replace(array(" "),array("_"),$string);
 	return $string;
 }
 /**
