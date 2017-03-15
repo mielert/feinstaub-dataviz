@@ -49,6 +49,7 @@ a, a:visited, a:active, .ui-widget-content a{
 	height: 100%;
 	position: absolute;
 	display: none;
+	z-index: 1000;
 }
 .Bar2 iframe{
 	width: 100%;
