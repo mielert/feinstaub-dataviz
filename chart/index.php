@@ -1,6 +1,3 @@
-<?php
-include_once("../library.php");
-?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -9,8 +6,8 @@ include_once("../library.php");
     <meta http-equiv="cache-control" content="max-age=86400" />
     <meta property="og:title" content="Feinstaub in Stuttgart"/>
     <meta property="og:description" content="Hier finden Sie die OpenData-Feinstaubmessungen von OK Lab Stuttgart zusammengefasst und als Diagramm aufbereitet."/>
-    <meta property="og:image" content="<?php echo $url; ?>/chart/chart.png"/>
-    <meta property="og:url" content="<?php echo $url; ?>/chart/"/>
+    <meta property="og:image" content="<?php echo $_SERVER["REQUEST_SCHEME"]."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]; ?>chart.png"/>
+    <meta property="og:url" content="<?php echo $_SERVER["REQUEST_SCHEME"]."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]; ?>"/>
     <script src="../js/d3.v4.min.js" type="text/javascript"></script>
 	  <script src="../js/jquery.min.js" type="text/javascript"></script>
     <script src="../library.js" type="text/javascript"></script>
