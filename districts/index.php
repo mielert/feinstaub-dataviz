@@ -16,6 +16,7 @@ $version = "1.6.0 Github";
     <script src="../js/jquery.min.js" type="text/javascript"></script>
 	<!--<script src="../js/ol.js" type="text/javascript"></script>-->
     <script src="../library.js" type="text/javascript"></script>
+    <script src="../library_charts.js" type="text/javascript"></script>
 	<!--<link rel="stylesheet" href="../js/ol.css" type="text/css" media="all">-->
 	<link rel="stylesheet" href="../styles.css" type="text/css" media="all">
 	<link rel="stylesheet" href="chart.css" type="text/css" media="all">
