@@ -1,5 +1,5 @@
-<?php if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit; ?>
 <?php
+if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit; 
 include_once("library.php");
 $file = $data_root."data_lubw.json";
 $simple_file = $data_root."data_lubw.tsv";
@@ -13,6 +13,7 @@ $fileContent = file_get_contents($file);
 $cronological_data = json_decode($fileContent,true);
 
 function read_lubw_data($url){
+	global $script_result;
     // Setup cURL
     $ch = curl_init($url);
     curl_setopt_array($ch, array(
@@ -28,7 +29,8 @@ function read_lubw_data($url){
     
     // Check for errors
     if($response === FALSE){
-        die(curl_error($ch));
+        $script_result.= "Curl Error $url ".curl_error($ch);
+        return false;
     }
     
     // Decode the response
@@ -78,7 +80,7 @@ function get_value($data){
  *
  */
 function simplify_data($data){
-    echo "<pre>".print_r($data,true)."</pre>";
+    //echo "<pre>".print_r($data,true)."</pre>";
     $simple = "timestamp	statDEBW013pm10	statDEBW118pm10
 ";
     foreach($data as $dataset){
@@ -92,27 +94,31 @@ function simplify_data($data){
 }
 $url = 'http://www.mnz.lubw.baden-wuerttemberg.de/messwerte/aktuell/statDEBW013.htm';
 $lubwData = read_lubw_data($url);
-$timestamp = get_timestamp($lubwData);
-$value013p10 = get_value($lubwData);
-
-$dataset = array("sensor_name"=>"DEBW013","sensor_type"=>2,"lon"=>9.230,"lat"=>48.809,"timestamp"=>$timestamp,"P10"=>$value013p10,"P25"=>"NULL");
-save_sensor_data_to_database_daily_mean($dataset);
+if($lubwData){
+    $timestamp = get_timestamp($lubwData);
+    $value013p10 = get_value($lubwData);
+    $dataset = array("sensor_name"=>"DEBW013","sensor_type"=>2,"lon"=>9.230,"lat"=>48.809,"timestamp"=>$timestamp,"P10"=>$value013p10,"P25"=>"NULL");
+    $script_result.= "DEBW013: $value013p10 ";
+    save_sensor_data_to_database_daily_mean($dataset);
+}
 
 $url = 'http://www.mnz.lubw.baden-wuerttemberg.de/messwerte/aktuell/spotstatDEBW118.htm';
 $lubwData = read_lubw_data($url);
-$timestamp = get_timestamp($lubwData);
-$value118p10 = get_value($lubwData);
+if($lubwData){
+    $timestamp = get_timestamp($lubwData);
+    $value118p10 = get_value($lubwData);
+    $dataset = array("sensor_name"=>"DEBW118","sensor_type"=>2,"lon"=>9.191,"lat"=>48.788,"timestamp"=>$timestamp,"P10"=>$value118p10,"P25"=>"NULL");
+    $script_result.= "DEBW118: $value118p10 ";
+    save_sensor_data_to_database_daily_mean($dataset);
+}
 
-$dataset = array("sensor_name"=>"DEBW118","sensor_type"=>2,"lon"=>9.191,"lat"=>48.788,"timestamp"=>$timestamp,"P10"=>$value118p10,"P25"=>"NULL");
-save_sensor_data_to_database_daily_mean($dataset);
-
-
-echo date("Y-m-d H:i:s",$timestamp).": ".$value013p10." / ".$value118p10."<br/>";
+//echo date("Y-m-d H:i:s",$timestamp).": ".$value013p10." / ".$value118p10."<br/>";
+$script_result = date("Y-m-d H:i:s",$timestamp).": ".$script_result;
 
 $lastTimestamp = $cronological_data[count($cronological_data)-1]["timestamp"];
 
-echo date("Y-m-d H:i:s",$lastTimestamp);
-print_r(array("timestamp"=>$timestamp,"statDEBW013pm10"=>$value013p10,"statDEBW118pm10"=>$value118p10));
+//echo date("Y-m-d H:i:s",$lastTimestamp);
+//print_r(array("timestamp"=>$timestamp,"statDEBW013pm10"=>$value013p10,"statDEBW118pm10"=>$value118p10));
 
 
 if($timestamp > $lastTimestamp){
@@ -127,10 +133,12 @@ if($timestamp > $lastTimestamp){
     file_put_contents($simple_file, $simple_cronological_data);
 }
 
+echo $script_result;
+
 //echo $lubwData;
 
 //id="Datum"
 
 //id="WerteTabelle"
-
+//echo $responseData;
 ?>
