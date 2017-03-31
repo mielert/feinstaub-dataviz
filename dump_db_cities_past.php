@@ -1,5 +1,4 @@
-<?php if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit; ?>
-<pre><?php
+<?php if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit; 
 include_once("library.php");
 
 $city_id = 1;
@@ -27,7 +26,7 @@ if(!file_exists($filename_cronological)){
 	$data = header_complete();
 	// get min dataset from db
 	$sql = "SELECT MIN(`timestamp`) AS timestamp FROM `cities_mean` WHERE `city_id` = $city_id LIMIT 1";
-	$start = debug_query($sql);
+	$start = db_select($sql);
 	$start = strtotime($start[0]->timestamp);
 }
 else{
@@ -35,18 +34,18 @@ else{
 	// cast as min dataset
 	$file = escapeshellarg($filename_cronological); // for the security concious (should be everyone!)
 	$line = `tail -n 1 $file`;
-	echo $line."\n";
+	//echo $line."\n";
 	$line = explode("	",$line);
 	$start = $line[0];
-	echo $start."\n";
+	//echo $start."\n";
 	$start = substr($start,0,4)."-".substr($start,4,2)."-".substr($start,6,2)." ".substr($start,8,2).":".substr($start,10,2).":".substr($start,12,2);
-	echo $start."\n";
+	//echo $start."\n";
 	$start = strtotime($start." + 1 hours");
-	echo $start."\n";
+	//echo $start."\n";
 }
 
 $sql = "SELECT MAX(`timestamp`) AS timestamp FROM `cities_mean` WHERE `city_id` = $city_id";
-$stop = debug_query($sql);
+$stop = db_select($sql);
 $stop = $stop[0]->timestamp;
 $stop = strtotime($stop);
 
@@ -61,21 +60,24 @@ while($timestamp <= $stop){
 		FROM `cities_mean` 
 		WHERE `timestamp` = '".date("Y-m-d H:i:s",$timestamp)."' 
 		AND `city_id` = $city_id";
-	$results = debug_query($sql);
+	$results = db_select($sql);
 	$data.= "	".$results[0]->num_sensors."	".$results[0]->num_values;
 	$data.= "	".$results[0]->P1h_max."	".$results[0]->P1h_min."	".$results[0]->P1h."	".$results[0]->P1h_50_max."	".$results[0]->P1h_50_min."	".get_sensor_name_by_sensor_id($results[0]->P1max_sensor_id)."	".get_sensor_name_by_sensor_id($results[0]->P1min_sensor_id)."	".$results[0]->P1d;
 	$data.= "	".$results[0]->P2h_max."	".$results[0]->P2h_min."	".$results[0]->P2h."	".$results[0]->P2h_50_max."	".$results[0]->P2h_50_min."	".get_sensor_name_by_sensor_id($results[0]->P2max_sensor_id)."	".get_sensor_name_by_sensor_id($results[0]->P2min_sensor_id)."	".$results[0]->P2d;
 
+	$last_timestamp = date("Y-m-d H:i:s",$timestamp);
 	$timestamp = strtotime(date("Y-m-d H:i:s",$timestamp)." + 1 hours");
 	$j++;
 	if($j>$max) break;
 }
 
-echo $data;
+//echo $data;
 
 $result = file_put_contents($filename_cronological, $data, FILE_APPEND | LOCK_EX);
+if($last_timestamp) echo "dumped until $last_timestamp";
+else echo "nothing to dump";
 
-print_r($result);
+//print_r($result);
 
 // a smaller file
 $data = file_get_contents($filename_cronological);
@@ -92,4 +94,3 @@ if($start_count>168){
 file_put_contents($filename_cronological_week,$data);
 
 ?>
-</pre>
