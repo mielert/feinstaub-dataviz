@@ -15,20 +15,20 @@ if(count($result) > 0 && $result[0]->timestamp > "1000-01-01 00:00:00")
 else{
   $sql = "SELECT MIN(`timestamp`) AS timestamp 
           FROM `sensors_hourly_mean` 
-          LEFT JOIN `x_coordinates_districts` 
-            ON `x_coordinates_districts`.`lon` = `sensors_hourly_mean`.`lon` 
-            AND `x_coordinates_districts`.`lat` = `sensors_hourly_mean`.`lat`
-          LEFT JOIN `districts` ON `districts`.`id` = `x_coordinates_districts`.`district_id`
+          LEFT JOIN `x_coordinates_regions` 
+            ON `x_coordinates_regions`.`lon` = `sensors_hourly_mean`.`lon` 
+            AND `x_coordinates_regions`.`lat` = `sensors_hourly_mean`.`lat`
+          LEFT JOIN `districts` ON `districts`.`id` = `x_coordinates_regions`.`district_id`
           WHERE `districts`.`city_id` = $city_id";
   $result = debug_query($sql);
   $start_timestamp = $result[0]->timestamp;
 }
 $sql = "SELECT DISTINCT `timestamp`
         FROM `sensors_hourly_mean` 
-        LEFT JOIN `x_coordinates_districts` 
-          ON `x_coordinates_districts`.`lon` = `sensors_hourly_mean`.`lon` 
-          AND `x_coordinates_districts`.`lat` = `sensors_hourly_mean`.`lat`
-        LEFT JOIN `districts` ON `districts`.`id` = `x_coordinates_districts`.`district_id`
+        LEFT JOIN `x_coordinates_regions` 
+          ON `x_coordinates_regions`.`lon` = `sensors_hourly_mean`.`lon` 
+          AND `x_coordinates_regions`.`lat` = `sensors_hourly_mean`.`lat`
+        LEFT JOIN `districts` ON `districts`.`id` = `x_coordinates_regions`.`district_id`
         WHERE `districts`.`city_id` = $city_id
         ORDER BY `timestamp`";
 $results = debug_query($sql);
@@ -39,11 +39,11 @@ foreach($results as $result){
   $timestamp = $result->timestamp;
   $sql = "SELECT *
           FROM `sensors_hourly_mean`  
-          LEFT JOIN `x_coordinates_districts` 
-            ON `x_coordinates_districts`.`lon` = `sensors_hourly_mean`.`lon` 
-            AND `x_coordinates_districts`.`lat` = `sensors_hourly_mean`.`lat`
+          LEFT JOIN `x_coordinates_regions` 
+            ON `x_coordinates_regions`.`lon` = `sensors_hourly_mean`.`lon` 
+            AND `x_coordinates_regions`.`lat` = `sensors_hourly_mean`.`lat`
           WHERE `sensors_hourly_mean`.`timestamp` = '$timestamp'
-          LEFT JOIN `districts` ON `districts`.`id` = `x_coordinates_districts`.`district_id`
+          LEFT JOIN `districts` ON `districts`.`id` = `x_coordinates_regions`.`district_id`
           WHERE `districts`.`city_id` = $city_id
           ORDER BY `sensors_hourly_mean`.`sensor_id` ASC";
   $result = debug_query($sql);
