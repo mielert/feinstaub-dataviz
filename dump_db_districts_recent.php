@@ -1,5 +1,6 @@
-<?php if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit; ?>
-<pre><?php
+<?php
+//if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit;
+
 include_once("library.php");
 
 // read geodata
@@ -14,25 +15,25 @@ function cleanup_string($string){
 	return $string;
 }
 
-$sql = "SELECT `timestamp` FROM `districts_mean` ORDER BY `districts_mean`.`timestamp` DESC LIMIT 1";
-$recent_timestamp = debug_query($sql);
+$sql = "SELECT `timestamp` FROM `regions_mean` ORDER BY `regions_mean`.`timestamp` DESC LIMIT 1";
+$recent_timestamp = db_select($sql);
 $recent_timestamp = $recent_timestamp[0]->timestamp;
 
 $sql = "SELECT
-			`districts`.`id`,
-			`districts`.`name`,
-			`districts`.`id`,
-			`districts_mean`.`P1h`,
-			`districts_mean`.`P2h`,
-			`districts_mean`.`P1d`,
-			`districts_mean`.`P2d`,
+			`regions`.`id`,
+			`regions`.`name`,
+			`regions`.`id`,
+			`regions_mean`.`P1h`,
+			`regions_mean`.`P2h`,
+			`regions_mean`.`P1d`,
+			`regions_mean`.`P2d`,
 			(
 				SELECT COUNT(sensor_id)
 				FROM `sensors_hourly_mean`
 				LEFT JOIN `sensors` ON `sensors`.`id` = `sensors_hourly_mean`.`sensor_id`
 				WHERE `timestamp` = '$recent_timestamp'
-				AND lon IN (SELECT lon FROM `x_coordinates_districts` WHERE `district_id` = `districts`.`id`)
-				AND lat IN (SELECT lat FROM `x_coordinates_districts` WHERE `district_id` = `districts`.`id`)
+				AND lon IN (SELECT lon FROM `x_coordinates_regions` WHERE `region_id` = `regions`.`id`)
+				AND lat IN (SELECT lat FROM `x_coordinates_regions` WHERE `region_id` = `regions`.`id`)
 				AND `sensors`.`type_id` = 1
 			) AS Num_Sensors,
 			(
@@ -40,23 +41,23 @@ $sql = "SELECT
 				FROM `sensors_hourly_mean`
 				LEFT JOIN `sensors` ON `sensors`.`id` = `sensors_hourly_mean`.`sensor_id`		
 				WHERE `timestamp` = '$recent_timestamp'
-				AND lon IN (SELECT lon FROM `x_coordinates_districts` WHERE `district_id` = `districts`.`id`)
-				AND lat IN (SELECT lat FROM `x_coordinates_districts` WHERE `district_id` = `districts`.`id`)
+				AND lon IN (SELECT lon FROM `x_coordinates_regions` WHERE `region_id` = `regions`.`id`)
+				AND lat IN (SELECT lat FROM `x_coordinates_regions` WHERE `region_id` = `regions`.`id`)
 				AND `sensors`.`type_id` = 1
 			) AS Sensor_IDs,
 			-1 AS P1_Sensors,
 			-1 AS P2_Sensors
-		FROM `districts_mean`
-		LEFT JOIN `districts` ON `districts`.`id` = `districts_mean`.`district_id`
-		WHERE `districts_mean`.`timestamp`='$recent_timestamp'
-		ORDER BY `districts_mean`.`district_id`";
+		FROM `regions_mean`
+		LEFT JOIN `regions` ON `regions`.`id` = `regions_mean`.`region_id`
+		WHERE `regions_mean`.`timestamp`='$recent_timestamp'
+		ORDER BY `regions_mean`.`region_id`";
 /*
-SELECT COUNT(sensor_id) FROM `sensors_hourly_mean` WHERE `timestamp` = '2017-01-24 07:00:00' AND lon IN (SELECT lon FROM `x_coordinates_districts` WHERE `district_id` = 1) AND lat IN (SELECT lat FROM `x_coordinates_districts` WHERE `district_id` = 1) ORDER BY `timestamp`  DESC
-SELECT COUNT(sensor_id) FROM `sensors_hourly_mean` WHERE `timestamp` = '$recent_timestamp' AND lon IN (SELECT lon FROM `x_coordinates_districts` WHERE `district_id` = `districts`.`id`) AND lat IN (SELECT lat FROM `x_coordinates_districts` WHERE `district_id` = `districts`.`id`) ORDER BY `timestamp`  DESC
+SELECT COUNT(sensor_id) FROM `sensors_hourly_mean` WHERE `timestamp` = '2017-01-24 07:00:00' AND lon IN (SELECT lon FROM `x_coordinates_regions` WHERE `district_id` = 1) AND lat IN (SELECT lat FROM `x_coordinates_regions` WHERE `district_id` = 1) ORDER BY `timestamp`  DESC
+SELECT COUNT(sensor_id) FROM `sensors_hourly_mean` WHERE `timestamp` = '$recent_timestamp' AND lon IN (SELECT lon FROM `x_coordinates_regions` WHERE `district_id` = `districts`.`id`) AND lat IN (SELECT lat FROM `x_coordinates_regions` WHERE `district_id` = `districts`.`id`) ORDER BY `timestamp`  DESC
 */
-$recent_data = debug_query($sql);
+$recent_data = db_select($sql);
 
-echo "<pre>".print_r($recent_data,true)."</pre>";
+//echo "<pre>recent_data for polygons_to_feature_collection:\n".print_r($recent_data,true)."</pre>";
 polygons_to_feature_collection($coordinates_stuttgart,$recent_data);
 
 
@@ -70,13 +71,13 @@ $sql = "SELECT
 			`sensors_hourly_mean`.`lat`
 		FROM `sensors_hourly_mean`
 		LEFT JOIN `sensors` ON `sensors`.`id` = `sensors_hourly_mean`.`sensor_id`
-		LEFT JOIN `x_coordinates_districts` ON (`x_coordinates_districts`.`lat` = `sensors_hourly_mean`.`lat` AND `x_coordinates_districts`.`lon` = `sensors_hourly_mean`.`lon`)
+		LEFT JOIN `x_coordinates_regions` ON (`x_coordinates_regions`.`lat` = `sensors_hourly_mean`.`lat` AND `x_coordinates_regions`.`lon` = `sensors_hourly_mean`.`lon`)
 		WHERE `sensors_hourly_mean`.`timestamp`='$recent_timestamp'
-		AND `x_coordinates_districts`.`district_id` > 0
+		AND `x_coordinates_regions`.`region_id` IN (SELECT `id` FROM `regions` WHERE `parent_region_id` = 24)
 		AND `sensors`.`type_id` = 1
-		ORDER BY `x_coordinates_districts`.`district_id`";
+		ORDER BY `x_coordinates_regions`.`region_id`";
 
-$recent_sensor_data = debug_query($sql);
+$recent_sensor_data = db_select($sql);
 
 sensors_to_feature_collection($recent_sensor_data);
 /**
@@ -84,18 +85,18 @@ sensors_to_feature_collection($recent_sensor_data);
  */
 function polygons_to_feature_collection($coordinates_stuttgart,$most_recent_data){
 	global $root,$data_root;
-	echo "polygons_to_feature_collection<br/>";
+	//echo "polygons_to_feature_collection<br/>";
 	$out = array();
 	for($i=0;$i<count($coordinates_stuttgart);$i++){
 		if(isset($coordinates_stuttgart[$i]["coordinates"])){
-			echo $coordinates_stuttgart[$i]["name"]."<br/>";
-			echo count($coordinates_stuttgart[$i]["coordinates"])."<br/>";
-			echo "coordinates ok<br/>";
+			//echo $coordinates_stuttgart[$i]["name"]."<br/>";
+			//echo count($coordinates_stuttgart[$i]["coordinates"])."<br/>";
+			//echo "coordinates ok<br/>";
 			$data = false;
 			for($j=0;$j<count($most_recent_data);$j++){
 				if($coordinates_stuttgart[$i]["name"]==$most_recent_data[$j]->name){
 					$data = true;
-					echo $most_recent_data[$j]->P1d."<br/>";
+					//echo $most_recent_data[$j]->P1d."<br/>";
 					array_push($out, '{
 						  "type": "Feature",
 						  "geometry": {
@@ -155,9 +156,9 @@ function polygons_to_feature_collection($coordinates_stuttgart,$most_recent_data
  *
  */
 function sensors_to_feature_collection($recent_sensor_data){
-	global $root,$data_root;
+	global $root,$data_root,$statistic;
 	$out = array();
-	
+	$statistic = array("P1h"=>0,"P2h"=>0,"P1d"=>0,"P2d");
 	foreach($recent_sensor_data as $dataset){
 		array_push($out, '{
 			  "type": "Feature",
@@ -218,6 +219,5 @@ function get_current_values_by_id($id,$lastdata){
 		}
 	}
 }
-
+echo "$recent_timestamp dumped $statistic";
 ?>
-</pre>
