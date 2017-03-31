@@ -1,5 +1,7 @@
 <?php
 $result = include_once("config.php");
+date_default_timezone_set('Europe/Berlin');
+
 if(!$result){echo "<h1>missing config.php</h1><pre>".sample_config_file()."</pre>"; exit;}
 //if(!test_sql()){echo "<h1>can't connect to database</h1>Please check config.php"; exit;}
 test_directories();
@@ -228,6 +230,7 @@ function db_connect(){
 		die('Could not connect: ' .$mysqli->connect_error);
     }
     $mysqli->query("SET character_set_results = 'utf8', character_set_client = 'utf8', character_set_connection = 'utf8', character_set_database = 'utf8', character_set_server = 'utf8'");
+    $mysqli->query("SET time_zone = 'Europe/Berlin';");
 	return $mysqli;
 }
 /**
@@ -288,7 +291,7 @@ function save_sensor_data_to_database($dataset){
     $sql = "INSERT INTO `sensor_data` (`id`, `sensor_id`, `lon`, `lat`, `timestamp`, `P1`, `P2`)
 			VALUES (NULL,".$sensor_id.",".$dataset["lon"].",".$dataset["lat"].",'".date('Y-m-d H:i:s', $dataset["timestamp"])."',".$dataset["P10"].",".$dataset["P25"].")
 			ON DUPLICATE KEY UPDATE `P1` = VALUES(`P1`), `P2` = VALUES(`P2`); ";
-    $result = debug_query($sql);
+    $result = db_insert($sql);
 }
 /**
  * @param array $dataset array("sensor_name"=>"","sensor_type"=>0,"lon"=>0,"lat"=>0,"timestamp"=>"","P10"=>0,"P25"=>0)
@@ -298,5 +301,5 @@ function save_sensor_data_to_database_daily_mean($dataset){
     $sql = "INSERT INTO `sensors_hourly_mean` (`id`, `sensor_id`, `lon`, `lat`, `timestamp`, `P1d`, `P2d`)
 			VALUES (NULL,".$sensor_id.",".$dataset["lon"].",".$dataset["lat"].",'".date('Y-m-d H:i:s', $dataset["timestamp"])."',".$dataset["P10"].",".$dataset["P25"].")
 			ON DUPLICATE KEY UPDATE `P1d` = VALUES(`P1d`), `P2d` = VALUES(`P2d`); ";
-    $result = debug_query($sql);
+    $result = db_insert($sql);
 }
