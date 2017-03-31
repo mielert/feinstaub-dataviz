@@ -232,10 +232,14 @@ var styleFuntionOpenLayers = function(feature) {
 	attribute = attribute.replace("PM25", "P2");
 	attribute = attribute.replace("PM10", "P1");
 	if(select_color_mode.value == "AQI") {
-		  if(attribute == "P1")
-				lut = colorLookupTableAQIPM10;
-		  else
-				lut = colorLookupTableAQIPM25;
+		if(attribute == "P1" || attribute == "P1floating"){
+			log("colorLookupTableAQIPM10");
+			lut = colorLookupTableAQIPM10;
+		}
+		else{
+			log("colorLookupTableAQIPM25");
+			lut = colorLookupTableAQIPM25;
+		}
 	}
 	else if(select_color_mode.value == "GreenRedPink"){
 		  lut = colorLookupTableGreenRedPink;
@@ -243,6 +247,12 @@ var styleFuntionOpenLayers = function(feature) {
 	else if(select_color_mode.value == "LuQx"){
 		  lut = colorLookupTableLuQxPM10;
 	}
+	else if(select_color_mode.value == "RedGreen"){
+		  lut = colorLookupTableRedGreen;
+	}
+	//log(attribute);
+	//log(feature);
+	//log(lut);
 	return styleFunctionGlobal(feature,attribute,lut,"0,0,0","255,255,255");
 }
 /**
@@ -359,3 +369,31 @@ document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
 	}
 	$_GET[decode(arguments[1])] = decode(arguments[2]);
 });
+function getAjax(url, success) {
+    var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    xhr.open('GET', url);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState>3 && xhr.status==200) success(xhr.responseText);
+    };
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.send();
+    return xhr;
+}
+
+var hasClass, addClass, removeClass;
+
+if ('classList' in document.documentElement) {
+    hasClass = function (el, className) { return el.classList.contains(className); };
+    addClass = function (el, className) { el.classList.add(className); };
+    removeClass = function (el, className) { el.classList.remove(className); };
+} else {
+    hasClass = function (el, className) {
+        return new RegExp('\\b'+ className+'\\b').test(el.className);
+    };
+    addClass = function (el, className) {
+        if (!hasClass(el, className)) { el.className += ' ' + className; }
+    };
+    removeClass = function (el, className) {
+        el.className = el.className.replace(new RegExp('\\b'+ className+'\\b', 'g'), '');
+    };
+}
