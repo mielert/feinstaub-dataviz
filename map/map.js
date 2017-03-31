@@ -18,6 +18,8 @@ var mapScaleLut = colorLookupTableAQIPM10;
 
 scaleComplex(mapScaleId,mapScaleOrientation,mapScaleWidth,mapScaleHeight,mapScaleLut);
 
+//getAjax('http://foo.bar/?p1=1&p2=Hello+World', function(data){
+//    var json = JSON.parse(data);
 var xhr = $.get( "../data/stuttgart_districts_v2.json", function( data ) {
 	console.log("stuttgart_districts_v2.json loaded");
 	jsonDistricts = data;
@@ -90,7 +92,8 @@ var xhr = $.get( "../data/stuttgart_districts_v2.json", function( data ) {
 		});
 		// interaction
 		var target = map.getTarget();
-        var jTarget = typeof target === "string" ? $("#" + target) : $(target);
+            console.log("typeof target: "+typeof(target));
+            var jTarget = typeof target === "string" ? $("#" + target) : $(target);
 		if(!isMobile){
 			map.on("click", function(e) {interaction_click(e);});
 			map.on("pointermove", function(e) {interaction_hover(e);});
@@ -172,12 +175,15 @@ var xhr = $.get( "../data/stuttgart_districts_v2.json", function( data ) {
                   if(out_sensors!==""){
                         out_sensors = (!district_data?"<table><tr><td>&nbsp;</td><td align=\"right\">PM10</td><td align=\"right\">PM2.5</td></tr>":"")+'<tr><td><strong>Einzelwerte</strong></td><td align=\"right\">&nbsp;</td><td align=\"right\">&nbsp;</td></tr>'+out_sensors+'';
                   }
-			$("#mapinfo2").html( "<div id=\"innerInfo\">"+district+out_sensors+(district_data?"</table>":"")+"<br/>Alle Feinstaubwerte in µg/m³</div>" );
 			if(hover_something){
-				$("#mapinfo2").css({top: e.pixel[1]+20, left: e.pixel[0]-70, height: $("#innerInfo").height()}).show();
+                        document.getElementById("mapinfo2").innerHTML = "<div id=\"innerInfo\">"+district+out_sensors+(district_data?"</table>":"")+"<br/>Alle Feinstaubwerte in µg/m³</div>";
+                        document.getElementById("mapinfo2").style.top = e.pixel[1]+20+"px";
+                        document.getElementById("mapinfo2").style.left = e.pixel[0]-70+"px";
+                        document.getElementById("mapinfo2").style.height = document.getElementById("innerInfo").offsetHeight+"px";
+                        document.getElementById("mapinfo2").style.display = "block";
 			}
 			else
-				$("#mapinfo2").hide();
+				document.getElementById("mapinfo2").style.display = "none";
 		}
 	}); // end of $.get( "../data/stuttgart_sensors_v2.json", function( sensordata ) {
 }); // end of $.get( "../data/stuttgart_districts.json", function( data ) {
@@ -210,6 +216,8 @@ var xhr = $.get( "../data/stuttgart_districts_v2.json", function( data ) {
             // check whether lut is valid or not
             if(select_source.value === "PM25" || select_source.value === "PM25floating"){
                   $("#color-mode option[value='LuQx']").attr('disabled',true);
+                  //var el = document.querySelector('img');
+                  //console.log(el.getAttribute('disabled'));
                   if(select_color_mode.value === "LuQx") select_color_mode.value = "AQI";
             }
             else{
@@ -218,21 +226,31 @@ var xhr = $.get( "../data/stuttgart_districts_v2.json", function( data ) {
 		vectorSensors.setStyle(styleFuntionOpenLayers);
 		vectorDistricts.setStyle(styleFuntionOpenLayers);
 		map.render();
-            if($("#color-mode").val()==="AQI") {
+            if(select_color_mode.value==="AQI") {
                   if(select_source.value === "PM25" || select_source.value === "PM25floating")
                         mapScaleLut = colorLookupTableAQIPM25;
                   else
                         mapScaleLut = colorLookupTableAQIPM10;
             }
-            if($("#color-mode").val()==="LuQx") mapScaleLut = colorLookupTableLuQxPM10;
-            if($("#color-mode").val()==="GreenRedPink") mapScaleLut = colorLookupTableGreenRedPink;
+            if(select_color_mode.value==="LuQx") mapScaleLut = colorLookupTableLuQxPM10;
+            if(select_color_mode.value==="GreenRedPink") mapScaleLut = colorLookupTableGreenRedPink;
+            if(select_color_mode.value==="RedGreen") mapScaleLut = colorLookupTableRedGreen;
             scaleComplex(mapScaleId,mapScaleOrientation,mapScaleWidth,mapScaleHeight,mapScaleLut);
 	}
-	$(document).ready(function(){
-		var d = new Date();
-		d.setSeconds(districtsTimestamp);
-		$("#timestamp").html(d);
-	});
 	function resize(){
 		
 	}
+      function run() {
+		var d = new Date();
+		d.setSeconds(districtsTimestamp);
+		document.getElementById("timestamp").innerHTML = d;
+        }
+        
+        // in case the document is already rendered
+        if (document.readyState!='loading') run();
+        // modern browsers
+        else if (document.addEventListener) document.addEventListener('DOMContentLoaded', run);
+        // IE <= 8
+        else document.attachEvent('onreadystatechange', function(){
+            if (document.readyState=='complete') run();
+        });
