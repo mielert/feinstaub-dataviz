@@ -1,5 +1,5 @@
-<?php if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit; ?>
 <?php
+if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit; 
 $startdate = strtotime(date("Y-m-d 00:00:00")." -3 days");
 // start: 31.8.2016
 // $startdate = strtotime("2016-12-10 00:00:00");
@@ -15,27 +15,27 @@ $localbase = $data_root."archive/";
 
 $date = $startdate;
 while($date < $stopdate){
-	echo "crawling: ".date('Y-m-d H:i:s', $date)."<br/>";
+	//echo "crawling: ".date('Y-m-d H:i:s', $date)."<br/>";
 	$dir = date('Y-m-d', $date)."/";
 	$url = $base.$dir;
-	echo "opening $url<br/>";
+	//echo "opening $url<br/>";
 	$list_of_files = read_dir($url);
 	$sds011files = filter_sds011($list_of_files);
-	print_r($list_of_files);
-	print_r($sds011files);
+	//print_r($list_of_files);
+	//print_r($sds011files);
 	foreach($sds011files as $filename){
 		if(!is_dir($localbase.$dir)){
-			echo "creating ".$localbase.$dir."<br/>";
+			//echo "creating ".$localbase.$dir."<br/>";
 			mkdir($localbase.$dir, 0700);
 		}
 		if(!file_exists(str_replace($base,$localbase,$filename))){
 			if($content = file_get_contents($filename)){
-				echo "saving ".str_replace($base,$localbase,$filename)."<br/>";
+				//echo "saving ".str_replace($base,$localbase,$filename)."<br/>";
 				file_put_contents(str_replace($base,$localbase,$filename),$content);
 			}
-			else echo "error reading $filename<br/>";
+			//else echo "error reading $filename<br/>";
 		}
-		else echo "file ".str_replace($base,$localbase,$filename)." exists already<br/>";
+		//else echo "file ".str_replace($base,$localbase,$filename)." exists already<br/>";
 	}
 	//$date = $date + 24*60*60;
 	$date = strtotime(date('Y-m-d H:i:s', $date)." + 1 day");
