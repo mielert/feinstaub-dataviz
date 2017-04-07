@@ -31,6 +31,18 @@ if($res_max_timestamp[0]->timestamp > 1){
 // start: 31.8.2016
 else $startdate = strtotime("2016-12-27 00:00:00");
 
+// max_timestamp_sensor_data has to be startdate - 1 hour
+$sql = "SELECT MAX(`timestamp`) AS timestamp FROM `sensor_data`";
+$res_max_timestamp_sensor_data = db_select($sql);
+$max_timestamp_sensor_data = strtotime($res_max_timestamp_sensor_data[0]->timestamp);
+if($log) file_put_contents("crawler_db_hourly_mean.log", date('Y-m-d H:i:s')."	max_timestamp_sensor_data: $max_timestamp_sensor_data\n", FILE_APPEND | LOCK_EX);
+if($max_timestamp_sensor_data < $startdate){
+	if($log) file_put_contents("crawler_db_hourly_mean.log", date('Y-m-d H:i:s')."	nothing to do", FILE_APPEND | LOCK_EX);
+	echo "nothing to do.";
+	exit;
+}
+
+
 if($log) file_put_contents("crawler_db_hourly_mean.log", date('Y-m-d H:i:s')."	startdate: $startdate\n", FILE_APPEND | LOCK_EX);
 
 
