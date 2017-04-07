@@ -7,6 +7,8 @@ include_once("library.php");
 include_once($data_root."stuttgart.php");
 $coordinates_stuttgart = get_city_geodata();
 
+$statistic = array("P1h"=>0,"P2h"=>0,"P1d"=>0,"P2d");
+
 /**
  *
  */
@@ -84,7 +86,7 @@ sensors_to_feature_collection($recent_sensor_data);
  *
  */
 function polygons_to_feature_collection($coordinates_stuttgart,$most_recent_data){
-	global $root,$data_root;
+	global $root,$data_root,$statistic;
 	//echo "polygons_to_feature_collection<br/>";
 	$out = array();
 	for($i=0;$i<count($coordinates_stuttgart);$i++){
@@ -158,7 +160,6 @@ function polygons_to_feature_collection($coordinates_stuttgart,$most_recent_data
 function sensors_to_feature_collection($recent_sensor_data){
 	global $root,$data_root,$statistic;
 	$out = array();
-	$statistic = array("P1h"=>0,"P2h"=>0,"P1d"=>0,"P2d");
 	foreach($recent_sensor_data as $dataset){
 		array_push($out, '{
 			  "type": "Feature",
@@ -219,5 +220,5 @@ function get_current_values_by_id($id,$lastdata){
 		}
 	}
 }
-echo "$recent_timestamp dumped $statistic";
+echo "$recent_timestamp dumped ".print_r($statistic,true);
 ?>
