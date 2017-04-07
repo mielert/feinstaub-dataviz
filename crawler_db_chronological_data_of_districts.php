@@ -1,11 +1,11 @@
 <?php 
-if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit; 
+//if($_SERVER["REMOTE_ADDR"] !== $_SERVER["SERVER_ADDR"]) exit; 
 /**
  * chronological data of districts
  * database driven
  */
 include_once("library.php");
-$log = true;
+$log = false;
 if($log) file_put_contents("crawler_db_chronological_data_of_districts.log", date('Y-m-d H:i:s')."	start\n", FILE_APPEND | LOCK_EX);
 
 
@@ -18,7 +18,13 @@ if(isset($_GET["starttime"])){
 else{
 	$sql = "SELECT MAX(timestamp) AS timestamp FROM regions_mean";
 	$results = db_select($sql);
-	$starttime = $results[0]->timestamp;
+	$starttime1 = $results[0]->timestamp;
+	$sql = "SELECT MAX(timestamp) AS timestamp FROM sensors_hourly_mean WHERE sensor_id IN (SELECT id FROM sensors WHERE type_id = 1)";
+	$results = db_select($sql);
+	$starttime2 = $results[0]->timestamp;
+	//echo "starttime1: $starttime1 starttime2: $starttime2 ";
+	if($starttime1 < $starttime2) $starttime = $starttime1;
+	else $starttime = $starttime2;
 	//$starttime = "2017-03-22 11:00:00";
 }
 if($log) file_put_contents("crawler_db_chronological_data_of_districts.log", date('Y-m-d H:i:s')."	starttime: $starttime\n", FILE_APPEND | LOCK_EX);
@@ -159,11 +165,12 @@ VALUES
 //exit;
 //echo "</pre>";
 
-$sql = "SELECT MAX(`timestamp`) AS timestamp FROM `sensors_hourly_mean`";
+$sql = "SELECT MAX(timestamp) AS timestamp FROM sensors_hourly_mean WHERE sensor_id IN (SELECT id FROM sensors WHERE type_id = 1)";
 $results = db_select($sql);
 $stop = $results[0]->timestamp;
 
 if($starttime < $stop){
+	if($log) file_put_contents("crawler_db_chronological_data_of_districts.log", date('Y-m-d H:i:s')."	$starttime < $stop running again.\n", FILE_APPEND | LOCK_EX);
 	// cron error
 	//echo "$starttime < $stop";
 	if(!isset($_GET["nocron"]))
